@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Kalepa</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_username">Username</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="settings_button1">CONFIGURACIÓN DEL PERFIL</string>
+    <string name="settings_layout1">Soporte</string>
+    <string name="settings_layout2">Legal</string>
+    <string name="settings_button2">FAQ</string>
+    <string name="settings_button3">ATENCIÓN AL CLIENTE</string>
+    <string name="settings_button4">TÉRMINOS Y CONDICIONES</string>
+    <string name="settings_button5">POLÍTICA DE PRIVACIDAD</string>
+</resources>
