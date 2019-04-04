@@ -17,7 +17,9 @@
     <string name="settings_layout1">Soporte</string>
     <string name="settings_layout2">Legal</string>
     <!-- Miguel -->
-    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+        ut labore et dolore magna aliqua.
+    </string>
     <string name="subir_articulo">SUBIR ARTICULO</string>
 
     <string-array name="categorias">

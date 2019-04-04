@@ -1,5 +1,7 @@
 package com.example.kalepa
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
@@ -20,8 +22,26 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    companion object {
+        var logged = false
+
+        fun start(context: Context) {
+            val intent = Intent(context, MainActivity::class.java)
+            context.startActivity(intent)
+        }
+
+        fun setLogged() {
+            logged = true
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (!logged) {
+            LoginActivity.start(this)
+        }
+
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
@@ -94,7 +114,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 UploadActivity.start(this)
             }
             R.id.nav_chat -> {
-                ChatActivity.start(this)
+                ChatListActivity.start(this)
             }
         }
 

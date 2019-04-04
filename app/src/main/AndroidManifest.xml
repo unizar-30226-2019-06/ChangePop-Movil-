@@ -10,6 +10,22 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
+                android:name=".ChatListActivity"
+                android:parentActivityName=".MainActivity">
+                <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.example.kalepa.MainActivity"/>
+        </activity>
+        <activity
+                android:name=".RegisterActivity"
+                android:parentActivityName=".LoginActivity">
+                <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="com.example.kalepa.LoginActivity"/>
+        </activity>
+        <activity android:name=".LoginActivity">
+        </activity>
+        <activity
                 android:name=".ProductActivity"
                 android:parentActivityName=".MainActivity">
             <meta-data
@@ -32,10 +48,10 @@
         </activity>
         <activity
                 android:name=".ChatActivity"
-                android:parentActivityName=".MainActivity">
+                android:parentActivityName=".ChatListActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.example.kalepa.MainActivity"/>
+                    android:value="com.example.kalepa.ChatListActivity"/>
         </activity>
         <activity
                 android:name=".MainActivity"
