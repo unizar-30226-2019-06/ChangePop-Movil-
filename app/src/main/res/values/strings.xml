@@ -8,4 +8,38 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="nav_header_title">Android Studio</string>
+    <!-- Settings -->
+    <string name="settings_button1">Configuración del perfil</string>
+    <string name="settings_button2">FAQ</string>
+    <string name="settings_button3">Atención al cliente</string>
+    <string name="settings_button4">Términos y condiciones</string>
+    <string name="settings_button5">Política de privacidad</string>
+    <string name="settings_layout1">Soporte</string>
+    <string name="settings_layout2">Legal</string>
+    <!-- Miguel -->
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="subir_articulo">SUBIR ARTICULO</string>
+
+    <string-array name="categorias">
+        <item>Todas</item>
+        <item>Futbol</item>
+        <item>Universidad</item>
+        <item>Idiomas</item>
+    </string-array>
+
+    <string-array name="ordenar_por">
+        <item>Defecto</item>
+        <item>Menos kms de distancia</item>
+        <item>Más kms de distancia</item>
+        <item>Precio de menor a mayor</item>
+        <item>Precio de mayor a menor</item>
+        <item>Mejor valorados</item>
+        <item>Nombre de la A a la Z</item>
+        <item>Nombre de la Z a la A</item>
+    </string-array>
+
+    <string-array name="subastas">
+        <item>Subasta</item>
+        <item>Venta</item>
+    </string-array>
 </resources>

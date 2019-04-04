@@ -10,11 +10,143 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context=".MainActivity">
 
-    <TextView
+    <RelativeLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="SEARCH SCREEN"
-            android:textSize="30sp"/>
+            android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputEditText
+                android:id="@+id/editText_message_search"
+                android:layout_width="314dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:elevation="2dp"
+                android:hint="¿Qué estás buscando?"
+                android:padding="8dp"/>
+        <android.support.design.widget.FloatingActionButton
+                android:id="@+id/search_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/editText_message_search"
+                android:layout_toRightOf="@id/editText_message_search"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:tint="@android:color/background_light"
+                app:fabSize="mini"
+                app:srcCompat="@drawable/ic_search_black_24dp" app:backgroundTint="@color/colorPrimary"
+                android:layout_alignParentTop="true"/>
+    </RelativeLayout>
+    <LinearLayout android:layout_height="20dp" android:layout_width="match_parent"></LinearLayout>
+    <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:text="Categoría"
+                android:layout_marginStart="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/textView6" android:textSize="18sp"
+                android:textStyle="bold" android:layout_alignParentStart="true" android:layout_alignParentTop="true"/>
+    </RelativeLayout>
+    <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <Spinner
+                android:id="@+id/Spinner_categorias"
+                android:layout_marginStart="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/categorias"/>
+
+    </RelativeLayout>
+    <LinearLayout android:layout_height="20dp" android:layout_width="match_parent"></LinearLayout>
+    <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:text="Precio"
+                android:layout_marginStart="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/textView7" android:textSize="18sp"
+                android:textStyle="bold" android:layout_alignParentStart="true" android:layout_alignParentTop="true"/>
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+
+        <SeekBar
+                style="@style/Widget.AppCompat.SeekBar.Discrete"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:max="10"
+                android:progress="3"
+                android:id="@+id/seekBar2"/>
+    </RelativeLayout>
+
+    <LinearLayout android:layout_height="20dp" android:layout_width="match_parent"></LinearLayout>
+    <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:text="Ordenar por"
+                android:layout_marginStart="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/textView8" android:textSize="18sp"
+                android:textStyle="bold" android:layout_alignParentStart="true" android:layout_alignParentTop="true"/>
+    </RelativeLayout>
+    <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <Spinner
+                android:id="@+id/Spinner_ordenar_por"
+                android:layout_marginStart="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/ordenar_por"/>
+
+    </RelativeLayout>
+    <LinearLayout android:layout_height="20dp" android:layout_width="match_parent"></LinearLayout>
+    <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:text="Distancia máxima"
+                android:layout_marginStart="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/textView9" android:textSize="18sp"
+                android:textStyle="bold" android:layout_alignParentStart="true" android:layout_alignParentTop="true"/>
+    </RelativeLayout>
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+
+        <SeekBar
+                style="@style/Widget.AppCompat.SeekBar.Discrete"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:max="10"
+                android:progress="3"
+                android:id="@+id/seekBar2"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/relativeLayout1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" >
+
+        <Button
+                android:id="@+id/button_buscar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:text="Buscar" />
+
+    </RelativeLayout>
+
+
 
 </LinearLayout>
