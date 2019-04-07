@@ -14,12 +14,81 @@
         <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.1">
+                android:layout_weight="0.1"
+                >
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                           android:orientation="vertical">
-                <android.support.v4.view.ViewPager
+                <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:contentDescription="@string/product_title"
+                        android:layout_height="350dp"
+                        android:layout_margin="5dp"
+                        android:id="@+id/imageView" android:adjustViewBounds="true"
+                        android:background="@drawable/side_nav_bar"/>
+                <TextView
+                        android:text="@string/product_title"
+                        android:textAppearance="@style/TextAppearance.AppCompat"
+                        android:textSize="24sp" android:textStyle="bold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:id="@+id/textView15"/>
+                <TextView
+                        android:layout_margin="10dp"
+                        android:textSize="18sp"
+                        android:text="@string/product_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/textView16"
+                        android:textColor="@android:color/black"/>
+                <TextView
+                        android:text="@string/lorem_ipsum"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:id="@+id/textView17" android:textSize="18sp" android:textColor="@android:color/black"/>
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                    <TextView
+                            android:text="@string/user_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:id="@+id/textView19"
+                            android:layout_weight="1" android:textSize="18sp" android:textColor="@color/colorAccent"/>
+                    <TextView
+                            android:text="@string/product_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:id="@+id/textView20"
+                            android:layout_weight="0" android:textSize="18sp" android:textColor="@android:color/black"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    <TextView
+                            android:text="@string/product_user_link"
+                            android:layout_width="match_parent"
+                            android:layout_margin="10dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView18"
+                            android:textSize="18sp"
+                            android:layout_weight="1"
+                            android:textColor="@color/colorAccent"/>
+                    <TextView
+                            android:text="@string/user_stars"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView22"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="0"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginEnd="10dp"
+                            />
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
         <LinearLayout
@@ -27,7 +96,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.9"
-                android:background="#d2d2d2">
+                android:background="#d2d2d2"
+                >
 
             <TextView
                     android:text="@string/product_price"
@@ -38,7 +108,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:textSize="24sp"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@android:color/black"
                     android:textStyle="bold"
                     android:layout_gravity="center_vertical"/>
             <Button
@@ -48,6 +118,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/button4"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp" android:textAllCaps="true"
             />
         </LinearLayout>
