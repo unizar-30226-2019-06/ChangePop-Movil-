@@ -18,9 +18,9 @@
     <string name="settings_layout2">Legal</string>
     <!-- User -->
     <string name="user_name">Nombre de usuario</string>
-    <string name="user_start">⭐⭐⭐⭐⭐</string>
+    <string name="user_stars">⭐⭐⭐⭐⭐</string>
     <string name="user_sales">Número de compras/ventas</string>
-    <string name="user_adress">Ubicación</string>
+    <string name="user_address">Ubicación</string>
     <string name="user_tab1">Productos en venta</string>
     <string name="user_tab2">Opiniones</string>
 
@@ -28,7 +28,8 @@
     <!-- Miguel -->
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="subir_articulo">SUBIR ARTICULO</string>
-
+    <string name="product_price">444$</string>
+    <string name="product_button">Comprar</string>
 
 
     <string-array name="categorias">
