@@ -1,7 +1,7 @@
 package com.example.charactermanager
 
-import com.example.charactermanager.common.AnyItemAdapter
-import com.example.charactermanager.common.RecyclerListAdapter
+import com.example.kalepa.common.AnyItemAdapter
+import com.example.kalepa.common.RecyclerListAdapter
 
 class MainListAdapter(items: List<AnyItemAdapter>) : RecyclerListAdapter(items) {
 

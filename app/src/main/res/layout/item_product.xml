@@ -1,27 +1,50 @@
-<com.example.charactermanager.Views.SquareFrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:padding="@dimen/element_padding">
-    <ImageView
-            android:id="@+id/imageView"
+<com.example.charactermanager.Views.RectangleFrameLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:gravity="center_horizontal"
+android:orientation="horizontal"
+android:layout_marginLeft="10dp"
+android:layout_marginRight="10dp"
+android:layout_marginTop="10dp"
+android:layout_marginBottom="10dp"
+android:background="@color/colorWhite"
+android:padding="@dimen/element_padding">
+
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    <TextView
-            android:id="@+id/textView"
+            android:layout_height="match_parent">
+        <com.example.charactermanager.Views.SquareFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                android:padding="@dimen/element_padding">
+                <ImageView
+                    android:id="@+id/n_product_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/ic_image_black_24dp"
+                    android:contentDescription="Puduct image"/>
+        </com.example.charactermanager.Views.SquareFrameLayout>
+
+        <TextView
+            android:id="@+id/n_product_tittle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:shadowColor="#111"
-            android:shadowDx="5"
-            android:shadowDy="5"
-            android:shadowRadius="0.01"
-            android:textColor="@android:color/white"
             android:textSize="@dimen/standard_text_size"
-            tools:text="Some name" />
-</com.example.charactermanager.Views.SquareFrameLayout>
+            tools:text="Some name"/>
+
+        <TextView
+                android:id="@+id/n_product_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/standard_text_size"
+                tools:text="Some name"/>
+
+    </LinearLayout>
+</com.example.charactermanager.Views.RectangleFrameLayout>

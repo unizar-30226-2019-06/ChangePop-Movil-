@@ -1,10 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".RegisterActivity">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             android:background="?attr/colorPrimary"
+                                             app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                                             tools:context=".RegisterActivity">
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/m_crear_Button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.347">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/m_crear_coverCircleImageView"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/add_picture_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+                android:id="@+id/m_crear_passwordEditText"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_white"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_lock_black_24dp"
+                android:drawableLeft="@drawable/ic_lock_black_24dp"
+                android:ems="10"
+                android:hint="Contraseña"
+                android:inputType="textPassword"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/m_crear_usernameEditText" />
+
+        <EditText
+                android:id="@+id/m_crear_usernameEditText"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="64dp"
+                android:background="@drawable/rounded_white"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_person_black_24dp"
+                android:drawableLeft="@drawable/ic_person_black_24dp"
+                android:ems="10"
+                android:hint="Usuario"
+                android:inputType="textPersonName"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/m_crear_coverCircleImageView"/>
+
+        <EditText
+                android:id="@+id/m_crear_mailEditText"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/rounded_white"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_email_black_24dp"
+                android:drawableLeft="@drawable/ic_email_black_24dp"
+                android:ems="10"
+                android:hint="Correo electrónico"
+                android:inputType="textEmailAddress"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/m_crear_passwordEditText"/>
+    </android.support.constraint.ConstraintLayout>
+
+    <Button
+            android:id="@+id/m_crear_Button"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="28dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/rounded_white"
+            android:text="Crear"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

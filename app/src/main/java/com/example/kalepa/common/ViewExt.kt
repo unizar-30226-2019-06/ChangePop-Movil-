@@ -1,4 +1,4 @@
-package com.example.charactermanager.common
+package com.example.kalepa.common
 
 import android.app.Activity
 import android.content.Context
