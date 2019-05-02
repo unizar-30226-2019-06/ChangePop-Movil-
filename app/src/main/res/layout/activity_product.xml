@@ -16,15 +16,22 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.1"
                 >
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
                           android:orientation="vertical">
-                <ImageView
+                <!--ImageView
                         android:layout_width="match_parent"
                         android:contentDescription="@string/product_title"
                         android:layout_height="350dp"
                         android:layout_margin="5dp"
                         android:id="@+id/imageView" android:adjustViewBounds="true"
-                        android:background="@drawable/side_nav_bar"/>
+                        android:background="@drawable/side_nav_bar"/-->
+                <android.support.v4.view.ViewPager
+                        android:id="@+id/b_product_images"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:layout_weight="0.5"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
                 <TextView
                         android:text="@string/product_title"
                         android:textAppearance="@style/TextAppearance.AppCompat"
@@ -33,15 +40,28 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:id="@+id/textView15"/>
-                <TextView
-                        android:layout_margin="10dp"
-                        android:textSize="18sp"
-                        android:text="@string/product_price"
+                <LinearLayout
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" android:id="@+id/textView16"
-                        android:textColor="@android:color/black"/>
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5">
+                    <TextView
+                            android:layout_margin="10dp"
+                            android:textSize="18sp"
+                            android:text="@string/product_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:id="@+id/textView16"
+                            android:textColor="@android:color/black"/>
+                    <TextView
+                            android:layout_margin="10dp"
+                            android:textSize="18sp"
+                            android:text="@string/euro_symbol"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:id="@+id/textView23"
+                            android:textColor="@android:color/black"/>
+                </LinearLayout>
                 <TextView
-                        android:text="@string/lorem_ipsum"
+                        android:text="@string/product_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
@@ -56,7 +76,8 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:id="@+id/textView19"
-                            android:layout_weight="1" android:textSize="18sp" android:textColor="@color/colorAccent"/>
+                            android:layout_weight="1" android:textSize="18sp" android:textColor="@color/colorAccent"
+                            android:clickable="true"/>
                     <TextView
                             android:text="@string/product_date"
                             android:layout_width="wrap_content"
@@ -77,7 +98,7 @@
                             android:id="@+id/textView18"
                             android:textSize="18sp"
                             android:layout_weight="1"
-                            android:textColor="@color/colorAccent"/>
+                            android:textColor="@color/colorAccent" android:clickable="true"/>
                     <TextView
                             android:text="@string/user_stars"
                             android:layout_width="wrap_content"
@@ -97,19 +118,29 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.9"
                 android:background="#d2d2d2"
-                >
+                android:fadingEdge="horizontal|vertical" android:fadingEdgeLength="@dimen/activity_horizontal_margin">
 
             <TextView
                     android:text="@string/product_price"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView14"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
-                    android:layout_weight="1"
+
                     android:textSize="24sp"
                     android:textColor="@android:color/black"
                     android:textStyle="bold"
+                    android:layout_gravity="center_vertical"/>
+            <TextView
+                    android:layout_margin="10dp"
+                    android:textSize="24dp"
+                    android:layout_weight="1"
+                    android:text="@string/euro_symbol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView24"
+                    android:textColor="@android:color/black"
                     android:layout_gravity="center_vertical"/>
             <Button
                     android:text="@string/product_button"
@@ -121,6 +152,15 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp" android:textAllCaps="true"
             />
+            <EditText
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:inputType="numberDecimal"
+                    android:ems="10"
+                    android:visibility="gone"
+                    android:id="@+id/bid_offer"
+                    />
         </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
