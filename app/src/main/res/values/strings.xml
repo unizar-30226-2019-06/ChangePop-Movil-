@@ -26,15 +26,17 @@
 
 
     <!-- Miguel -->
-    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+    <string name="product_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
         ut labore et dolore magna aliqua.
     </string>
     <string name="subir_articulo">SUBIR ARTICULO</string>
-    <string name="product_price">444$</string>
+    <string name="product_price">444</string>
     <string name="product_button">Comprar</string>
     <string name="product_title">Título del producto</string>
     <string name="product_date">6/3/19</string>
     <string name="product_user_link">Usuario user_1234</string>
+    <string name="euro_symbol">€</string>
+
 
     <string-array name="categorias">
         <item>Todas</item>
@@ -58,4 +60,8 @@
         <item>Subasta</item>
         <item>Venta</item>
     </string-array>
+    <string name="title_activity_self_profile">SelfProfileActivity</string>
+    <string name="title_data">Datos Personales</string>
+    <string name="title_products">Productos Subidos</string>
+    <string name="title_notifications">Notificaciones</string>
 </resources>

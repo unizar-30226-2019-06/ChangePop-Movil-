@@ -18,26 +18,29 @@ import java.util.*
 class WelcomeScreenFragment: Fragment() {
 
     private val products = listOf(
-        Product(ID = 0, Name = "Boligrafo", Description = "", Price = 25.38, Upload_date = Date(), Blocked = false,
-            Bid_expire = Date(), Visits = 0,
-            Images = arrayOf("https://www.kalamazoo.es/content/images/product/28023-1_1_xnl.jpg"),
-            Boosted = false, Followers = 0, Email = "", Deleted = false, Localization = ""),
+        Product(ID = 0, Name = "Boligrafo", Description = "Un boli", Price = 25.38,
+            Upload_date = Date(2019, 1, 11), Blocked = false, Bid_expire = Date(), Visits = 0,
+            Images = arrayListOf("https://www.kalamazoo.es/content/images/product/28023-1_1_xnl.jpg",
+                "https://www.motociclismo.es/media/cache/big/upload/images/article/24729/article-por-que-no-arranca-moto-frio-577662e2620df.jpg",
+                "https://i.imgur.com/m4i2rWD.jpg"),
+            Boosted = false, Followers = 0, Email = "pepe@pepe.es", Deleted = false,
+            Localization = "PepeCity", OwnerNick = "pepe"),
         Product(ID = 1, Name = "Moto", Description = "", Price = 299.99, Upload_date = Date(), Blocked = false,
             Bid_expire = Date(), Visits = 0,
-            Images = arrayOf("https://www.motociclismo.es/media/cache/big/upload/images/article/24729/article-por-que-no-arranca-moto-frio-577662e2620df.jpg"),
-            Boosted = false, Followers = 0, Email = "", Deleted = false, Localization = ""),
+            Images = arrayListOf("https://www.motociclismo.es/media/cache/big/upload/images/article/24729/article-por-que-no-arranca-moto-frio-577662e2620df.jpg"),
+            Boosted = false, Followers = 0, Email = "", Deleted = false, Localization = "", OwnerNick = ""),
         Product(ID = 2, Name = "Videoconsola", Description = "", Price = 99.99, Upload_date = Date(), Blocked = false,
             Bid_expire = Date(), Visits = 0,
-            Images = arrayOf("https://rukminim1.flixcart.com/image/704/704/gamingconsole/c/r/4/xbox-360-4-microsoft-wireless-controller-original-imaeqcvaagdaax27.jpeg?q=70"),
-            Boosted = false, Followers = 0, Email = "", Deleted = false, Localization = ""),
+            Images = arrayListOf("https://rukminim1.flixcart.com/image/704/704/gamingconsole/c/r/4/xbox-360-4-microsoft-wireless-controller-original-imaeqcvaagdaax27.jpeg?q=70"),
+            Boosted = false, Followers = 0, Email = "", Deleted = false, Localization = "", OwnerNick = ""),
         Product(ID = 3, Name = "Poster FF XV", Description = "", Price = 19.59, Upload_date = Date(), Blocked = false,
             Bid_expire = Date(), Visits = 0,
-            Images = arrayOf("https://i.imgur.com/m4i2rWD.jpg"),
-            Boosted = false, Followers = 0, Email = "", Deleted = false, Localization = ""),
+            Images = arrayListOf("https://i.imgur.com/m4i2rWD.jpg"),
+            Boosted = false, Followers = 0, Email = "", Deleted = false, Localization = "", OwnerNick = ""),
         Product(ID = 4, Name = "Tractor Verde", Description = "", Price = 2000.0, Upload_date = Date(), Blocked = false,
             Bid_expire = Date(), Visits = 0,
-            Images = arrayOf("https://www.rbauction.es/cms_assets/category_images/11007679861/11007679861_W_S.jpg"),
-            Boosted = false, Followers = 0, Email = "", Deleted = false, Localization = "")
+            Images = arrayListOf("https://www.rbauction.es/cms_assets/category_images/11007679861/11007679861_W_S.jpg"),
+            Boosted = false, Followers = 0, Email = "", Deleted = false, Localization = "", OwnerNick = "")
     )
 
     companion object {
@@ -67,6 +70,6 @@ class WelcomeScreenFragment: Fragment() {
         { showCharacterProfile(product) })
 
     private fun showCharacterProfile(product: Product) {
-        ProductActivity.start(context!!)
+        ProductActivity.start(context!!, product)
     }
 }

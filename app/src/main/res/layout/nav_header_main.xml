@@ -40,6 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             <TextView
+                    android:id="@+id/n_navHead_uname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
@@ -47,15 +48,17 @@
                     android:text="@string/nav_header_username"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" android:textSize="18sp"/>
             <TextView
+                    android:id="@+id/n_navHead_umail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:text="@string/nav_header_subtitle"
-                    android:id="@+id/textView" android:textSize="14sp"/>
+                    android:textSize="14sp"/>
             <RatingBar
+                    android:id="@+id/n_navHead_urate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" android:id="@+id/ratingBar2"
+                    android:layout_marginTop="5dp"
                     style="@style/Widget.AppCompat.RatingBar.Small" android:numStars="5" android:rating="4"/>
         </LinearLayout>
 

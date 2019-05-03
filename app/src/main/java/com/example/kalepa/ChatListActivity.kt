@@ -14,10 +14,12 @@ import java.util.*
 class ChatListActivity : AppCompatActivity() {
 
     private val users = listOf(
-        User(ID = 0, Nick = "Pedro", Name =  "", Surnames = "", Blocked = false, Moderator = false, DNI = "",
+        User(ID = 0, Nick = "Pedro", Name =  "", Surnames = "",  Mail = "", phone = "",  points = 0, Blocked = false,
+            Moderator = false, DNI = "",
             Avatar =  "http://tcrew.be/wp-content/uploads/2015/04/page-demarage.jpg", Birthdate = Date(),
             Place = "", Hash_key = ""),
-        User(ID = 1, Nick = "Sandra", Name =  "", Surnames = "", Blocked = false, Moderator = false, DNI = "",
+        User(ID = 1, Nick = "Sandra", Name =  "", Surnames = "", Mail = "", phone = "",  points = 0, Blocked = false,
+            Moderator = false, DNI = "",
             Avatar =  "https://ak9.picdn.net/shutterstock/videos/1285789/thumb/1.jpg?i10c=img.resize(height:160)", Birthdate = Date(),
             Place = "", Hash_key = "")
     )

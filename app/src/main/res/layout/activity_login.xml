@@ -42,6 +42,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
     <EditText
             android:id="@+id/m_passwordEditText"
             android:layout_width="300dp"
@@ -62,6 +63,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/m_userEditText" />
+    <CheckBox
+            android:id="@+id/m_CheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:drawablePadding="5dp"
+            android:ems="10"
+            android:text="Recordar Cuenta"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/m_passwordEditText"
+            app:layout_constraintTop_toBottomOf="@+id/m_passwordEditText" app:layout_constraintHorizontal_bias="0.1"
+            android:layout_marginLeft="8dp" style="@android:style/Widget.Holo.Light.CompoundButton.CheckBox"
+            android:textColor="@color/colorWhite"/>
 
     <Button
             android:id="@+id/m_login_button_login"
@@ -71,23 +89,23 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="40dp"
             android:layout_marginLeft="40dp"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="84dp"
             android:background="@drawable/rounded_white"
             android:text="Login"
             app:layout_constraintEnd_toStartOf="@+id/m_login_button_register"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/m_passwordEditText" />
+            app:layout_constraintTop_toBottomOf="@+id/m_passwordEditText"/>
 
     <Button
             android:id="@+id/m_login_button_register"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="44dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginRight="36dp"
+            android:layout_marginTop="84dp"
             android:background="@android:color/transparent"
             android:text="Registrarse"
             android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/m_passwordEditText" />
+            app:layout_constraintTop_toBottomOf="@+id/m_passwordEditText"/>
 </android.support.constraint.ConstraintLayout>

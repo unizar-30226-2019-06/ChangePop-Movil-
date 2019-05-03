@@ -16,14 +16,15 @@ class Product (
     var Blocked: Boolean,
     var Bid_expire: Date,
     var Visits: Int,
-    var Images: Array<String?>,
+    var Images: ArrayList<String?>,
     var Boosted: Boolean,
     var Followers: Int,
     var Email: String,
     var Deleted: Boolean,
-    var Localization: String
+    var Localization: String,
+    var OwnerNick: String
 
 ) : Parcelable {
     constructor(): this(0,"","",0.0,Date(),false,
-        Date(),0, arrayOf(""),false,0,"",false,"")
+        Date(),0, arrayListOf(""),false,0,"",false,"", "")
 }

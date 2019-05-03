@@ -3,7 +3,6 @@ package com.example.kalepa
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
@@ -11,55 +10,65 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import com.example.kalepa.Fragments.SearchFragment
 import com.example.kalepa.Fragments.SettingsFragment
 import com.example.kalepa.Fragments.WelcomeScreenFragment
 import com.example.kalepa.Fragments.WishListFragment
+import com.example.kalepa.Preferences.SharedApp
+import com.example.kalepa.common.loadImage
+import com.github.kittinunf.fuel.android.extension.responseJson
+import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.fuel.httpPost
+import com.github.kittinunf.result.Result
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import org.jetbrains.anko.toast
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
+    val projectURL = "https://kelpa-api.herokuapp.com"
+    var sesionCookie = ""
+
     companion object {
-        var logged = false
 
         fun start(context: Context) {
             val intent = Intent(context, MainActivity::class.java)
             context.startActivity(intent)
-        }
-
-        fun setLogged() {
-            logged = true
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (!logged) {
+        checkSesion(0, MySqlHelper(this).fetchCookies())
+    }
+
+    private fun checkSesion (index: Int, list: ArrayList<Pair<Int,String>>) {
+
+        if (index > list.size - 1){
             LoginActivity.start(this)
+        } else {
+            val (id, cookie) = list[index]
+            val url = MainActivity().projectURL + "/user"
+
+            val req = url.httpGet().header(Pair("Cookie", cookie))
+            req.responseJson { request, response, result ->
+                when (result) {
+                    is Result.Failure -> {
+                        MySqlHelper(this).deleteCookie(id)
+                        checkSesion(index + 1, list)
+                    }
+                    is Result.Success -> {
+                        SharedApp.prefs.cookie = cookie
+                        sesionCookie = cookie
+                        initialize(result.value)
+                    }
+                }
+            }
         }
-
-        setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
-
-        val toggle = ActionBarDrawerToggle(
-            this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        )
-        drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        nav_view.setNavigationItemSelectedListener(this)
-        val header_view = nav_view.getHeaderView(0)
-        val profile = header_view.findViewById<ImageView>(R.id.navigation_header_profile_image)
-        profile.setOnClickListener{
-            ProfileActivity.start(this)
-        }
-
-        val welcomeScreenFragment = WelcomeScreenFragment.newInstance()
-        openFragment(welcomeScreenFragment)
     }
 
     override fun onBackPressed() {
@@ -111,6 +120,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_chat -> {
                 ChatListActivity.start(this)
             }
+            R.id.nav_log_out -> {
+                val url = MainActivity().projectURL + "/logout"
+
+                val req = url.httpGet().header(Pair("Cookie", sesionCookie))
+                req.responseJson { request, response, result ->
+                    when (result) {
+                        is Result.Failure -> {
+                            toast("Error al cerrar sesión")
+                        }
+                        is Result.Success -> {
+                            MainActivity.start(this)
+                        }
+                    }
+                }
+
+                MySqlHelper(this).clearCookies()
+            }
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)
@@ -123,4 +149,35 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         transaction.addToBackStack(null)
         transaction.commit()
     }
+
+    private fun initialize (jsonUser: JSONObject) {
+
+        setContentView(R.layout.activity_main)
+        setSupportActionBar(toolbar)
+
+        val toggle = ActionBarDrawerToggle(
+            this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+        drawer_layout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        val welcomeScreenFragment = WelcomeScreenFragment.newInstance()
+        openFragment(welcomeScreenFragment)
+
+        nav_view.setNavigationItemSelectedListener(this)
+        val header_view = nav_view.getHeaderView(0)
+        val profile = header_view.findViewById<ImageView>(R.id.navigation_header_profile_image)
+        val uname = header_view.findViewById<TextView>(R.id.n_navHead_uname)
+        val umail = header_view.findViewById<TextView>(R.id.n_navHead_umail)
+
+        profile.setOnClickListener {
+            SelfProfileActivity.start(this)
+        }
+
+        uname.setText(jsonUser.get("nick").toString())
+        umail.setText(jsonUser.get("mail").toString())
+        profile.loadImage("https://st.depositphotos.com/2868925/3523/v/950/depositphotos_35236487-stock-illustration-vector-male-profile-image.jpg")
+        //profile.loadImage(jsonUser.get("avatar").toString())
+    }
+
 }
