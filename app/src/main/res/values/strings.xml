@@ -34,6 +34,7 @@
     <string name="product_date">6/3/19</string>
     <string name="product_user_link">Usuario user_1234</string>
     <string name="euro_symbol">€</string>
+    <string name="product_uploaded">Publicado el:</string>
 
 
     <string-array name="categorias">
