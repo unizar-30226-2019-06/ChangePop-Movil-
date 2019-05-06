@@ -20,7 +20,7 @@
                 android:layout_width="80dp"
                 android:layout_height="60dp"
                 tools:srcCompat="@tools:sample/avatars[3]"
-                android:id="@+id/b_user_product_photo"
+                android:id="@+id/private_profile_product_image"
                 android:clickable="true"
                 />
         <TextView android:layout_width="wrap_content"
@@ -31,17 +31,18 @@
                   android:textStyle="bold"
                   android:layout_weight="1"
                   android:layout_gravity="center_vertical"
-                  android:clickable="true"/>
+                  android:clickable="true"
+                  android:id="@+id/private_profile_product_title"/>
         <Button
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:id="@+id/button5"
+                android:id="@+id/private_profile_product_edit"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/ic_menu_manage"/>
         <Button
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:id="@+id/button8"
+                android:id="@+id/private_profile_product_delete"
                 android:layout_gravity="center_vertical"
                 android:background="@android:drawable/ic_delete"/>
 
