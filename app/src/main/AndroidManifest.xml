@@ -28,6 +28,7 @@
         </activity>
         <activity
                 android:name=".RegisterActivity"
+                android:label="@string/registro"
                 android:configChanges="screenSize|orientation"
                 android:windowSoftInputMode="stateHidden"
                 android:parentActivityName=".LoginActivity">
@@ -53,6 +54,7 @@
         </activity>
         <activity
                 android:name=".UploadActivity"
+                android:label="@string/subir_articulo"
                 android:parentActivityName=".MainActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"

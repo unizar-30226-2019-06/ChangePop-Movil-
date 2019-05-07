@@ -36,10 +36,8 @@ class ProductActivity : AppCompatActivity() {
         b_product_price.setText(product.Price.toString())
         b_product_description.setText(product.Description)
         b_product_date.setText(date)
-        b_product_place.setText(product.Localization)
         b_product_seller.setText(product.OwnerNick)
         //b_product_rating
-        b_product_price2.setText(product.Price.toString())
 
         b_product_seller.setOnClickListener {
             ProfileActivity.start(this, product.OwnerNick)

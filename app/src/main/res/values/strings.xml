@@ -30,12 +30,16 @@
         ut labore et dolore magna aliqua.
     </string>
     <string name="subir_articulo">SUBIR ARTICULO</string>
+    <string name="registro">REGISTRO</string>
     <string name="product_price">444</string>
     <string name="product_button">Comprar</string>
     <string name="product_title">Título del producto</string>
     <string name="product_date">6/3/19</string>
     <string name="product_user_link">Usuario user_1234</string>
     <string name="euro_symbol">€</string>
+    <string name="product_uploaded">Publicado el:</string>
+    <string name="private_profile_notification_title">TÍTULO DE LA NOTIFICACIÓN</string>
+    <string name="private_profile_notifiction_description">Descripción</string>
 
 
     <string-array name="categorias">
