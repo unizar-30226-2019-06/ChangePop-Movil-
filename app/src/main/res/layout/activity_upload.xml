@@ -70,14 +70,35 @@
                     android:background="@drawable/rounded_white"
                     android:id="@+id/editText_sin_uso" android:layout_weight="1"/>
         </LinearLayout>
-        <RelativeLayout
-                android:layout_gravity="center"
-                android:layout_marginRight="3dp" android:layout_marginEnd="3dp"
-                android:layout_marginTop="16dp"
-                android:layout_width="300dp"
-                android:layout_height="40dp"
-                android:background="@drawable/rounded_white"
-                android:orientation="horizontal">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center" android:layout_marginTop="16dp"
+                android:layout_height="wrap_content">
+            <EditText
+                    android:id="@+id/n_Upload_category_text"
+                    android:layout_width="229dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:hint="Categorias"
+                    android:paddingEnd="15dp"
+                    android:paddingStart="15dp"
+                    android:textSize="14sp"
+                    android:background="@drawable/rounded_white"
+                    android:layout_weight="1"/>
+            <Button
+                    android:id="@+id/n_Upload_category_button"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:text="Elegir"
+                    android:gravity="center"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginStart="1dp"
+                    android:background="@drawable/rounded_white"/>
+            <!--
             <Spinner
                     android:id="@+id/m_spinner_categorias"
                     android:layout_width="match_parent"
@@ -88,7 +109,8 @@
                     android:layout_marginLeft="5dp" android:layout_marginStart="5dp"
                     android:spinnerMode="dropdown"
                     android:entries="@array/categorias"/>
-        </RelativeLayout>
+             -->
+        </LinearLayout>
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent" android:layout_marginTop="16dp"
@@ -100,14 +122,20 @@
                     android:layout_marginStart="16dp" android:layout_marginLeft="16dp"
                     android:clickable="true"/>
             <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                                  android:id="@+id/m_Upload_menu_reference"
                                   android:layout_width="match_parent"
                                   android:layout_height="match_parent"
+                                  android:layout_marginRight="16dp"
                                   android:fillViewport="true">
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                               android:orientation="horizontal" android:layout_width="match_parent"
                               android:layout_height="match_parent">
                     <android.support.v7.widget.RecyclerView android:layout_width="wrap_content"
-                                                            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+                                                            android:layout_height="wrap_content"
+                                                            android:id="@+id/m_images_container"
+                                                            android:orientation="horizontal">
+
+                    </android.support.v7.widget.RecyclerView>
                 </LinearLayout>
             </HorizontalScrollView>
 

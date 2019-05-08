@@ -193,7 +193,6 @@
                 android:drawableStart="@drawable/ic_cake_black_24dp"
                 android:drawableLeft="@drawable/ic_cake_black_24dp"
                 android:ems="10"
-                android:focusable="false"
                 android:hint="Fecha nacimiento"
                 android:inputType="date"
                 android:clickable="true"

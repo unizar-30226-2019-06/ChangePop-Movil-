@@ -30,7 +30,6 @@ import org.json.JSONObject
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     val projectURL = "https://kelpa-api.herokuapp.com"
-    var sesionCookie = ""
 
     companion object {
 
@@ -63,7 +62,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     }
                     is Result.Success -> {
                         SharedApp.prefs.cookie = cookie
-                        sesionCookie = cookie
                         initialize(result.value)
                     }
                 }
@@ -123,7 +121,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_log_out -> {
                 val url = MainActivity().projectURL + "/logout"
 
-                val req = url.httpGet().header(Pair("Cookie", sesionCookie))
+                val req = url.httpGet().header(Pair("Cookie", SharedApp.prefs.cookie))
                 req.responseJson { request, response, result ->
                     when (result) {
                         is Result.Failure -> {
@@ -178,6 +176,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         umail.setText(jsonUser.get("mail").toString())
         profile.loadImage("https://st.depositphotos.com/2868925/3523/v/950/depositphotos_35236487-stock-illustration-vector-male-profile-image.jpg")
         //profile.loadImage(jsonUser.get("avatar").toString())
+        SharedApp.prefs.userPlace = jsonUser.get("place").toString()
     }
 
 }

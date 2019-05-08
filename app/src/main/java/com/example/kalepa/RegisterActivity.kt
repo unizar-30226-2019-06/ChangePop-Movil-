@@ -18,8 +18,6 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
 
         m_crear_Button.setOnClickListener {
-            //MainActivity.setLogged()
-            //MainActivity.start(this)
             regUser()
         }
     }
@@ -62,9 +60,6 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    /**
-     * Faltan comprobaciones de telefono y dni
-     */
     private fun check_fields () : Boolean {
 
         var right = true
@@ -133,7 +128,7 @@ class RegisterActivity : AppCompatActivity() {
 
         val regex = """[1-2][0-9][0-9][0-9]-[0-1][0-9]-[1-3][0-9]""".toRegex()
         if (!regex.matches(m_birthDateEditText.text.toString())) {
-            m_birthDateEditText.error = "El formato debe ser dd/mm/aaaa"
+            m_birthDateEditText.error = "El formato debe ser aaaa-mm-dd"
             right = false
         }
 
