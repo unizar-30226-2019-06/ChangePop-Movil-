@@ -177,6 +177,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         profile.loadImage("https://st.depositphotos.com/2868925/3523/v/950/depositphotos_35236487-stock-illustration-vector-male-profile-image.jpg")
         //profile.loadImage(jsonUser.get("avatar").toString())
         SharedApp.prefs.userPlace = jsonUser.get("place").toString()
+        SharedApp.prefs.userId = jsonUser.get("id").toString().toInt()
+
     }
 
 }

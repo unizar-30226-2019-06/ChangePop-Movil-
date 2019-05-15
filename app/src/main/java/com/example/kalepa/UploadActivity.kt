@@ -1,51 +1,93 @@
 package com.example.kalepa
 
+import android.annotation.TargetApi
+import android.app.Activity
+import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+
+import android.net.Uri
+import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.DocumentsContract
+import android.provider.MediaStore
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
+import android.support.v4.content.FileProvider
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.GridLayoutManager
 import android.view.MenuItem
+
 import android.widget.PopupMenu
+import com.androidnetworking.AndroidNetworking
+import com.androidnetworking.error.ANError
+import com.androidnetworking.interfaces.JSONObjectRequestListener
+
 import com.example.charactermanager.MainListAdapter
 import com.example.kalepa.Adapters.UploadImageAdapter
 import com.example.kalepa.Preferences.SharedApp
+
+import com.github.kittinunf.fuel.android.extension.responseJson
+import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import kotlinx.android.synthetic.main.activity_upload.*
+
 import org.jetbrains.anko.toast
 import org.json.JSONObject
-import java.time.Year
+import java.io.File
+
 import java.util.*
 import kotlin.collections.ArrayList
 
 class UploadActivity : AppCompatActivity() {
 
     private var images = ArrayList<String>()
+    private var imagePaths = ArrayList<String>()
+    private var imageUrls = ArrayList<String>()
     private var categories = ArrayList<String>()
+    private var serverCategories = ArrayList<String>()
+    private var selectedAction = 0
+
+    private val FINAL_TAKE_PHOTO = 1
+    private val FINAL_CHOOSE_PHOTO = 2
+    private var imageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upload)
 
-        images = arrayListOf<String>("https://www.kalamazoo.es/content/images/product/28023-1_1_xnl.jpg",
-            "https://www.motociclismo.es/media/cache/big/upload/images/article/24729/article-por-que-no-arranca-moto-frio-577662e2620df.jpg",
-            "https://i.imgur.com/m4i2rWD.jpg",
-            "https://images-na.ssl-images-amazon.com/images/I/81U6Q%2BTrCoL._SX355_.jpg",
-            "http://pilarsanzcervera.com/wp-content/uploads/2018/03/libro.png",
-            "https://www.ikea.com/PIAimages/0534657_PE649204_S5.JPG?f=s",
-            "https://www.enriquedans.com/wp-content/uploads/2017/03/Samsung-Dex.jpg",
-            "https://fotos00.autofacil.es/2015/01/21/646x260/mini-5p2.jpg")
+        val url = MainActivity().projectURL + "/categories"
 
-        showImages(images)
+        val req = url.httpGet().header(Pair("Cookie", SharedApp.prefs.cookie))
+        req.responseJson { request, response, result ->
+            when (result) {
+                is Result.Failure -> {
+                    toast("Error cargando categorías")
+                    MainActivity.start(this)
+                }
+                is Result.Success -> {
+                    val jsonObject = result.value
+                    val aux = jsonObject.get("list").toString()
+                    val separate = aux.split("""(\",\")|(\[\")|(\"\])""".toRegex())
+                    serverCategories = ArrayList(separate.slice(IntRange(1,separate.size-2)))
+                }
+            }
+        }
+
 
         n_Upload_category_button.setOnClickListener{
-            showDialog()
+            showCategoryDialog()
+        }
+
+        m_image_subir.setOnClickListener{
+            showImageDialog()
         }
 
         m_button_upload.setOnClickListener {
-            uploadProduct()
+            uploadProduct(0)
         }
     }
 
@@ -57,6 +99,7 @@ class UploadActivity : AppCompatActivity() {
 
     private fun createCategoryItemAdapter(image: String)
             = UploadImageAdapter(image,
+        //BitmapFactory.decodeStream(getContentResolver().openInputStream(image)),
         { showImageMenu(image) })
 
     private fun showImageMenu(image: String) :Boolean{
@@ -66,8 +109,8 @@ class UploadActivity : AppCompatActivity() {
 
             when (item!!.itemId) {
                 R.id.delete_staff_menu -> {
-                    images.remove(image)
-                    showImages(images)
+                    imagePaths.remove(image)
+                    showImages(imagePaths)
                     toast("Imagen Eliminada")
                 }
             }
@@ -78,8 +121,31 @@ class UploadActivity : AppCompatActivity() {
         return true
     }
 
-    private fun uploadProduct () {
+    private fun uploadProduct (numImagen: Int) {
 
+        if (numImagen == imagePaths.size) {
+            uploadProduct2()
+        } else {
+            val urlA = MainActivity().projectURL + "/upload"
+
+            AndroidNetworking.upload(urlA)
+                .addHeaders("Content-Type", "multipart/form-data")
+                .addHeaders("Cookie", SharedApp.prefs.cookie)
+                .addMultipartFile("file", File(imagePaths[numImagen]))
+                .build().getAsJSONObject(object : JSONObjectRequestListener {
+                    override fun onResponse(response: JSONObject) {
+                        imageUrls.add(MainActivity().projectURL + response.get("message").toString())
+                        uploadProduct(numImagen + 1)
+                    }
+
+                    override fun onError(error: ANError) {
+                        toast("Error al subir imagen numero $numImagen")
+                    }
+                })
+        }
+    }
+
+    private fun uploadProduct2 () {
         if (check_fields()) {
             val now = Calendar.getInstance()
             val bidDate = now.get(Calendar.YEAR).toString() + "-" +
@@ -89,34 +155,20 @@ class UploadActivity : AppCompatActivity() {
                     String.format("%02d",now.get(Calendar.MINUTE)) + ":" +
                     String.format("%02d",now.get(Calendar.SECOND))
 
-            /*var categoryList = "[ "
-            for (i in 0 until categories.size - 1) {
-                categoryList = categoryList + "\"" + categories[i] + "\", "
-            }
-            categoryList = categoryList + "\"" + categories[categories.size - 1] + "\" ]"
-
-            var imageList = "[ "
-            for (i in 0 until images.size - 1) {
-                imageList = imageList + "\"" + images[i] + "\", "
-            }
-            imageList = imageList + "\"" + images[images.size - 1] + "\" ]"*/
-
-
-
             val jsonObject = JSONObject()
             jsonObject.accumulate("title", m_Upload_titulo.text.toString())
             jsonObject.accumulate("descript", m_Upload_descripcion.text.toString())
             jsonObject.accumulate("price", m_Upload_precio.text.toString())
             jsonObject.accumulate("bid_date", bidDate)
             jsonObject.accumulate("place", SharedApp.prefs.userPlace)
-            jsonObject.accumulate("main_img", images[0])
+            jsonObject.accumulate("main_img", imageUrls[0])
 
-            for (i in 0 until categories.size - 1) {
+            for (i in 0 until categories.size) {
                 jsonObject.accumulate("categories", categories[i])
             }
 
-            for (i in 0 until images.size - 1) {
-                jsonObject.accumulate("photo_urls", images[i])
+            for (i in 0 until imageUrls.size) {
+                jsonObject.accumulate("photo_urls", imageUrls[i])
             }
 
             val url = MainActivity().projectURL + "/product"
@@ -171,22 +223,18 @@ class UploadActivity : AppCompatActivity() {
         return right
     }
 
-    private fun showDialog(){
+    private fun showCategoryDialog(){
         lateinit var dialog:AlertDialog
 
-
-
-
-
-
-
-        //LLAMAR AQUI A LA API PARA SACAR CATEGORIAS
-        val arrayCategories = arrayOf("Moda","Deporte","Casa","Cocina","Juguetes","Jardín")
-        val arrayChecked = booleanArrayOf(false,false,false,false,false,false)
-        for (i in 0 until arrayCategories.size) {
-            val checked = categories.indexOf(arrayCategories[i]) != -1
+        val arrayCategories = arrayOfNulls<String>(serverCategories.size)
+        val arrayChecked = BooleanArray(serverCategories.size)
+        for (i in 0 until serverCategories.size) {
+            arrayCategories.set(i,serverCategories[i])
+            val checked = categories.indexOf(serverCategories[i]) != -1
             if (checked) {
-                arrayChecked[i] = true
+                arrayChecked.set(i,true)
+            } else {
+                arrayChecked.set(i,false)
             }
         }
         val builder = AlertDialog.Builder(this)
@@ -205,7 +253,7 @@ class UploadActivity : AppCompatActivity() {
             for (i in 0 until arrayCategories.size) {
                 val checked = arrayChecked[i]
                 if (checked) {
-                    categories.add(arrayCategories[i])
+                    categories.add(arrayCategories[i]!!)
                     list = list + " #" + arrayCategories[i]
                 }
             }
@@ -215,6 +263,149 @@ class UploadActivity : AppCompatActivity() {
 
         dialog = builder.create()
         dialog.show()
+    }
+
+    private fun showImageDialog(){
+        lateinit var dialog:AlertDialog
+
+        val items = arrayOf("Galería","Camara")
+        val builder = AlertDialog.Builder(this)
+        var selected = "Galería"
+        builder.setTitle("¿De donde desea conseguir la imagen?")
+
+        builder.setItems(items) { dialog, which ->
+            selected = items[which]
+            if (which == 0){    //GALERÍA
+                selectedAction = 0
+                val checkSelfPermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                if (checkSelfPermission != PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 1)
+                }
+                else{
+                    openAlbum()
+                }
+            } else {            //CAMARA
+                selectedAction = 1
+                val checkSelfPermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
+                if (checkSelfPermission != PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), 1)
+                }
+                else{
+                    openCamera()
+                }
+            }
+        }
+
+        // Set the positive/yes button click listener
+        builder.setPositiveButton("OK") { _, _ -> }
+
+        dialog = builder.create()
+        dialog.show()
+    }
+
+    private fun openCamera() {
+        val outputImage = File(externalCacheDir, "output_image" + imagePaths.size.toString() + ".jpg")
+        if(outputImage.exists()) {
+            outputImage.delete()
+        }
+        outputImage.createNewFile()
+        imageUri = if(Build.VERSION.SDK_INT >= 24){
+            FileProvider.getUriForFile(this, "com.mobiledev.imageutils.fileprovider", outputImage)
+        } else {
+            Uri.fromFile(outputImage)
+        }
+
+        val intent = Intent("android.media.action.IMAGE_CAPTURE")
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+        startActivityForResult(intent, FINAL_TAKE_PHOTO)
+    }
+
+    private fun openAlbum(){
+        val intent = Intent("android.intent.action.GET_CONTENT")
+        intent.type = "image/*"
+        startActivityForResult(intent, FINAL_CHOOSE_PHOTO)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when(requestCode){
+            1 ->
+                if (grantResults.isNotEmpty() && grantResults.get(0) ==PackageManager.PERMISSION_GRANTED){
+                    if (selectedAction == 0) {
+                        openAlbum()
+                    } else {
+                        openCamera()
+                    }
+                }
+                else {
+                    toast("You denied the permission")
+                }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode){
+            FINAL_TAKE_PHOTO ->
+                if (resultCode == Activity.RESULT_OK) {
+
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        handleImageOnKitkat(imageUri!!)
+                    }
+                    else{
+                        handleImageBeforeKitkat(imageUri!!)
+                    }
+                }
+            FINAL_CHOOSE_PHOTO ->
+                if (resultCode == Activity.RESULT_OK) {
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        handleImageOnKitkat(data!!.data)
+                    }
+                    else{
+                        handleImageBeforeKitkat(data!!.data)
+                    }
+                }
+        }
+    }
+
+    @TargetApi(19)
+    private fun handleImageOnKitkat(newUri: Uri) {
+        var imagePath: String? = null
+        val uri = newUri//data!!.data
+        if (DocumentsContract.isDocumentUri(this, uri)){
+            val docId = DocumentsContract.getDocumentId(uri)
+            if ("com.android.providers.media.documents" == uri.authority){
+                val id = docId.split(":")[1]
+                val selsetion = MediaStore.Images.Media._ID + "=" + id
+                imagePath = imagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selsetion)
+            }
+            else if ("com.android.providers.downloads.documents" == uri.authority){
+                val contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(docId))
+                imagePath = imagePath(contentUri, null)
+            }
+        }
+        else if ("content".equals(uri.scheme, ignoreCase = true)){
+            imagePath = imagePath(uri, null)
+        }
+        else if ("file".equals(uri.scheme, ignoreCase = true)){
+            imagePath = uri.path
+        }
+        imagePaths.add(imagePath!!)
+        showImages(imagePaths)
+    }
+
+    private fun handleImageBeforeKitkat(newUri: Uri) {}
+
+    private fun imagePath(uri: Uri?, selection: String?): String {
+        var path: String? = null
+        val cursor = contentResolver.query(uri, null, selection, null, null )
+        if (cursor != null){
+            if (cursor.moveToFirst()) {
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA))
+            }
+            cursor.close()
+        }
+        return path!!
     }
 
     companion object {

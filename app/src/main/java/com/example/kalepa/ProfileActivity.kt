@@ -27,7 +27,10 @@ class ProfileActivity : AppCompatActivity() {
         this.viewPager.adapter=viewpageradapter  //Binding PagerAdapter with ViewPager
         this.n_other_profile_navigation.setupWithViewPager(this.viewPager)
 
-        val username = intent.getStringExtra(USER_ARG)
+
+
+        //ESTO HAY QUE PONERLO BIEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEN
+        val userId = intent.getStringExtra(USER_ARG)
 
         val url = MainActivity().projectURL + "/user"
         val req = url.httpGet().header(Pair("Cookie", SharedApp.prefs.cookie))
@@ -57,12 +60,12 @@ class ProfileActivity : AppCompatActivity() {
     companion object {
         private  const val USER_ARG = "com.example.kalepa.ProfileActivity.userArgKey"
 
-        fun getIntent(context: Context, username: String) = context
+        fun getIntent(context: Context, userId: String) = context
             .getIntent<ProfileActivity>()
-            .apply { putExtra(USER_ARG, username) }
+            .apply { putExtra(USER_ARG, userId) }
 
-        fun start(context: Context, username: String) {
-            val intent = getIntent(context, username)
+        fun start(context: Context, userId: String) {
+            val intent = getIntent(context, userId)
             context.startActivity(intent)
         }
     }

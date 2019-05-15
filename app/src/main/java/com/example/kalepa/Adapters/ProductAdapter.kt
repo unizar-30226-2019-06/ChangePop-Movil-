@@ -16,9 +16,9 @@ class ProductAdapter (
 ) : ItemAdapter<ProductAdapter.ViewHolder>(R.layout.item_product) {
     override fun onCreateViewHolder(itemView: View) = ViewHolder(itemView)
     override fun ViewHolder.onBindViewHolder() { // 2
-        textView1.text = product.Name
-        textView2.text = product.Price.toString()
-        imageView.loadImage(product.Images[0]!!) // 3
+        textView1.text = product.title
+        textView2.text = product.price.toString()
+        imageView.loadImage(product.main_img) // 3
         itemView.setOnClickListener { clicked(product) }
     }
 

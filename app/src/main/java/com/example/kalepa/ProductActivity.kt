@@ -28,22 +28,22 @@ class ProductActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
-        val date = product.Upload_date.day.toString() + "/" + product.Upload_date.month.toString() +
-                "/" + product.Upload_date.year.toString()
+        /*val date = product.Upload_date.day.toString() + "/" + product.Upload_date.month.toString() +
+                "/" + product.Upload_date.year.toString()*/
 
         //b_product_images.loadImage(product.Images[0]!!)
-        b_product_name.setText(product.Name)
-        b_product_price.setText(product.Price.toString())
-        b_product_description.setText(product.Description)
-        b_product_date.setText(date)
-        b_product_seller.setText(product.OwnerNick)
+        b_product_name.setText(product.title)
+        b_product_price.setText(product.price.toString())
+        b_product_description.setText(product.descript)
+        b_product_date.setText(product.publish_date)
+        b_product_seller.setText("AHORA ES UN ID :/")
         //b_product_rating
 
         b_product_seller.setOnClickListener {
-            ProfileActivity.start(this, product.OwnerNick)
+            ProfileActivity.start(this, product.user_id.toString())
         }
 
-        num_images = product.Images.size
+        num_images = product.photo_urls.size
 
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
         b_product_images_container.adapter = mSectionsPagerAdapter
@@ -54,7 +54,7 @@ class ProductActivity : AppCompatActivity() {
         override fun getItem(position: Int): Fragment {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position , product.Images)
+            return PlaceholderFragment.newInstance(position , product.photo_urls)
         }
 
         override fun getCount(): Int {
