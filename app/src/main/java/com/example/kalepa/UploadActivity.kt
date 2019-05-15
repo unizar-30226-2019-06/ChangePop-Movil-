@@ -44,7 +44,6 @@ import kotlin.collections.ArrayList
 
 class UploadActivity : AppCompatActivity() {
 
-    private var images = ArrayList<String>()
     private var imagePaths = ArrayList<String>()
     private var imageUrls = ArrayList<String>()
     private var categories = ArrayList<String>()
@@ -109,9 +108,13 @@ class UploadActivity : AppCompatActivity() {
 
             when (item!!.itemId) {
                 R.id.delete_staff_menu -> {
-                    imagePaths.remove(image)
-                    showImages(imagePaths)
-                    toast("Imagen Eliminada")
+                    if (imagePaths.size > 1) {
+                        imagePaths.remove(image)
+                        showImages(imagePaths)
+                        toast("Imagen Eliminada")
+                    } else {
+                        toast("No se puede dejar menos de una imagen")
+                    }
                 }
             }
             true
@@ -209,7 +212,7 @@ class UploadActivity : AppCompatActivity() {
             right = false
         }
 
-        if (images.size <= 0) {
+        if (imagePaths.size <= 0) {
             toast("Introduzca una imagen como mínimo")
             right = false
         }
