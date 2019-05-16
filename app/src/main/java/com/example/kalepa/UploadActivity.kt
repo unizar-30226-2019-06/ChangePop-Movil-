@@ -1,5 +1,7 @@
 package com.example.kalepa
 
+import android.Manifest.permission.CAMERA
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.annotation.TargetApi
 import android.app.Activity
 import android.content.ContentUris
@@ -44,7 +46,6 @@ import kotlin.collections.ArrayList
 
 class UploadActivity : AppCompatActivity() {
 
-    private var imagePaths = ArrayList<String>()
     private var imageUrls = ArrayList<String>()
     private var categories = ArrayList<String>()
     private var serverCategories = ArrayList<String>()
@@ -53,6 +54,8 @@ class UploadActivity : AppCompatActivity() {
     private val FINAL_TAKE_PHOTO = 1
     private val FINAL_CHOOSE_PHOTO = 2
     private var imageUri: Uri? = null
+    private var imagePath: String? = null
+    private var cameraImages = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,7 +89,7 @@ class UploadActivity : AppCompatActivity() {
         }
 
         m_button_upload.setOnClickListener {
-            uploadProduct(0)
+            uploadProduct2()
         }
     }
 
@@ -108,9 +111,9 @@ class UploadActivity : AppCompatActivity() {
 
             when (item!!.itemId) {
                 R.id.delete_staff_menu -> {
-                    if (imagePaths.size > 1) {
-                        imagePaths.remove(image)
-                        showImages(imagePaths)
+                    if (imageUrls.size > 1) {
+                        imageUrls.remove(image)
+                        showImages(imageUrls)
                         toast("Imagen Eliminada")
                     } else {
                         toast("No se puede dejar menos de una imagen")
@@ -122,30 +125,6 @@ class UploadActivity : AppCompatActivity() {
         popup.show()
 
         return true
-    }
-
-    private fun uploadProduct (numImagen: Int) {
-
-        if (numImagen == imagePaths.size) {
-            uploadProduct2()
-        } else {
-            val urlA = MainActivity().projectURL + "/upload"
-
-            AndroidNetworking.upload(urlA)
-                .addHeaders("Content-Type", "multipart/form-data")
-                .addHeaders("Cookie", SharedApp.prefs.cookie)
-                .addMultipartFile("file", File(imagePaths[numImagen]))
-                .build().getAsJSONObject(object : JSONObjectRequestListener {
-                    override fun onResponse(response: JSONObject) {
-                        imageUrls.add(MainActivity().projectURL + response.get("message").toString())
-                        uploadProduct(numImagen + 1)
-                    }
-
-                    override fun onError(error: ANError) {
-                        toast("Error al subir imagen numero $numImagen")
-                    }
-                })
-        }
     }
 
     private fun uploadProduct2 () {
@@ -212,7 +191,7 @@ class UploadActivity : AppCompatActivity() {
             right = false
         }
 
-        if (imagePaths.size <= 0) {
+        if (imageUrls.size <= 0) {
             toast("Introduzca una imagen como mínimo")
             right = false
         }
@@ -290,8 +269,9 @@ class UploadActivity : AppCompatActivity() {
             } else {            //CAMARA
                 selectedAction = 1
                 val checkSelfPermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
-                if (checkSelfPermission != PackageManager.PERMISSION_GRANTED){
-                    ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA), 1)
+                val checkReadPermission = ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                if (checkSelfPermission != PackageManager.PERMISSION_GRANTED && checkReadPermission != PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(this, arrayOf(READ_EXTERNAL_STORAGE, CAMERA), 1)
                 }
                 else{
                     openCamera()
@@ -307,13 +287,13 @@ class UploadActivity : AppCompatActivity() {
     }
 
     private fun openCamera() {
-        val outputImage = File(externalCacheDir, "output_image" + imagePaths.size.toString() + ".jpg")
+        val outputImage = File(externalCacheDir, "output_image" + cameraImages.toString() + ".jpg")
         if(outputImage.exists()) {
             outputImage.delete()
         }
         outputImage.createNewFile()
         imageUri = if(Build.VERSION.SDK_INT >= 24){
-            FileProvider.getUriForFile(this, "com.mobiledev.imageutils.fileprovider", outputImage)
+            FileProvider.getUriForFile(this, "com.example.kalepa.fileprovider", outputImage)
         } else {
             Uri.fromFile(outputImage)
         }
@@ -333,7 +313,7 @@ class UploadActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when(requestCode){
             1 ->
-                if (grantResults.isNotEmpty() && grantResults.get(0) ==PackageManager.PERMISSION_GRANTED){
+                if (grantResults.isNotEmpty() && grantResults[0] ==PackageManager.PERMISSION_GRANTED){
                     if (selectedAction == 0) {
                         openAlbum()
                     } else {
@@ -352,12 +332,22 @@ class UploadActivity : AppCompatActivity() {
             FINAL_TAKE_PHOTO ->
                 if (resultCode == Activity.RESULT_OK) {
 
-                    if (Build.VERSION.SDK_INT >= 19) {
-                        handleImageOnKitkat(imageUri!!)
-                    }
-                    else{
-                        handleImageBeforeKitkat(imageUri!!)
-                    }
+                    val urlA = MainActivity().projectURL + "/upload"
+
+                    AndroidNetworking.upload(urlA)
+                        .addHeaders("Content-Type", "multipart/form-data")
+                        .addHeaders("Cookie", SharedApp.prefs.cookie)
+                        .addMultipartFile("file", File(externalCacheDir, "output_image" + cameraImages.toString() + ".jpg"))
+                        .build().getAsJSONObject(object : JSONObjectRequestListener {
+                            override fun onResponse(response: JSONObject) {
+                                imageUrls.add(MainActivity().projectURL + response.get("message").toString())
+                                anyadir(false)
+                            }
+
+                            override fun onError(error: ANError) {
+                                toast("Error al subir imagen de camara")
+                            }
+                        })
                 }
             FINAL_CHOOSE_PHOTO ->
                 if (resultCode == Activity.RESULT_OK) {
@@ -367,34 +357,56 @@ class UploadActivity : AppCompatActivity() {
                     else{
                         handleImageBeforeKitkat(data!!.data)
                     }
+
+                    val urlA = MainActivity().projectURL + "/upload"
+
+                    AndroidNetworking.upload(urlA)
+                        .addHeaders("Content-Type", "multipart/form-data")
+                        .addHeaders("Cookie", SharedApp.prefs.cookie)
+                        .addMultipartFile("file", File(imagePath))
+                        .build().getAsJSONObject(object : JSONObjectRequestListener {
+                            override fun onResponse(response: JSONObject) {
+                                imageUrls.add(MainActivity().projectURL + response.get("message").toString())
+                                anyadir(false)
+                            }
+
+                            override fun onError(error: ANError) {
+                                toast("Error al subir imagen de galería")
+                            }
+                        })
+
                 }
         }
     }
 
+    private fun anyadir (camera: Boolean) {
+        if (camera) cameraImages++
+        showImages(imageUrls)
+    }
+
     @TargetApi(19)
     private fun handleImageOnKitkat(newUri: Uri) {
-        var imagePath: String? = null
+        var path: String? = null
         val uri = newUri//data!!.data
         if (DocumentsContract.isDocumentUri(this, uri)){
             val docId = DocumentsContract.getDocumentId(uri)
             if ("com.android.providers.media.documents" == uri.authority){
                 val id = docId.split(":")[1]
                 val selsetion = MediaStore.Images.Media._ID + "=" + id
-                imagePath = imagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selsetion)
+                path = imagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selsetion)
             }
             else if ("com.android.providers.downloads.documents" == uri.authority){
                 val contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(docId))
-                imagePath = imagePath(contentUri, null)
+                path = imagePath(contentUri, null)
             }
         }
         else if ("content".equals(uri.scheme, ignoreCase = true)){
-            imagePath = imagePath(uri, null)
+            path = imagePath(uri, null)
         }
         else if ("file".equals(uri.scheme, ignoreCase = true)){
-            imagePath = uri.path
+            path = uri.path
         }
-        imagePaths.add(imagePath!!)
-        showImages(imagePaths)
+        imagePath = path
     }
 
     private fun handleImageBeforeKitkat(newUri: Uri) {}

@@ -20,9 +20,9 @@ class UploadImageAdapter (
 ) : ItemAdapter<UploadImageAdapter.ViewHolder>(R.layout.item_upload_image) {
     override fun onCreateViewHolder(itemView: View) = ViewHolder(itemView)
     override fun ViewHolder.onBindViewHolder() { // 2
-        //imageView.loadImage(image) // 3
-        val bitmap = BitmapFactory.decodeFile(path)
-        imageView.setImageBitmap(bitmap)
+        imageView.loadImage(path) // 3
+        //val bitmap = BitmapFactory.decodeFile(path)
+        //imageView.setImageBitmap(bitmap)
         itemView.setOnLongClickListener { holded(path)}
     }
 
