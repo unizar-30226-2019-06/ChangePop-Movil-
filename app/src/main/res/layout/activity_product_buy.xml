@@ -35,12 +35,13 @@
                 <TextView
                         android:text="@string/product_title"
                         android:textAppearance="@style/TextAppearance.AppCompat"
-                        android:textSize="30dp"
+                        android:textSize="30sp"
                         android:textStyle="bold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:id="@+id/b_product_name"/>
+
                 <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
@@ -48,7 +49,7 @@
                         android:layout_weight="0.5">
                     <TextView
                             android:layout_margin="10dp"
-                            android:textSize="24dp"
+                            android:textSize="24sp"
                             android:text="@string/product_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -57,11 +58,12 @@
                             android:textStyle="bold"/>
                     <TextView
                             android:layout_margin="10dp"
-                            android:textSize="24dp"
+                            android:textSize="24sp"
                             android:text="@string/euro_symbol"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:id="@+id/textView23"
+                            android:layout_weight="1"
                             android:textColor="@android:color/black"
                             android:textStyle="bold"/>
                 </LinearLayout>
@@ -101,7 +103,7 @@
                               android:layout_height="wrap_content"
                               android:text="@string/product_uploaded"
                               android:layout_margin="10dp"
-                              android:textSize="18dp"
+                              android:textSize="18sp"
                               android:textColor="@android:color/black"/>
                     <TextView
                             android:text="@string/product_date"
@@ -129,9 +131,10 @@
                             android:layout_margin="10dp"
                             android:layout_height="wrap_content"
                             android:id="@+id/b_product_seller"
-                            android:textSize="18dp"
+                            android:textSize="18sp"
                             android:layout_weight="0"
                             android:textColor="@color/colorAccent" android:clickable="true"
+                            android:focusable="true"
                             style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
                     <TextView android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
@@ -158,17 +161,9 @@
                 android:fadingEdge="horizontal|vertical"
                 android:fadingEdgeLength="@dimen/activity_horizontal_margin">
 
-            <EditText
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:inputType="numberDecimal"
-                    android:ems="10"
-                    android:visibility="gone"
-                    android:id="@+id/b_product_bid_offer"
-            />
+
             <Button
-                    android:text="@string/product_button"
+                    android:text="@string/b_product_buy_button"
                     android:background="@color/colorPrimary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
