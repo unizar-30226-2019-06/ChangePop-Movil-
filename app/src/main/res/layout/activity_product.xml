@@ -15,7 +15,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.1"
-                >
+        >
             <LinearLayout android:layout_width="match_parent"
                           android:layout_height="wrap_content"
                           android:orientation="vertical">
@@ -27,7 +27,7 @@
                         android:id="@+id/imageView" android:adjustViewBounds="true"
                         android:background="@drawable/side_nav_bar"/-->
                 <android.support.v4.view.ViewPager
-                        android:id="@+id/b_product_images"
+                        android:id="@+id/b_product_images_container"
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
                         android:layout_weight="0.5"
@@ -35,11 +35,12 @@
                 <TextView
                         android:text="@string/product_title"
                         android:textAppearance="@style/TextAppearance.AppCompat"
-                        android:textSize="30dp" android:textStyle="bold"
+                        android:textSize="30dp"
+                        android:textStyle="bold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
-                        android:id="@+id/textView15"/>
+                        android:id="@+id/b_product_name"/>
                 <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
@@ -50,28 +51,35 @@
                             android:textSize="24dp"
                             android:text="@string/product_price"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/textView16"
-                            android:textColor="@android:color/black" android:textStyle="bold"/>
+                            android:layout_height="wrap_content"
+                            android:id="@+id/b_product_price"
+                            android:textColor="@android:color/black"
+                            android:textStyle="bold"/>
                     <TextView
                             android:layout_margin="10dp"
                             android:textSize="24dp"
                             android:text="@string/euro_symbol"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/textView23"
-                            android:textColor="@android:color/black" android:textStyle="bold"/>
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView23"
+                            android:textColor="@android:color/black"
+                            android:textStyle="bold"/>
                 </LinearLayout>
                 <TextView
                         android:text="@string/product_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="12dp"
-                        android:id="@+id/textView17" android:textSize="18sp" android:textColor="@android:color/black"/>
+                        android:id="@+id/b_product_description"
+                        android:textSize="18sp"
+                        android:textColor="@android:color/black"/>
                 <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginRight="10dp"
                         android:layout_marginLeft="10dp"
                         android:background="@android:color/darker_gray"/>
+
                 <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
@@ -82,22 +90,28 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
                             android:id="@+id/textView19"
-                            android:layout_weight="0" android:textSize="18sp" android:textColor="@color/colorAccent"
+                            android:layout_weight="0"
+                            android:textSize="18sp"
+                            android:textColor="@color/colorAccent"
                             android:clickable="false" style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                            android:layout_weight="1"/>
                     <TextView android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
-                            android:text="@string/product_uploaded"
+                              android:layout_weight="1"/>
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:text="@string/product_uploaded"
                               android:layout_margin="10dp"
-                              android:textSize="18dp" android:textColor="@android:color/black"/>
+                              android:textSize="18dp"
+                              android:textColor="@android:color/black"/>
                     <TextView
                             android:text="@string/product_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
-                            android:id="@+id/textView20"
-                            android:layout_weight="0" android:textSize="18dp" android:textColor="@android:color/black"/>
+                            android:id="@+id/b_product_date"
+                            android:layout_weight="0"
+                            android:textSize="18sp"
+                            android:textColor="@android:color/black"/>
                 </LinearLayout>
                 <View
                         android:layout_width="match_parent"
@@ -114,23 +128,24 @@
                             android:layout_width="wrap_content"
                             android:layout_margin="10dp"
                             android:layout_height="wrap_content"
-                            android:id="@+id/textView18"
+                            android:id="@+id/b_product_seller"
                             android:textSize="18dp"
                             android:layout_weight="0"
                             android:textColor="@color/colorAccent" android:clickable="true"
                             style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    <TextView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
                               android:layout_weight="1"/>
                     <TextView
                             android:text="@string/user_stars"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/textView22"
+                            android:id="@+id/b_product_rating"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="0"
                             android:layout_marginRight="10dp"
                             android:layout_marginEnd="10dp"
-                            />
+                    />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
@@ -140,7 +155,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="01"
                 android:background="@color/colorPrimary"
-                android:fadingEdge="horizontal|vertical" android:fadingEdgeLength="@dimen/activity_horizontal_margin">
+                android:fadingEdge="horizontal|vertical"
+                android:fadingEdgeLength="@dimen/activity_horizontal_margin">
+
             <EditText
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
@@ -148,7 +165,7 @@
                     android:inputType="numberDecimal"
                     android:ems="10"
                     android:visibility="gone"
-                    android:id="@+id/bid_offer"
+                    android:id="@+id/b_product_bid_offer"
             />
             <Button
                     android:text="@string/product_button"
@@ -156,11 +173,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#ffffff"
-                    android:id="@+id/button4"
+                    android:id="@+id/b_product_buy"
                     android:layout_gravity="center_horizontal"
                     android:textAllCaps="true"
             />
-
         </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
