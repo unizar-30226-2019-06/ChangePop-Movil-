@@ -17,7 +17,7 @@
     <string name="settings_layout1">Soporte</string>
     <string name="settings_layout2">Legal</string>
     <!-- User -->
-    <string name="user_name">Nombre de usuario</string>
+    <string name="user_name_opinion">Username</string>
     <string name="user_stars">⭐⭐⭐⭐⭐</string>
     <string name="user_sales">Número de compras/ventas</string>
     <string name="user_address">Ubicación</string>
@@ -27,6 +27,7 @@
 
     <!-- Miguel -->
     <string name="product_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
     <string name="subir_articulo">SUBIR ARTICULO</string>
     <string name="product_price">444</string>
     <string name="product_title">Título del producto</string>
@@ -43,6 +44,8 @@
     <string name="b_product_buy_button">COMPRAR</string>
     <string name="b_product_trade_button">PROPONER INTERCAMBIO</string>
     <string name="b_product_trade_available">Disponible para intercambio</string>
+    <string name="user_name">Nombre de usuario</string>
+    <string name="opinion_of">Opinión de:</string>
 
 
     <string-array name="categorias">
