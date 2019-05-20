@@ -45,6 +45,31 @@
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="0.5">
+                    <TextView
+                            android:layout_margin="10dp"
+                            android:textSize="24sp"
+                            android:text="@string/product_price"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/b_product_price"
+                            android:textColor="@android:color/black"
+                            android:textStyle="bold"/>
+                    <TextView
+                            android:layout_margin="10dp"
+                            android:textSize="24sp"
+                            android:text="@string/euro_symbol"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/textView44"
+                            android:layout_weight="1"
+                            android:textColor="@android:color/black"
+                            android:textStyle="bold"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_weight="0.5"
                         android:id="@+id/b_product_bid_description"
                         android:paddingRight="10dp"
@@ -72,7 +97,7 @@
                             android:text="@string/product_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/b_product_price"
+                            android:id="@+id/b_product_bid"
                             android:textColor="@android:color/black"
                             android:textStyle="bold"/>
                     <TextView
@@ -206,9 +231,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#ffffff"
-                    android:id="@+id/b_product_buy"
+                    android:id="@+id/b_product_bid_button"
                     android:layout_gravity="center_horizontal"
                     android:textAllCaps="true"
+                    android:layout_weight="1"
+            />
+            <Button
+                    android:text="@string/b_product_buy_button"
+                    android:background="@color/colorPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff"
+                    android:id="@+id/b_product_buy_button"
+                    android:layout_gravity="center_horizontal"
+                    android:textAllCaps="true"
+                    android:layout_weight="1"
             />
         </LinearLayout>
     </LinearLayout>

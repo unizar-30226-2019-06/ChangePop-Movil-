@@ -171,6 +171,19 @@
                     android:id="@+id/b_product_buy"
                     android:layout_gravity="center_horizontal"
                     android:textAllCaps="true"
+                    android:layout_weight="1"
+            />
+
+            <Button
+                    android:text="@string/b_product_trade_button"
+                    android:background="@color/colorPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff"
+                    android:id="@+id/b_product_trade"
+                    android:layout_gravity="center_horizontal"
+                    android:textAllCaps="true"
+                    android:layout_weight="1"
             />
         </LinearLayout>
     </LinearLayout>
