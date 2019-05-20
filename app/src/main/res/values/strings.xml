@@ -46,6 +46,7 @@
     <string name="b_product_trade_available">Disponible para intercambio</string>
     <string name="user_name">Nombre de usuario</string>
     <string name="opinion_of">Opinión de:</string>
+    <string name="dinero_extra">¿Dinero extra?</string>
 
 
     <string-array name="categorias">
