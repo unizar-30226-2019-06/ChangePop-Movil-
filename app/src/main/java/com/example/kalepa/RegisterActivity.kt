@@ -1,9 +1,11 @@
 package com.example.kalepa
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
@@ -30,6 +32,16 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun regUser () {
+
+        val builder = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+        val message = dialogView.findViewById<TextView>(R.id.message)
+        message.text = "Comprobando datos..."
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        val dialog = builder.create()
+        dialog.show()
+
         val url = MainActivity().projectURL + "/user"
 
         if (check_fields()) {
@@ -50,13 +62,17 @@ class RegisterActivity : AppCompatActivity() {
             req.response { request, response, result ->
                 when (result) {
                     is Result.Failure -> {
-                        toast("No se ha podido crear el usuario, por favor, intentelo más tarde")
+                        dialog.dismiss()
+                        toast("Ya existe otro usuario con ese nombre")
                     }
                     is Result.Success -> {
+                        dialog.dismiss()
                         LoginActivity.start(this)
                     }
                 }
             }
+        } else {
+            dialog.dismiss()
         }
     }
 
@@ -67,18 +83,6 @@ class RegisterActivity : AppCompatActivity() {
         if (m_crear_usernameEditText.text.toString().isEmpty()) {
             m_crear_usernameEditText.error = "El campo no puede ser vacio"
             right = false
-        } else {
-            val url = MainActivity().projectURL + "/profile/" + m_crear_usernameEditText.text.toString()
-            val req = url.httpGet()
-
-            req.response { request, response, result ->
-                when (result) {
-                    is Result.Success -> {
-                        m_crear_usernameEditText.error = "Otra persona ya tiene este nick"
-                        right = false
-                    }
-                }
-            }
         }
 
         if (m_firstnameEditText.text.toString().isEmpty()) {

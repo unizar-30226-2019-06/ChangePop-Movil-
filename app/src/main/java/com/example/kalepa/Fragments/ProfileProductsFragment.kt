@@ -1,11 +1,13 @@
 package com.example.kalepa.Fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.example.charactermanager.MainListAdapter
 import com.example.kalepa.Adapters.ProductAdapter
 import com.example.kalepa.MainActivity
@@ -38,16 +40,27 @@ class ProfileProductsFragment: Fragment() {
 
         n_recyclerView_fpp.layoutManager = GridLayoutManager(context!!, 2)
 
+        val builder = AlertDialog.Builder(context)
+        val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+        val message = dialogView.findViewById<TextView>(R.id.message)
+        message.text = "Cargando productos..."
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        val dialog = builder.create()
+        dialog.show()
+
         val url = MainActivity().projectURL + "/products/" + SharedApp.prefs.userId.toString()
 
         val req = url.httpGet().header(Pair("Cookie", SharedApp.prefs.cookie))
         req.responseJson { request, response, result ->
             when (result) {
                 is Result.Failure -> {
+                    dialog.dismiss()
                     toast("Error cargando sus productos, intentelo de nuevo más tarde")
                 }
                 is Result.Success -> {
                     Initialize(result.value)
+                    dialog.dismiss()
                 }
             }
         }

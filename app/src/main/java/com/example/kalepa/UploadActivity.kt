@@ -21,8 +21,11 @@ import android.support.v4.content.FileProvider
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.GridLayoutManager
 import android.view.MenuItem
+import android.view.View
+import android.widget.EditText
 
 import android.widget.PopupMenu
+import android.widget.TextView
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
@@ -89,7 +92,7 @@ class UploadActivity : AppCompatActivity() {
         }
 
         m_button_upload.setOnClickListener {
-            uploadProduct2()
+            uploadProduct()
         }
     }
 
@@ -127,7 +130,16 @@ class UploadActivity : AppCompatActivity() {
         return true
     }
 
-    private fun uploadProduct2 () {
+    private fun uploadProduct () {
+        val builder = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+        val message = dialogView.findViewById<TextView>(R.id.message)
+        message.text = "Comprobando datos..."
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        val dialog = builder.create()
+        dialog.show()
+
         if (check_fields()) {
             val now = Calendar.getInstance()
             val bidDate = now.get(Calendar.YEAR).toString() + "-" +
@@ -161,14 +173,18 @@ class UploadActivity : AppCompatActivity() {
             req.response { request, response, result ->
                 when (result) {
                     is Result.Failure -> {
+                        dialog.dismiss()
                         toast("No se ha podido subir el artículo, por favor, intentelo más tarde")
                     }
                     is Result.Success -> {
+                        dialog.dismiss()
                         MainActivity.start(this)
                         toast("Producto subido")
                     }
                 }
             }
+        } else {
+            dialog.dismiss()
         }
     }
 
@@ -186,13 +202,13 @@ class UploadActivity : AppCompatActivity() {
             right = false
         }
 
-        if (categories.size <= 0) {
-            n_Upload_category_text.error = "Minimo una categoría"
+        if (categories.size <= 1) {
+            n_Upload_category_text.error = "Minimo dos categoría"
             right = false
         }
 
-        if (imageUrls.size <= 0) {
-            toast("Introduzca una imagen como mínimo")
+        if (imageUrls.size <= 1) {
+            toast("Introduzca dos imagenes como mínimo")
             right = false
         }
 
@@ -321,7 +337,7 @@ class UploadActivity : AppCompatActivity() {
                     }
                 }
                 else {
-                    toast("You denied the permission")
+                    toast("Has denegado el permiso")
                 }
         }
     }
@@ -331,6 +347,15 @@ class UploadActivity : AppCompatActivity() {
         when(requestCode){
             FINAL_TAKE_PHOTO ->
                 if (resultCode == Activity.RESULT_OK) {
+
+                    val builder = android.support.v7.app.AlertDialog.Builder(this)
+                    val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+                    val message = dialogView.findViewById<TextView>(R.id.message)
+                    message.text = "Subiendo Imagen..."
+                    builder.setView(dialogView)
+                    builder.setCancelable(false)
+                    val dialog = builder.create()
+                    dialog.show()
 
                     val urlA = MainActivity().projectURL + "/upload"
 
@@ -342,9 +367,11 @@ class UploadActivity : AppCompatActivity() {
                             override fun onResponse(response: JSONObject) {
                                 imageUrls.add(MainActivity().projectURL + response.get("message").toString())
                                 anyadir(false)
+                                dialog.dismiss()
                             }
 
                             override fun onError(error: ANError) {
+                                dialog.dismiss()
                                 toast("Error al subir imagen de camara")
                             }
                         })
@@ -358,6 +385,15 @@ class UploadActivity : AppCompatActivity() {
                         handleImageBeforeKitkat(data!!.data)
                     }
 
+                    val builder = AlertDialog.Builder(this)
+                    val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+                    val message = dialogView.findViewById<TextView>(R.id.message)
+                    message.text = "Subiendo Imagen..."
+                    builder.setView(dialogView)
+                    builder.setCancelable(false)
+                    val dialog = builder.create()
+                    dialog.show()
+
                     val urlA = MainActivity().projectURL + "/upload"
 
                     AndroidNetworking.upload(urlA)
@@ -368,9 +404,11 @@ class UploadActivity : AppCompatActivity() {
                             override fun onResponse(response: JSONObject) {
                                 imageUrls.add(MainActivity().projectURL + response.get("message").toString())
                                 anyadir(false)
+                                dialog.dismiss()
                             }
 
                             override fun onError(error: ANError) {
+                                dialog.dismiss()
                                 toast("Error al subir imagen de galería")
                             }
                         })

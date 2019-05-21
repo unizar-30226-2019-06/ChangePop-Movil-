@@ -17,8 +17,8 @@ class UserAdapter (
 ) : ItemAdapter<UserAdapter.ViewHolder>(R.layout.item_person_chat) {
     override fun onCreateViewHolder(itemView: View) = ViewHolder(itemView)
     override fun ViewHolder.onBindViewHolder() { // 2
-        textView.text = user.Nick
-        imageView.loadImage(user.Avatar) // 3
+        textView.text = user.nick
+        imageView.loadImage(user.avatar) // 3
         itemView.setOnClickListener { clicked(user) }
     }
 

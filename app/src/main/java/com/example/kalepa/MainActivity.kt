@@ -1,5 +1,6 @@
 package com.example.kalepa
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -47,7 +48,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun checkSesion (index: Int, list: ArrayList<Pair<Int,String>>) {
 
+        val builder = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+        val message = dialogView.findViewById<TextView>(R.id.message)
+        message.text = "Comprobando usuario..."
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        val dialog = builder.create()
+        dialog.show()
+
         if (index > list.size - 1){
+            dialog.dismiss()
             LoginActivity.start(this)
         } else {
             val (id, cookie) = list[index]
@@ -63,6 +74,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     is Result.Success -> {
                         SharedApp.prefs.cookie = cookie
                         initialize(result.value)
+                        dialog.dismiss()
                     }
                 }
             }
@@ -119,15 +131,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 ChatListActivity.start(this)
             }
             R.id.nav_log_out -> {
+
+                val builder = AlertDialog.Builder(this)
+                val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+                val message = dialogView.findViewById<TextView>(R.id.message)
+                message.text = "Cerrando sesión..."
+                builder.setView(dialogView)
+                builder.setCancelable(false)
+                val dialog = builder.create()
+                dialog.show()
+
                 val url = MainActivity().projectURL + "/logout"
 
                 val req = url.httpGet().header(Pair("Cookie", SharedApp.prefs.cookie))
                 req.responseJson { request, response, result ->
                     when (result) {
                         is Result.Failure -> {
+                            dialog.dismiss()
                             toast("Error al cerrar sesión")
                         }
                         is Result.Success -> {
+                            dialog.dismiss()
                             MainActivity.start(this)
                         }
                     }

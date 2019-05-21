@@ -1,8 +1,10 @@
 package com.example.kalepa
 
+import android.app.AlertDialog
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
 import com.example.kalepa.Adapters.ViewPagerAdapter
 import com.example.kalepa.Preferences.SharedApp
 import com.example.kalepa.common.getIntent
@@ -32,16 +34,27 @@ class ProfileActivity : AppCompatActivity() {
         //ESTO HAY QUE PONERLO BIEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEN
         val userId = intent.getStringExtra(USER_ARG)
 
+        val builder = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+        val message = dialogView.findViewById<TextView>(R.id.message)
+        message.text = "Cargando datos..."
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        val dialog = builder.create()
+        dialog.show()
+
         val url = MainActivity().projectURL + "/user"
         val req = url.httpGet().header(Pair("Cookie", SharedApp.prefs.cookie))
 
         req.responseJson { request, response, result ->
             when (result) {
                 is Result.Failure -> {
+                    dialog.dismiss()
                     toast("Error cargando el perfil")
                 }
                 is Result.Success -> {
                     setUserInfo(result.value)
+                    dialog.dismiss()
                 }
             }
         }

@@ -26,7 +26,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_gravity="center"
-                android:src="@drawable/add_picture_image" android:clickable="false" android:focusable="false"
+                android:src="@drawable/add_picture_image" android:focusable="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
@@ -35,7 +35,6 @@
                 android:text="Perfil del Usuario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView27"
                 android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
                 android:textColor="@color/colorPrimary" android:textAllCaps="false"/>
 
@@ -44,50 +43,42 @@
                     android:text="Nombre de usuario" android:layout_gravity="center"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" app:fontFamily="cursive"
-                    android:textSize="24sp" android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"/>
             <EditText
                     android:id="@+id/m_ProfileData_username" android:hint="Nombre de Usuario"
                     android:layout_width="200dp" android:layout_height="40dp" android:layout_marginLeft="2dp"
-                    android:background="@drawable/trans_rounded_white" android:clickable="false"
-                    android:focusable="false" android:layout_marginStart="2dp"
+                    android:background="@drawable/trans_rounded_white" android:layout_marginStart="2dp"
                     android:inputType="textPersonName" android:textSize="14sp"
-                    android:paddingEnd="10dp" android:paddingStart="10dp"/>
+                    android:paddingEnd="10dp" android:paddingStart="10dp"
+            />
         </LinearLayout>
 
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:layout_marginTop="16dp">
             <TextView
-                    android:text="Contraseña   " android:layout_gravity="center"
+                    android:text="Correo electronico  " android:layout_gravity="center"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" app:fontFamily="cursive"
-                    android:textSize="24sp" android:textColor="@color/colorPrimary"/>
-            <EditText
-                    android:id="@+id/m_ProfileData_password" android:hint="Contraseña"
-                    android:layout_width="200dp" android:layout_height="40dp" android:layout_marginStart="50dp"
-                    android:background="@drawable/trans_rounded_white" android:clickable="false"
-                    android:focusable="false" android:layout_marginLeft="50dp"
-                    android:inputType="textPassword" android:textSize="14sp"
-                    android:paddingEnd="10dp" android:paddingStart="10dp"/>
-        </LinearLayout>
-
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:layout_marginTop="16dp">
-            <TextView
-                    android:text="Correo electronico   " android:layout_gravity="center"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" app:fontFamily="cursive"
-                    android:textSize="24sp" android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"/>
             <EditText
                     android:id="@+id/m_ProfileData_mail" android:hint="Correo electrónico"
                     android:layout_width="200dp" android:layout_height="40dp"
-                    android:background="@drawable/trans_rounded_white" android:clickable="false"
-                    android:focusable="false"
+                    android:background="@drawable/trans_rounded_white"
                     android:inputType="textEmailAddress" android:textSize="14sp"
                     android:paddingEnd="10dp" android:paddingStart="10dp"/>
         </LinearLayout>
+
+        <!--
+        <TextView
+                android:text="Cambiar Contraseña  "
+                android:layout_gravity="center"
+                android:id="@+id/m_change_password"
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/colorPrimary"/>
+        -->
 
         <TextView
                 android:text="Datos personales"
@@ -104,13 +95,11 @@
                     android:text="Nombre        " android:layout_gravity="center"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" app:fontFamily="cursive"
-                    android:textSize="24sp" android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"/>
             <EditText
                     android:id="@+id/m_ProfileData_firstname" android:hint="Nombre"
                     android:layout_width="200dp" android:layout_height="40dp" android:layout_marginStart="50dp"
-                    android:background="@drawable/trans_rounded_white" android:clickable="false"
-                    android:focusable="false" android:layout_marginLeft="50dp"
+                    android:background="@drawable/trans_rounded_white" android:layout_marginLeft="50dp"
                     android:inputType="textPersonName" android:textSize="14sp"
                     android:paddingEnd="10dp" android:paddingStart="10dp"/>
         </LinearLayout>
@@ -121,13 +110,11 @@
                     android:text="Apellidos      " android:layout_gravity="center"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" app:fontFamily="cursive"
-                    android:textSize="24sp" android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"/>
             <EditText
                     android:id="@+id/m_ProfileData_lastname" android:hint="Apellidos"
                     android:layout_width="200dp" android:layout_height="40dp" android:layout_marginStart="50dp"
-                    android:background="@drawable/trans_rounded_white" android:clickable="false"
-                    android:focusable="false" android:layout_marginLeft="50dp"
+                    android:background="@drawable/trans_rounded_white" android:layout_marginLeft="50dp"
                     android:inputType="textPersonName" android:textSize="14sp"
                     android:paddingEnd="10dp" android:paddingStart="10dp"/>
         </LinearLayout>
@@ -135,16 +122,14 @@
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:layout_marginTop="16dp">
             <TextView
-                    android:text="Fecha nacimiento" android:layout_gravity="center"
+                    android:text="Fecha nacimiento    " android:layout_gravity="center"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" app:fontFamily="cursive"
-                    android:textSize="24sp" android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"/>
             <EditText
                     android:id="@+id/m_ProfileData_birthDate" android:hint="Fecha nacimiento"
-                    android:layout_width="200dp" android:layout_height="40dp" android:layout_marginStart="20dp"
-                    android:background="@drawable/trans_rounded_white" android:clickable="false"
-                    android:focusable="false" android:layout_marginLeft="20dp"
+                    android:layout_width="200dp" android:layout_height="40dp"
+                    android:background="@drawable/trans_rounded_white"
                     android:inputType="date" android:textSize="14sp"
                     android:paddingEnd="10dp" android:paddingStart="10dp"/>
         </LinearLayout>
@@ -155,13 +140,11 @@
                     android:text="Lugar de Residencia" android:layout_gravity="center"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" app:fontFamily="cursive"
-                    android:textSize="23sp" android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"/>
             <EditText
                     android:id="@+id/m_ProfileData_place" android:hint="Lugar de Residencia"
                     android:layout_width="200dp" android:layout_height="40dp"
-                    android:background="@drawable/trans_rounded_white" android:clickable="false"
-                    android:focusable="false"
+                    android:background="@drawable/trans_rounded_white"
                     android:inputType="textCapSentences" android:textSize="14sp"
                     android:paddingEnd="10dp" android:paddingStart="10dp"/>
         </LinearLayout>
@@ -169,32 +152,28 @@
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:layout_marginTop="16dp">
             <TextView
-                    android:text="Telefono        " android:layout_gravity="center"
+                    android:text="Telefono      " android:layout_gravity="center"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" app:fontFamily="cursive"
-                    android:textSize="24sp" android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"/>
             <EditText
                     android:id="@+id/m_ProfileData_phone" android:hint="Telefono"
                     android:layout_width="200dp" android:layout_height="40dp" android:layout_marginStart="50dp"
-                    android:background="@drawable/trans_rounded_white" android:clickable="false"
-                    android:focusable="false" android:layout_marginLeft="50dp"
+                    android:background="@drawable/trans_rounded_white" android:layout_marginLeft="50dp"
                     android:inputType="phone" android:textSize="14sp"
                     android:paddingEnd="10dp" android:paddingStart="10dp"/>
         </LinearLayout>
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:layout_marginTop="16dp">
             <TextView
-                    android:text="DNI             " android:layout_gravity="center"
+                    android:text="DNI                " android:layout_gravity="center"
                     android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2" app:fontFamily="cursive"
-                    android:textSize="24sp" android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"/>
             <EditText
                     android:id="@+id/m_ProfileData_IdentifiedCard" android:hint="DNI (sin letra)"
                     android:layout_width="200dp" android:layout_height="40dp" android:layout_marginStart="50dp"
-                    android:background="@drawable/trans_rounded_white" android:clickable="false"
-                    android:focusable="false" android:layout_marginLeft="50dp"
+                    android:background="@drawable/trans_rounded_white" android:layout_marginLeft="50dp"
                     android:inputType="number" android:textSize="14sp"
                     android:paddingEnd="10dp" android:paddingStart="10dp"/>
         </LinearLayout>
@@ -209,9 +188,10 @@
                 android:textColor="@color/colorWhite"
                 android:background="@drawable/rounded_blue"
                 android:layout_gravity="center"
-                android:text="editar Campos"
+                android:text="guardar cambios"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
+        <TextView android:layout_width="match_parent" android:layout_height="match_parent" android:textSize="30sp"/>
     </LinearLayout>
 </ScrollView>

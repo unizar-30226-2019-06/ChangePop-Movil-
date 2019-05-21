@@ -1,9 +1,12 @@
 package com.example.kalepa
 
+import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
@@ -31,6 +34,15 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun logUser () : Boolean {
+        val builder = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+        val message = dialogView.findViewById<TextView>(R.id.message)
+        message.text = "Comprobando usuario..."
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        val dialog = builder.create()
+        dialog.show()
+
         val url = MainActivity().projectURL + "/login"
 
         val jsonObject = JSONObject()
@@ -45,10 +57,12 @@ class LoginActivity : AppCompatActivity() {
         req.response { request, response, result ->
                 when (result) {
                     is Result.Failure -> {
+                        dialog.dismiss()
                         toast("Usuario o contraseña no validos")
                     }
                     is Result.Success -> {
                         MySqlHelper(this).addCookie(response.httpResponseHeaders["Set-Cookie"]!![0])
+                        dialog.dismiss()
                         MainActivity.start(this)
                         exito = true
                     }
