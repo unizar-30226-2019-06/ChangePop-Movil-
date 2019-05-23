@@ -40,8 +40,12 @@ class Product (
         price = jsonObject.get("price").toString().toDouble()
 
         val aux = jsonObject.get("categories").toString()
-        val separate = aux.split("""(\',\)\",\"\(\')|(\[\"\(\')|(\',\)\"\])""".toRegex())
-        categories = ArrayList(separate.slice(IntRange(1,separate.size-2)))
+        val separate = aux.split("""(\",\")|(\[\")|(\"\])""".toRegex())
+        if (separate.size >= 2) {
+            categories = ArrayList(separate.slice(IntRange(1, separate.size - 2)))
+        } else {
+            categories.clear()
+        }
 
         title = jsonObject.get("title").toString()
         bid_date = jsonObject.get("bid_date").toString()
@@ -52,11 +56,34 @@ class Product (
         main_img = jsonObject.get("main_img").toString()
 
         val aux2 = jsonObject.get("photo_urls").toString()
-        val separate2 = aux.split("""(\',\)\",\"\(\')|(\[\"\(\')|(\',\)\"\])""".toRegex())
-        photo_urls = ArrayList(separate2.slice(IntRange(1,separate.size-2)))
+        val aux3 = aux2.replace("\\", "")
+        val separate2 = aux3.split("""(\",\")|(\[\")|(\"\])""".toRegex())
+        if (separate2.size >= 2) {
+            photo_urls = ArrayList(separate2.slice(IntRange(1, separate2.size - 2)))
+        } else {
+            photo_urls.clear()
+        }
 
         place = jsonObject.get("place").toString()
         ban_reason = jsonObject.get("ban_reason").toString()
 
+    }
+
+    public fun isBid (): Boolean {
+        if (!bid_date.equals("None")) {
+            val now = Calendar.getInstance()
+            val bidDate = now.get(Calendar.YEAR).toString() +
+                    String.format("%02d", now.get(Calendar.MONTH)) +
+                    String.format("%02d", now.get(Calendar.DAY_OF_MONTH))
+            val actual = bidDate.toInt()
+
+            var prodBidDate = bid_date.replace("-", "")
+
+            val prodOne = prodBidDate.substring(0,8).toInt()
+
+            return prodOne > actual
+        } else {
+            return false
+        }
     }
 }

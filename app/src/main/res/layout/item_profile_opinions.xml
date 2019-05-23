@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp">
+
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        <ImageView
+                android:layout_width="80dp"
+                android:layout_height="60dp"
+                tools:srcCompat="@tools:sample/avatars[3]"
+                android:id="@+id/public_profile_user_image"
+                android:clickable="true"
+        />
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:layout_weight="1">
+                <TextView
+                        android:text="@string/opinion_of"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/textView18" android:layout_weight="1"
+                        android:layout_margin="8dp"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+                <TextView android:layout_width="wrap_content"
+                          android:layout_height="wrap_content"
+                          android:text="@string/user_name"
+                          android:layout_margin="8dp"
+                          android:textSize="18sp"
+                          android:textStyle="bold"
+                          android:layout_weight="1"
+                          android:layout_gravity="center_vertical"
+                          android:id="@+id/private_profile_product_title"/>
+            </LinearLayout>
+            <!--
+            <TextView
+                    android:text="@string/user_stars"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/textView12" android:layout_margin="8dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat" android:textSize="14sp"/>
+             -->
+            <TextView
+                    android:text="@string/lorem"
+                    android:layout_margin="8dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/textView16" android:layout_weight="1"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

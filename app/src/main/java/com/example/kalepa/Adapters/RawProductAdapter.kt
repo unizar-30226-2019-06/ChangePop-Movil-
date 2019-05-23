@@ -9,12 +9,12 @@ import com.example.kalepa.R
 import com.example.kalepa.common.ItemAdapter
 import com.example.kalepa.common.bindView
 import com.example.kalepa.common.loadImage
-import com.example.kalepa.models.Product
+import com.example.kalepa.models.RawProduct
 
-class ProductAdapter (
-    val product: Product,
-    val clicked: (Product) -> Unit
-) : ItemAdapter<ProductAdapter.ViewHolder>(R.layout.item_product) {
+class RawProductAdapter (
+    val product: RawProduct,
+    val clicked: (RawProduct) -> Unit
+) : ItemAdapter<RawProductAdapter.ViewHolder>(R.layout.item_product) {
     override fun onCreateViewHolder(itemView: View) = ViewHolder(itemView)
     override fun ViewHolder.onBindViewHolder() { // 2
         textView1.text = product.title

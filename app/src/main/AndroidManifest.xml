@@ -51,18 +51,21 @@
         <activity android:name=".LoginActivity">
         </activity>
         <activity
-                android:name=".ProductActivity"
+                android:name=".ProductBuyActivity"
                 android:parentActivityName=".MainActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.example.kalepa.MainActivity"/>
         </activity>
         <activity
-                android:name=".ProfileActivity"
+                android:name=".ProductBidActivity"
                 android:parentActivityName=".MainActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.example.kalepa.MainActivity"/>
+        </activity>
+        <activity
+                android:name=".ProfileActivity">
         </activity>
         <activity
                 android:name=".UploadActivity"
@@ -71,6 +74,9 @@
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.example.kalepa.MainActivity"/>
+        </activity>
+        <activity
+                android:name=".UpdateProductActivity">
         </activity>
         <activity
                 android:name=".ChatActivity"

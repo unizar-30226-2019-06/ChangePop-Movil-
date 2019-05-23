@@ -1,5 +1,6 @@
 package com.example.kalepa.Fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
@@ -7,18 +8,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import com.example.charactermanager.MainListAdapter
-import com.example.kalepa.Adapters.ProductAdapter
-import com.example.kalepa.ProductActivity
-import com.example.kalepa.R
+import com.example.kalepa.*
+import com.example.kalepa.Adapters.RawProductAdapter
+import com.example.kalepa.Preferences.SharedApp
 import com.example.kalepa.models.Product
+import com.example.kalepa.models.RawProduct
+import com.github.kittinunf.fuel.android.extension.responseJson
+import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.result.Result
 import kotlinx.android.synthetic.main.content_main.*
+import org.jetbrains.anko.support.v4.toast
+import org.json.JSONArray
+import org.json.JSONObject
 import java.util.*
 import kotlin.collections.ArrayList
 
 class WelcomeScreenFragment: Fragment() {
 
-    private val products = listOf(
+    /*private val products = listOf(
         Product(id = 0, descript = "Un boli", user_id = 0, price = 25.38, categories = arrayListOf("uno","dos"),
             title = "Boligrafo", bid_date = "", boost_date = "", visits = 0, followers = 0, publish_date = "2019-01-11",
             main_img = "https://www.kalamazoo.es/content/images/product/28023-1_1_xnl.jpg",
@@ -46,7 +55,8 @@ class WelcomeScreenFragment: Fragment() {
             main_img = "https://www.rbauction.es/cms_assets/category_images/11007679861/11007679861_W_S.jpg",
             photo_urls = arrayListOf("https://www.rbauction.es/cms_assets/category_images/11007679861/11007679861_W_S.jpg"),
             place = "", ban_reason = "")
-    )
+    )*/
+    private var products = ArrayList<RawProduct>()
 
     companion object {
         fun newInstance(): WelcomeScreenFragment {
@@ -62,19 +72,59 @@ class WelcomeScreenFragment: Fragment() {
 
         n_recyclerView_ws.layoutManager = GridLayoutManager(context!!, 2)
 
-        show(products)
+        val builder = AlertDialog.Builder(context)
+        val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+        val message = dialogView.findViewById<TextView>(R.id.message)
+        message.text = "Cargando productos..."
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        val dialog = builder.create()
+        dialog.show()
+
+        val url = MainActivity().projectURL + "/products"
+
+        val req = url.httpGet().header(Pair("Cookie", SharedApp.prefs.cookie))
+        req.responseJson { request, response, result ->
+            when (result) {
+                is Result.Failure -> {
+                    dialog.dismiss()
+                    toast("Error cargando productos, intentelo de nuevo más tarde")
+                }
+                is Result.Success -> {
+                    Initialize(result.value)
+                    dialog.dismiss()
+                }
+            }
+        }
     }
 
-    private fun show(items: List<Product>) {
+    private fun show(items: List<RawProduct>) {
         val categoryItemAdapters = items.map(this::createCategoryItemAdapter)
         n_recyclerView_ws.adapter = MainListAdapter(categoryItemAdapters)
     }
 
-    private fun createCategoryItemAdapter(product: Product)
-            = ProductAdapter(product,
+    private fun createCategoryItemAdapter(product: RawProduct)
+            = RawProductAdapter(product,
         { showCharacterProfile(product) })
 
-    private fun showCharacterProfile(product: Product) {
-        ProductActivity.start(context!!, product)
+    private fun Initialize (jsonProducts: JSONObject) {
+        val length = jsonProducts.get("length").toString().toInt()
+        val list = jsonProducts.get("list")
+        if (list is JSONArray){
+            for (i in 0 until length) {
+                var product = RawProduct()
+                product.fromJSON(list.getJSONObject(i))
+                products.add(product)
+            }
+        }
+        show(products)
+    }
+
+    private fun showCharacterProfile(product: RawProduct) {
+        if (product.isBid()) {
+            ProductBidActivity.start(context!!, product.id.toString())
+        } else {
+            ProductBuyActivity.start(context!!, product.id.toString())
+        }
     }
 }

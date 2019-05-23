@@ -29,9 +29,6 @@ class ProfileActivity : AppCompatActivity() {
         this.viewPager.adapter=viewpageradapter  //Binding PagerAdapter with ViewPager
         this.n_other_profile_navigation.setupWithViewPager(this.viewPager)
 
-
-
-        //ESTO HAY QUE PONERLO BIEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEN
         val userId = intent.getStringExtra(USER_ARG)
 
         val builder = AlertDialog.Builder(this)
@@ -43,7 +40,7 @@ class ProfileActivity : AppCompatActivity() {
         val dialog = builder.create()
         dialog.show()
 
-        val url = MainActivity().projectURL + "/user"
+        val url = MainActivity().projectURL + "/user/" + userId
         val req = url.httpGet().header(Pair("Cookie", SharedApp.prefs.cookie))
 
         req.responseJson { request, response, result ->

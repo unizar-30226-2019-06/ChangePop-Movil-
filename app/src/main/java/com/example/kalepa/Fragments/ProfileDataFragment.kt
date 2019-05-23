@@ -138,6 +138,7 @@ class ProfileDataFragment: Fragment() {
                     }
                     is Result.Success -> {
                         dialog.dismiss()
+                        toast("Perfil actualizado")
                     }
                 }
             }

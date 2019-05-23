@@ -1,50 +1,83 @@
 <com.example.charactermanager.Views.RectangleFrameLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:gravity="center_horizontal"
-android:orientation="horizontal"
-android:layout_marginLeft="10dp"
-android:layout_marginRight="10dp"
-android:layout_marginTop="10dp"
-android:layout_marginBottom="10dp"
-android:background="@color/colorWhite"
-android:padding="@dimen/element_padding">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/rounded_white"
+        android:padding="@dimen/element_padding">
 
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+        <TextView
+                android:text="Subasta"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:layout_height="wrap_content"
+                android:id="@+id/n_bid_or_buy" android:textSize="10sp"/>
         <com.example.charactermanager.Views.SquareFrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="horizontal"
                 android:padding="@dimen/element_padding">
-                <ImageView
+            <ImageView
                     android:id="@+id/n_product_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:srcCompat="@drawable/ic_image_black_24dp"
                     android:contentDescription="Puduct image"/>
+
         </com.example.charactermanager.Views.SquareFrameLayout>
-
+        <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
+                android:background="@android:color/darker_gray"/>
         <TextView
-            android:id="@+id/n_product_tittle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="@dimen/standard_text_size"
-            tools:text="Some name"/>
-
-        <TextView
-                android:id="@+id/n_product_price"
+                android:id="@+id/n_product_tittle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="@dimen/standard_text_size"
+                android:textSize="14sp"
                 tools:text="Some name"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+            <TextView
 
+                    android:textSize="18sp"
+                    android:text="@string/product_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/n_product_price"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"/>
+            <TextView
+
+                    android:textSize="18sp"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginLeft="3dp"
+                    android:text="@string/euro_symbol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView23"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"/>
+        </LinearLayout>
     </LinearLayout>
 </com.example.charactermanager.Views.RectangleFrameLayout>

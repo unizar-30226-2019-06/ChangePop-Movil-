@@ -13,6 +13,7 @@ import com.example.kalepa.Adapters.ProductAdapter
 import com.example.kalepa.MainActivity
 import com.example.kalepa.Preferences.SharedApp
 import com.example.kalepa.R
+import com.example.kalepa.UpdateProductActivity
 import com.example.kalepa.models.Product
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
@@ -76,7 +77,7 @@ class ProfileProductsFragment: Fragment() {
         { showCharacterProfile(product) })
 
     private fun showCharacterProfile(product: Product) {
-        //EMPEZAR LA ACTIVIDAD DE EDITAS
+        UpdateProductActivity.start(context!!, product.id.toString())
     }
 
     private fun Initialize (jsonProducts: JSONObject) {
