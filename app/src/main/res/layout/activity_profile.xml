@@ -35,8 +35,8 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/b_profile_username"
                         android:layout_margin="2dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat"
-                        android:textSize="24sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
+                        android:textColor="@color/colorPrimary"
                         android:textStyle="bold"/>
                 <TextView
                         android:text="@string/user_stars"
@@ -44,16 +44,14 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/b_profile_rating"
                         android:layout_margin="2dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat"
-                        android:textSize="18sp"/>
+                        android:textAppearance="@style/TextAppearance.AppCompat"/>
                 <TextView
                         android:text="@string/user_sales"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/b_profile_extrainf"
                         android:layout_margin="2dp"
-                        android:textAppearance="@style/TextAppearance.AppCompat"
-                        android:textSize="18sp"/>
+                        android:textAppearance="@style/TextAppearance.AppCompat"/>
                 <TextView
                         android:text="@string/user_address"
                         android:layout_width="wrap_content"
@@ -61,8 +59,8 @@
                         android:id="@+id/b_profile_place"
                         android:layout_margin="2dp"
                         android:textAppearance="@style/TextAppearance.AppCompat"
-                        android:textSize="18sp"
-                        android:textColor="@color/colorPrimaryDark"/>
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold"/>
             </LinearLayout>
             <ImageView
                     android:layout_width="wrap_content"
@@ -70,6 +68,7 @@
                     app:srcCompat="@mipmap/ic_launcher_round"
                     android:id="@+id/b_profile_image"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_gravity="center"
                     android:layout_weight="0.3"
 
 
