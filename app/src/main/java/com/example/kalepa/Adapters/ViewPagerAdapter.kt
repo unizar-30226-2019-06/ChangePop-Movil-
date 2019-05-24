@@ -3,16 +3,19 @@ package com.example.kalepa.Adapters
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.example.kalepa.Fragments.ProfileOpinionsFragment
+import com.example.kalepa.Fragments.ProfileCommentsFragment
 import com.example.kalepa.Fragments.ProfileSelledFragment
 
 class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+
+    private var user_id = 0
+
     override fun getItem(position: Int): Fragment? {
         var fragment: Fragment? = null
         if (position == 0) {
-            fragment = ProfileSelledFragment()
+            fragment = ProfileSelledFragment.newInstance(user_id)
         } else if (position == 1) {
-            fragment = ProfileOpinionsFragment()
+            fragment = ProfileCommentsFragment.newInstance(user_id)
         }
         return fragment
     }
@@ -29,5 +32,9 @@ class ViewPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
             title = "Opiniones"
         }
         return title
+    }
+
+    fun setUser_id (id: Int) {
+        user_id = id
     }
 }

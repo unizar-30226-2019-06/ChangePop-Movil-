@@ -9,6 +9,7 @@ import com.example.kalepa.Adapters.ViewPagerAdapter
 import com.example.kalepa.Preferences.SharedApp
 import com.example.kalepa.common.getIntent
 import com.example.kalepa.common.loadImage
+import com.example.kalepa.models.User
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
@@ -18,18 +19,20 @@ import org.json.JSONObject
 
 class ProfileActivity : AppCompatActivity() {
 
+    private val user = User()
     internal lateinit var viewpageradapter:ViewPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
+        val userId = intent.getStringExtra(USER_ARG)
+
         viewpageradapter= ViewPagerAdapter(supportFragmentManager)
+        viewpageradapter.setUser_id(userId.toInt())
 
         this.viewPager.adapter=viewpageradapter  //Binding PagerAdapter with ViewPager
         this.n_other_profile_navigation.setupWithViewPager(this.viewPager)
-
-        val userId = intent.getStringExtra(USER_ARG)
 
         val builder = AlertDialog.Builder(this)
         val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
@@ -58,11 +61,12 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun setUserInfo(jsonUser: JSONObject) {
-        b_profile_username.setText(jsonUser.get("nick").toString())
-        b_profile_image.loadImage("https://st.depositphotos.com/2868925/3523/v/950/depositphotos_35236487-stock-illustration-vector-male-profile-image.jpg")
-        //b_profile_image.loadImage(jsonUser.get("avatar").toString())
+        user.fromJSON(jsonUser)
+
+        b_profile_username.setText(user.nick)
+        b_profile_image.loadImage(user.avatar)
         //b_profile_extrainf.setText(jsonUser.get("").toString())
-        b_profile_place.setText(jsonUser.get("place").toString())
+        b_profile_place.setText(user.place)
         //b_profile_rating..setText(jsonUser.get("").toString())
     }
 

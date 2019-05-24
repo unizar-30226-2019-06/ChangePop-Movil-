@@ -9,28 +9,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.charactermanager.MainListAdapter
-import com.example.kalepa.Adapters.RawProductAdapter
+import com.example.kalepa.Adapters.CommentAdapter
 import com.example.kalepa.MainActivity
 import com.example.kalepa.Preferences.SharedApp
-import com.example.kalepa.ProductBidActivity
-import com.example.kalepa.ProductBuyActivity
 import com.example.kalepa.R
-import com.example.kalepa.models.RawProduct
+import com.example.kalepa.models.Comment
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
-import kotlinx.android.synthetic.main.fragment_profile_selled.*
+import kotlinx.android.synthetic.main.fragment_profile_comments.*
 import org.jetbrains.anko.support.v4.toast
 import org.json.JSONArray
 import org.json.JSONObject
 
-class ProfileSelledFragment: Fragment() {
+class ProfileCommentsFragment: Fragment() {
 
-    private var products = ArrayList<RawProduct>()
+    private var comments = ArrayList<Comment>()
 
     companion object {
-        fun newInstance(user_id: Int): ProfileSelledFragment {
-            val myFragment = ProfileSelledFragment()
+        fun newInstance(user_id: Int): ProfileCommentsFragment {
+            val myFragment = ProfileCommentsFragment()
             val args = Bundle()
             args.putInt("user_id", user_id)
             myFragment.arguments = args
@@ -39,32 +37,32 @@ class ProfileSelledFragment: Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_profile_selled, container, false)
+        inflater.inflate(R.layout.fragment_profile_comments, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         val user_id = arguments!!.getInt("user_id",0)
 
-        n_recyclerView_selled.layoutManager = GridLayoutManager(context!!, 2)
+        n_recyclerView_comments.layoutManager = GridLayoutManager(context!!, 1)
 
         val builder = AlertDialog.Builder(context)
         val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
         val message = dialogView.findViewById<TextView>(R.id.message)
-        message.text = "Cargando productos..."
+        message.text = "Cargando comentarios..."
         builder.setView(dialogView)
         builder.setCancelable(false)
         val dialog = builder.create()
         dialog.show()
 
-        val url = MainActivity().projectURL + "/products/" + user_id.toString()
+        val url = MainActivity().projectURL + "/comments/" + user_id.toString()
 
         val req = url.httpGet().header(Pair("Cookie", SharedApp.prefs.cookie))
         req.responseJson { request, response, result ->
             when (result) {
                 is Result.Failure -> {
                     dialog.dismiss()
-                    toast("Error cargando sus productos, intentelo de nuevo más tarde")
+                    toast("Error cargando notificaciones, intentelo de nuevo más tarde")
                 }
                 is Result.Success -> {
                     Initialize(result.value)
@@ -74,33 +72,24 @@ class ProfileSelledFragment: Fragment() {
         }
     }
 
-    private fun show(items: List<RawProduct>) {
+    private fun show(items: List<Comment>) {
         val categoryItemAdapters = items.map(this::createCategoryItemAdapter)
-        n_recyclerView_selled.adapter = MainListAdapter(categoryItemAdapters)
+        n_recyclerView_comments.adapter = MainListAdapter(categoryItemAdapters)
     }
 
-    private fun createCategoryItemAdapter(product: RawProduct)
-            = RawProductAdapter(product,
-        { showCharacterProfile(product) })
-
-    private fun showCharacterProfile(product: RawProduct) {
-        if (product.isBid()) {
-            ProductBidActivity.start(context!!, product.id.toString())
-        } else {
-            ProductBuyActivity.start(context!!, product.id.toString())
-        }
-    }
+    private fun createCategoryItemAdapter(comment: Comment)
+            = CommentAdapter(comment)
 
     private fun Initialize (jsonProducts: JSONObject) {
         val length = jsonProducts.get("length").toString().toInt()
         val list = jsonProducts.get("list")
         if (list is JSONArray){
             for (i in 0 until length) {
-                var product = RawProduct()
-                product.fromJSON(list.getJSONObject(i))
-                products.add(product)
+                var comment = Comment()
+                comment.fromJSON(list.getJSONObject(i))
+                comments.add(comment)
             }
         }
-        show(products)
+        show(comments)
     }
 }
