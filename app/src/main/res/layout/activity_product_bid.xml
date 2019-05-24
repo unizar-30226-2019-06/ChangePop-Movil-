@@ -34,8 +34,8 @@
                         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
                 <TextView
                         android:text="@string/product_title"
-                        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
-                        android:textColor="@color/colorPrimary"
+                        android:textAppearance="@style/TextAppearance.AppCompat"
+                        android:textSize="30sp"
                         android:textStyle="bold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -47,9 +47,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.5">
                     <TextView
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_margin="10dp"
+                            android:textSize="24sp"
                             android:text="@string/product_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -57,9 +56,8 @@
                             android:textColor="@android:color/black"
                             android:textStyle="bold"/>
                     <TextView
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:layout_margin="10dp"
+                            android:textSize="24sp"
                             android:text="@string/euro_symbol"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -86,7 +84,7 @@
                             android:text="@string/b_product_bid_until_message"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" android:id="@+id/textView15"
-                            />
+                    />
                 </LinearLayout>
                 <LinearLayout
                         android:orientation="horizontal"
@@ -95,9 +93,7 @@
                         android:layout_weight="0.5">
                     <TextView
                             android:layout_margin="10dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:textSize="24sp"
                             android:text="@string/product_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -106,9 +102,7 @@
                             android:textStyle="bold"/>
                     <TextView
                             android:layout_margin="10dp"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:textSize="24sp"
                             android:text="@string/euro_symbol"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -120,9 +114,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
+                            android:textSize="24sp"
                             android:id="@+id/b_product_bid_date"
                             android:text="@string/b_product_bid_until"
                             android:textColor="@android:color/black"
@@ -135,6 +127,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="12dp"
                         android:id="@+id/b_product_description"
+                        android:textSize="18sp"
                         android:textColor="@android:color/black"/>
                 <View
                         android:layout_width="match_parent"
@@ -152,9 +145,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
-                            android:id="@+id/textView19"
+                            android:id="@+id/b_product_place"
                             android:layout_weight="0"
-
+                            android:textSize="18sp"
                             android:textColor="@color/colorAccent"
                             android:clickable="false" style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
                     <TextView android:layout_width="wrap_content"
@@ -164,7 +157,7 @@
                               android:layout_height="wrap_content"
                               android:text="@string/product_uploaded"
                               android:layout_margin="10dp"
-
+                              android:textSize="18sp"
                               android:textColor="@android:color/black"/>
                     <TextView
                             android:text="@string/product_date"
@@ -173,6 +166,7 @@
                             android:layout_margin="10dp"
                             android:id="@+id/b_product_date"
                             android:layout_weight="0"
+                            android:textSize="18sp"
                             android:textColor="@android:color/black"/>
                 </LinearLayout>
                 <View
@@ -191,6 +185,7 @@
                             android:layout_margin="10dp"
                             android:layout_height="wrap_content"
                             android:id="@+id/b_product_seller"
+                            android:textSize="18sp"
                             android:layout_weight="0"
                             android:textColor="@color/colorAccent" android:clickable="true"
                             android:focusable="true"
@@ -198,15 +193,14 @@
                     <TextView android:layout_width="wrap_content"
                               android:layout_height="wrap_content"
                               android:layout_weight="1"/>
-                    <TextView
-                            android:text="@string/user_stars"
+                    <RatingBar
+                            android:id="@+id/b_product_rating"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/b_product_rating"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="0"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginEnd="10dp"
+                            android:paddingTop="18dp"
+                            android:numStars="5"
+                            android:stepSize="0.1"
+                            android:rating="0.0" style="@style/Widget.AppCompat.RatingBar.Indicator"/>
                     />
                 </LinearLayout>
             </LinearLayout>
@@ -221,12 +215,11 @@
                 android:fadingEdgeLength="@dimen/activity_horizontal_margin">
 
             <EditText
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:inputType="numberDecimal"
-                    android:ems="5"
-                    android:background="@drawable/rounded_white"
+                    android:ems="10"
                     android:visibility="visible"
                     android:autofillHints="Puja"
                     android:id="@+id/b_product_bid_offer"
@@ -242,9 +235,6 @@
                     android:textAllCaps="true"
                     android:layout_weight="1"
             />
-            <android.support.constraint.ConstraintLayout android:layout_width="2dp"
-                                                         android:layout_height="match_parent"
-            android:background="@drawable/rounded_white"></android.support.constraint.ConstraintLayout>
             <Button
                     android:text="@string/b_product_buy_button"
                     android:background="@color/colorPrimary"
