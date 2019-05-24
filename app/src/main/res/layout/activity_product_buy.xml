@@ -34,9 +34,9 @@
                         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
                 <TextView
                         android:text="@string/product_title"
-                        android:textAppearance="@style/TextAppearance.AppCompat"
-                        android:textSize="30sp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
                         android:textStyle="bold"
+                        android:textColor="@color/colorPrimary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
@@ -48,8 +48,9 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.5">
                     <TextView
-                            android:layout_margin="10dp"
-                            android:textSize="24sp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
                             android:text="@string/product_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -57,8 +58,9 @@
                             android:textColor="@android:color/black"
                             android:textStyle="bold"/>
                     <TextView
-                            android:layout_margin="10dp"
-                            android:textSize="24sp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
                             android:text="@string/euro_symbol"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -73,7 +75,6 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="12dp"
                         android:id="@+id/b_product_description"
-                        android:textSize="18sp"
                         android:textColor="@android:color/black"/>
                 <View
                         android:layout_width="match_parent"
@@ -93,7 +94,6 @@
                             android:layout_margin="10dp"
                             android:id="@+id/b_product_place"
                             android:layout_weight="0"
-                            android:textSize="18sp"
                             android:textColor="@color/colorAccent"
                             android:clickable="false" style="@style/Widget.AppCompat.Button.Borderless.Colored"/>
                     <TextView android:layout_width="wrap_content"
@@ -103,7 +103,6 @@
                               android:layout_height="wrap_content"
                               android:text="@string/product_uploaded"
                               android:layout_margin="10dp"
-                              android:textSize="18sp"
                               android:textColor="@android:color/black"/>
                     <TextView
                             android:text="@string/product_date"
@@ -112,7 +111,6 @@
                             android:layout_margin="10dp"
                             android:id="@+id/b_product_date"
                             android:layout_weight="0"
-                            android:textSize="18sp"
                             android:textColor="@android:color/black"/>
                 </LinearLayout>
                 <View
@@ -131,7 +129,6 @@
                             android:layout_margin="10dp"
                             android:layout_height="wrap_content"
                             android:id="@+id/b_product_seller"
-                            android:textSize="18sp"
                             android:layout_weight="0"
                             android:textColor="@color/colorAccent" android:clickable="true"
                             android:focusable="true"

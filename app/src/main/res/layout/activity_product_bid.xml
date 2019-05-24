@@ -220,7 +220,7 @@
                     android:layout_gravity="center_vertical"
                     android:inputType="numberDecimal"
                     android:ems="5"
-
+                    android:background="@drawable/rounded_white"
                     android:visibility="visible"
                     android:autofillHints="Puja"
                     android:id="@+id/b_product_bid_offer"
