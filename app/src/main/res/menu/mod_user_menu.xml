@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/n_mum_comment"
+          android:title="Valorar usuario"
+          android:orderInCategory="100"
+          app:showAsAction="never"/>
+    <item android:id="@+id/n_mum_banear"
+          android:title="Banear usuario"
+          android:orderInCategory="100"
+          app:showAsAction="never"/>
+    <item android:id="@+id/n_mum_mod"
+          android:title="Hacer moderador"
+          android:orderInCategory="100"
+          app:showAsAction="never"/>
+
+</menu>

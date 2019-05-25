@@ -101,6 +101,7 @@ class ProfileDataFragment: Fragment() {
 
         m_ProfileData_username.setText(user.nick)
         m_ProfileData_mail.setText(user.mail)
+        m_ProfileData_desc.setText(user.desc)
         m_ProfileData_firstname.setText(user.first_name)
         m_ProfileData_lastname.setText(user.last_name)
         m_ProfileData_birthDate.setText(user.fnac)
@@ -150,6 +151,7 @@ class ProfileDataFragment: Fragment() {
     private fun loadFields() {
         user.nick = m_ProfileData_username.text.toString()
         user.mail = m_ProfileData_mail.text.toString()
+        user.desc = m_ProfileData_desc.text.toString()
         user.first_name = m_ProfileData_firstname.text.toString()
         user.last_name = m_ProfileData_lastname.text.toString()
         user.fnac = m_ProfileData_birthDate.text.toString()
@@ -164,6 +166,11 @@ class ProfileDataFragment: Fragment() {
 
         if (m_ProfileData_username.text.toString().isEmpty()) {
             m_ProfileData_username.error = "El campo no puede ser vacio"
+            right = false
+        }
+
+        if (m_ProfileData_desc.text.toString().isEmpty()) {
+            m_ProfileData_desc.error = "El campo no puede ser vacio"
             right = false
         }
 
@@ -404,49 +411,5 @@ class ProfileDataFragment: Fragment() {
         }
         return path!!
     }
-
-    /*fun PasswordDialog(view: View) {
-        val builder = android.support.v7.app.AlertDialog.Builder(this)
-        val inflater = layoutInflater
-        builder.setTitle("Cambiar Contraseña")
-        val dialogLayout = inflater.inflate(R.layout.dialog_change_password, null)
-        val password  = dialogLayout.findViewById<EditText>(R.id.n_cp1)
-        val confirm  = dialogLayout.findViewById<EditText>(R.id.n_cp2)
-        builder.setView(dialogLayout)
-        builder.setPositiveButton("OK") { dialogInterface, i -> changePassword() }
-        builder.show()
-    }
-
-    fun changePassword() {
-        if (checkPassword()) {
-            user.
-        }
-    }
-
-    fun checkPassword(): Boolean {
-
-        var right = true
-
-        val dialogLayout = layoutInflater.inflate(R.layout.dialog_change_password, null)
-        val password  = dialogLayout.findViewById<EditText>(R.id.n_cp1)
-        val confirm  = dialogLayout.findViewById<EditText>(R.id.n_cp2)
-
-        if (password.text.toString().isEmpty()) {
-            password.error = "El campo no puede ser vacio"
-            right = false
-        } else {
-            if (6 > password.text.toString().length || 12 < password.text.toString().length) {
-                password.error = "La contraseña debe tener entre 6 y 12 caracteres"
-                right = false
-            }
-        }
-
-        if (!password.text.toString().equals(confirm.text.toString())){
-            confirm.error = "Las contraseñas no coinciden"
-            right = false
-        }
-
-        return right
-    }*/
 
 }

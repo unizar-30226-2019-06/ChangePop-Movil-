@@ -14,14 +14,13 @@ import kotlinx.android.synthetic.main.activity_product_buy.*
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
 import com.example.kalepa.Preferences.SharedApp
 import com.example.kalepa.models.User
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import kotlinx.android.synthetic.main.fragment_product_image.view.*
 import org.jetbrains.anko.toast
@@ -113,6 +112,10 @@ class ProductBuyActivity : AppCompatActivity() {
             ProfileActivity.start(this, product.user_id.toString())
         }
 
+        b_product_trade.setOnClickListener {
+            TradeActivity.start(this, product.id.toString(), user.id.toString())
+        }
+
         num_images = product.photo_urls.size
 
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
@@ -182,6 +185,72 @@ class ProductBuyActivity : AppCompatActivity() {
         fun start(context: Context, product_id: String) {
             val intent = getIntent(context, product_id)
             context.startActivity(intent)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.user_product_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.n_upm_follow -> {
+            val builder = AlertDialog.Builder(this)
+            val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+            val message = dialogView.findViewById<TextView>(R.id.message)
+            message.text = "Siguiendo producto..."
+            builder.setView(dialogView)
+            builder.setCancelable(false)
+            val dialog = builder.create()
+            dialog.show()
+
+            val url = MainActivity().projectURL + "/product/" + product.id.toString() + "/follow"
+
+            val req = url.httpPost().header(Pair("Cookie", SharedApp.prefs.cookie))
+            req.response { request, response, result ->
+                when (result) {
+                    is Result.Failure -> {
+                        dialog.dismiss()
+                        toast("Ya sigues este producto")
+                    }
+                    is Result.Success -> {
+                        dialog.dismiss()
+                        toast("Añadido a tu lista de deseos")
+                    }
+                }
+            }
+            true
+        }
+        R.id.n_upm_unfollow -> {
+            val builder = AlertDialog.Builder(this)
+            val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+            val message = dialogView.findViewById<TextView>(R.id.message)
+            message.text = "Siguiendo producto..."
+            builder.setView(dialogView)
+            builder.setCancelable(false)
+            val dialog = builder.create()
+            dialog.show()
+
+            val url = MainActivity().projectURL + "/product/" + product.id.toString() + "/unfollow"
+
+            val req = url.httpPost().header(Pair("Cookie", SharedApp.prefs.cookie))
+            req.response { request, response, result ->
+                when (result) {
+                    is Result.Failure -> {
+                        dialog.dismiss()
+                        toast("No sigues este producto")
+                    }
+                    is Result.Success -> {
+                        dialog.dismiss()
+                        toast("Eliminado de tu lista de deseos")
+                    }
+                }
+            }
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
         }
     }
 }

@@ -89,21 +89,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        when (item.itemId) {
-            R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
-        }
-    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
@@ -199,9 +184,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         uname.setText(jsonUser.get("nick").toString())
         umail.setText(jsonUser.get("mail").toString())
         profile.loadImage(jsonUser.get("avatar").toString())
-        //profile.loadImage(jsonUser.get("avatar").toString())
         SharedApp.prefs.userPlace = jsonUser.get("place").toString()
         SharedApp.prefs.userId = jsonUser.get("id").toString().toInt()
+        SharedApp.prefs.isMod = jsonUser.get("is_mod").toString().toBoolean()
+        SharedApp.prefs.username = jsonUser.get("nick").toString()
 
     }
 

@@ -3,18 +3,21 @@
           package="com.example.kalepa">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
+            android:name=".Preferences.SharedApp"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme"
-            android:name=".Preferences.SharedApp">
+            android:theme="@style/AppTheme">
+        <activity android:name=".TradeActivity">
+        </activity>
+
         <provider
                 android:name="android.support.v4.content.FileProvider"
                 android:authorities="com.example.kalepa.fileprovider"
@@ -22,8 +25,9 @@
                 android:grantUriPermissions="true">
             <meta-data
                     android:name="android.support.FILE_PROVIDER_PATHS"
-                    android:resource="@xml/file_paths" />
+                    android:resource="@xml/file_paths"/>
         </provider>
+
         <activity
                 android:name=".SelfProfileActivity"
                 android:parentActivityName=".MainActivity">
@@ -40,10 +44,10 @@
         </activity>
         <activity
                 android:name=".RegisterActivity"
-                android:label="@string/registro"
                 android:configChanges="screenSize|orientation"
-                android:windowSoftInputMode="stateHidden"
-                android:parentActivityName=".LoginActivity">
+                android:label="@string/registro"
+                android:parentActivityName=".LoginActivity"
+                android:windowSoftInputMode="stateHidden">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.example.kalepa.LoginActivity"/>
@@ -64,8 +68,7 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.example.kalepa.MainActivity"/>
         </activity>
-        <activity
-                android:name=".ProfileActivity">
+        <activity android:name=".ProfileActivity">
         </activity>
         <activity
                 android:name=".UploadActivity"
@@ -75,8 +78,7 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.example.kalepa.MainActivity"/>
         </activity>
-        <activity
-                android:name=".UpdateProductActivity">
+        <activity android:name=".UpdateProductActivity">
         </activity>
         <activity
                 android:name=".ChatActivity"

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".TradeActivity">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1">
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/n_swipeRefreshView_trade_products"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                <android.support.v7.widget.RecyclerView
+                        android:id="@+id/n_recyclerView_trade_products"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="vertical"/>
+            </android.support.v4.widget.SwipeRefreshLayout>
+
+        </RelativeLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="01"
+                android:background="@color/colorPrimary"
+                android:fadingEdge="horizontal|vertical"
+                android:fadingEdgeLength="@dimen/activity_horizontal_margin">
+
+            <EditText
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:inputType="numberDecimal"
+                    android:ems="10"
+                    android:visibility="visible"
+                    android:autofillHints="Puja"
+                    android:id="@+id/n_trade_offer"
+            />
+
+            <Button
+                    android:text="@string/b_product_buy_button"
+                    android:background="@color/colorPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#ffffff"
+                    android:id="@+id/n_trade_buy_button"
+                    android:layout_gravity="center_horizontal"
+                    android:textAllCaps="true"
+                    android:layout_weight="1"
+            />
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

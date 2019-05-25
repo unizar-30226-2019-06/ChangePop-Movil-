@@ -130,7 +130,7 @@ class RegisterActivity : AppCompatActivity() {
             right = false
         }
 
-        val regex = """[1-2][0-9][0-9][0-9]-[0-1][0-9]-[1-3][0-9]""".toRegex()
+        val regex = """[1-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]""".toRegex()
         if (!regex.matches(m_birthDateEditText.text.toString())) {
             m_birthDateEditText.error = "El formato debe ser aaaa-mm-dd"
             right = false

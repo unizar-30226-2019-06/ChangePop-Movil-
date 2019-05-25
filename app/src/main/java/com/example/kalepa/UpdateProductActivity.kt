@@ -159,6 +159,10 @@ class UpdateProductActivity : AppCompatActivity() {
             deleteProduct()
         }
 
+        m_button_quitar_subasta.setOnClickListener {
+            quitarSubasta()
+        }
+
         m_radioButton_Subasta.setOnClickListener {
             ticks++
             if (m_radioButton_Subasta.isChecked && ticks > 1) {
@@ -268,6 +272,35 @@ class UpdateProductActivity : AppCompatActivity() {
         }
     }
 
+    private fun quitarSubasta() {
+
+        val builder = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+        val message = dialogView.findViewById<TextView>(R.id.message)
+        message.text = "Comprobando datos..."
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        val dialog = builder.create()
+        dialog.show()
+
+        val url = MainActivity().projectURL + "/product/" + product.id.toString() + "/biddown"
+
+        val req = url.httpPut().header(Pair("Cookie", SharedApp.prefs.cookie))
+
+        req.response { request, response, result ->
+            when (result) {
+                is Result.Failure -> {
+                    dialog.dismiss()
+                    toast("Error, el producto no se puede retirar de subasta")
+                }
+                is Result.Success -> {
+                    dialog.dismiss()
+                    toast("El producto ya no esta en subasta")
+                }
+            }
+        }
+    }
+
     private fun deleteProduct() {
         val builder = AlertDialog.Builder(this)
         val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
@@ -328,7 +361,7 @@ class UpdateProductActivity : AppCompatActivity() {
         }
 
         if (m_radioButton_Subasta.isChecked) {
-            val regex = """[1-2][0-9][0-9][0-9]-[0-1][0-9]-[1-3][0-9]""".toRegex()
+            val regex = """[1-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]""".toRegex()
             if (!regex.matches(m_Update_fecha.text.toString())) {
                 m_Update_fecha.error = "El formato debe ser aaaa-mm-dd"
                 right = false

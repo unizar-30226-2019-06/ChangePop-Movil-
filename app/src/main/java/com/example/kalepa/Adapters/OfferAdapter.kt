@@ -13,7 +13,8 @@ import com.example.kalepa.common.loadImage
 import com.example.kalepa.models.RawProduct
 
 class OfferAdapter (
-    val product: RawProduct
+    val product: RawProduct,
+    val clicked: (RawProduct) -> Unit
 ) : ItemAdapter<OfferAdapter.ViewHolder>(R.layout.item_offer_product) {
     override fun onCreateViewHolder(itemView: View) = ViewHolder(itemView)
     override fun ViewHolder.onBindViewHolder() { // 2
@@ -21,6 +22,7 @@ class OfferAdapter (
         imageView.loadImage(product.main_img) // 3
         itemView.setOnClickListener {
             box.isChecked = !box.isChecked
+            clicked(product)
         }
     }
 

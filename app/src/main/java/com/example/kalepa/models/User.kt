@@ -15,6 +15,7 @@ class User (
     var last_name: String,
     var mail: String,
     var phone: String,
+    var desc: String,
     var is_mod: Boolean,
     var ban_reason: String,
     var points: Double,
@@ -23,7 +24,7 @@ class User (
     var dni: String,
     var place: String
 ) : Parcelable {
-    constructor(): this(0, "", "", "", "", "",false, "",0.0, "", "",
+    constructor(): this(0, "", "", "", "", "","",false, "",0.0, "", "",
         "", "")
 
     public fun fromJSON (jsonObject: JSONObject){
@@ -34,6 +35,7 @@ class User (
         last_name = jsonObject.get("last_name").toString()
         mail = jsonObject.get("mail").toString()
         phone = jsonObject.get("phone").toString()
+        desc = jsonObject.get("desc").toString()
         is_mod = jsonObject.get("is_mod").toString().toBoolean()
         ban_reason = jsonObject.get("ban_reason").toString()
         points = jsonObject.get("points").toString().toDouble()
@@ -54,6 +56,7 @@ class User (
         jsonObject.accumulate("last_name", last_name)
         jsonObject.accumulate("mail", mail)
         jsonObject.accumulate("phone", phone)
+        jsonObject.accumulate("desc", desc)
         jsonObject.accumulate("is_mod", is_mod)
         jsonObject.accumulate("ban_reason", ban_reason)
         jsonObject.accumulate("points", points)

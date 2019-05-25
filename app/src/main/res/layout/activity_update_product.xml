@@ -157,7 +157,19 @@
                     android:textSize="14sp"/>
         </LinearLayout>
 
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_gravity="center"
+                      android:gravity="center"
+                      android:layout_height="wrap_content"
+                      android:paddingBottom="10dp">
+            <Button
+                    android:id="@+id/m_button_quitar_subasta"
+                    android:text="  Quitar producto de subasta  "
+                    android:layout_width="wrap_content" android:layout_height="30dp"
+                    android:background="@drawable/rounded_red"
+                    android:textColor="@color/colorWhite"/>
 
+        </LinearLayout>
         <LinearLayout android:layout_width="match_parent"
                       android:layout_gravity="center"
                       android:layout_marginTop="16dp"
