@@ -21,6 +21,7 @@ import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.coroutines.delay
+import org.jetbrains.anko.activityUiThread
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import org.json.JSONArray
@@ -46,10 +47,17 @@ class ChatActivity : AppCompatActivity() {
 
         m_recyclerView_chat.layoutManager = GridLayoutManager(this, 1)
 
-        loadMessages()
-
         m_swipeRefreshView_chat.setOnRefreshListener {
             loadMessages()
+        }
+
+        doAsync {
+            while(true) {
+                activityUiThread {
+                    loadMessages()
+                }
+                Thread.sleep(2000)
+            }
         }
     }
 

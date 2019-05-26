@@ -116,33 +116,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 ChatListActivity.start(this)
             }
             R.id.nav_log_out -> {
-
-                val builder = AlertDialog.Builder(this)
-                val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
-                val message = dialogView.findViewById<TextView>(R.id.message)
-                message.text = "Cerrando sesión..."
-                builder.setView(dialogView)
-                builder.setCancelable(false)
-                val dialog = builder.create()
-                dialog.show()
-
-                val url = MainActivity().projectURL + "/logout"
-
-                val req = url.httpGet().header(Pair("Cookie", SharedApp.prefs.cookie))
-                req.responseJson { request, response, result ->
-                    when (result) {
-                        is Result.Failure -> {
-                            dialog.dismiss()
-                            toast("Error al cerrar sesión")
-                        }
-                        is Result.Success -> {
-                            dialog.dismiss()
-                            MainActivity.start(this)
-                        }
-                    }
-                }
-
-                MySqlHelper(this).clearCookies()
+                logOut()
             }
         }
 
@@ -158,6 +132,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun initialize (jsonUser: JSONObject) {
+
+        if (!jsonUser.get("ban_reason").toString().equals("None")) {
+            logOut()
+        }
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
@@ -189,6 +167,35 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         SharedApp.prefs.isMod = jsonUser.get("is_mod").toString().toBoolean()
         SharedApp.prefs.username = jsonUser.get("nick").toString()
 
+    }
+
+    private fun logOut() {
+        val builder = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+        val message = dialogView.findViewById<TextView>(R.id.message)
+        message.text = "Cerrando sesión..."
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        val dialog = builder.create()
+        dialog.show()
+
+        val url = MainActivity().projectURL + "/logout"
+
+        val req = url.httpGet().header(Pair("Cookie", SharedApp.prefs.cookie))
+        req.responseJson { request, response, result ->
+            when (result) {
+                is Result.Failure -> {
+                    dialog.dismiss()
+                    toast("Error al cerrar sesión")
+                }
+                is Result.Success -> {
+                    dialog.dismiss()
+                    MainActivity.start(this)
+                }
+            }
+        }
+
+        MySqlHelper(this).clearCookies()
     }
 
 }

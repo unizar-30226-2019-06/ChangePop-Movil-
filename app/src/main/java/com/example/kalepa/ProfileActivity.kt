@@ -72,9 +72,9 @@ class ProfileActivity : AppCompatActivity() {
 
         b_profile_username.setText(user.nick)
         b_profile_image.loadImage(user.avatar)
-        //b_profile_extrainf.setText(jsonUser.get("").toString())
+        b_profile_desc.setText(user.desc)
         b_profile_place.setText(user.place)
-        //b_profile_rating..setText(jsonUser.get("").toString())
+        b_profile_rating.rating = user.points.toFloat()
     }
 
 
@@ -96,11 +96,20 @@ class ProfileActivity : AppCompatActivity() {
             val inflater = menuInflater
             inflater.inflate(R.menu.mod_user_menu, menu)
             return true
+        } else {
+            val inflater = menuInflater
+            inflater.inflate(R.menu.regular_user_menu, menu)
+            return true
         }
         return false
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.n_rum_report -> {
+            reportUser()
+            true
+        }
+
         R.id.n_mum_banear -> {
             banUser()
             true
@@ -114,6 +123,83 @@ class ProfileActivity : AppCompatActivity() {
         else -> {
             super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun reportUser() {
+        val view = layoutInflater.inflate(R.layout.dialog_report_user, null)
+
+        val window = PopupWindow(
+            view, // Custom view to show in popup window
+            LinearLayout.LayoutParams.WRAP_CONTENT, // Width of popup window
+            LinearLayout.LayoutParams.WRAP_CONTENT // Window height
+        )
+        window.isFocusable = true
+
+        //Blur the background
+        val fcolorNone = ColorDrawable(resources.getColor(R.color.transparent))
+        val fcolorBlur = ColorDrawable(resources.getColor(R.color.transparentDark))
+        n_profile_container.foreground = fcolorBlur
+
+        window.showAtLocation(
+            n_profile_header, // Location to display popup window
+            Gravity.CENTER, // Exact position of layout to display popup
+            0, // X offset
+            0 // Y offset
+        )
+
+        val cancel = view.findViewById<Button>(R.id.n_dru_cancelar)
+        val report = view.findViewById<Button>(R.id.n_dru_reportar)
+        val reason = view.findViewById<EditText>(R.id.n_dru_reason)
+
+        report.setOnClickListener {
+
+            if (!reason.text.toString().equals("")) {
+
+                val builder = AlertDialog.Builder(this)
+                val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+                val message = dialogView.findViewById<TextView>(R.id.message)
+                message.text = "Enviando report..."
+                builder.setView(dialogView)
+                builder.setCancelable(false)
+                val dialog = builder.create()
+                dialog.show()
+
+                val jsonObject = JSONObject()
+                jsonObject.accumulate("user_id", user.id)
+                jsonObject.accumulate("reason", reason.text.toString())
+
+                val url = MainActivity().projectURL + "/report"
+
+                val req = url.httpPost().body(jsonObject.toString()).header(Pair("Cookie", SharedApp.prefs.cookie))
+                req.httpHeaders["Content-Type"] = "application/json"
+
+                req.response { request, response, result ->
+                    when (result) {
+                        is Result.Failure -> {
+                            dialog.dismiss()
+                            toast("Error enviando report")
+                        }
+                        is Result.Success -> {
+                            dialog.dismiss()
+                            toast("Report enviado")
+                        }
+                    }
+                }
+                window.dismiss()
+            } else{
+                toast("Se debe introducir un motivo")
+            }
+        }
+
+        cancel.setOnClickListener {
+            window.dismiss()
+        }
+
+        window.setOnDismissListener {
+            n_profile_container.foreground = fcolorNone
+        }
+
+        true
     }
 
     private fun banUser() {
@@ -146,6 +232,38 @@ class ProfileActivity : AppCompatActivity() {
         ban.setOnClickListener {
             if (chekFields(reason,date)) {
 
+                val builder = AlertDialog.Builder(this)
+                val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+                val message = dialogView.findViewById<TextView>(R.id.message)
+                message.text = "Comunicando baneo..."
+                builder.setView(dialogView)
+                builder.setCancelable(false)
+                val dialog = builder.create()
+                dialog.show()
+
+                val ban_until = date.text.toString() //+ " 00:00:00"
+                val jsonObject = JSONObject()
+                jsonObject.accumulate("ban_reason", reason.text.toString())
+                jsonObject.accumulate("ban_until", ban_until)
+
+                val url = MainActivity().projectURL + "/user/" + user.id + "/ban"
+
+                val req = url.httpPut().body(jsonObject.toString()).header(Pair("Cookie", SharedApp.prefs.cookie))
+                req.httpHeaders["Content-Type"] = "application/json"
+
+                req.response { request, response, result ->
+                    when (result) {
+                        is Result.Failure -> {
+                            dialog.dismiss()
+                            toast("Error procesando el baneo")
+                        }
+                        is Result.Success -> {
+                            dialog.dismiss()
+                            toast("Usuario baneado")
+                        }
+                    }
+                }
+
                 window.dismiss()
             }
         }
@@ -164,7 +282,7 @@ class ProfileActivity : AppCompatActivity() {
     private fun chekFields(reason: EditText, date: EditText): Boolean {
         var right = true
 
-        if (reason.text.toString().isEmpty()) {
+        if (reason.text.toString().equals("")) {
             reason.error = "Debe especificarse un motivo de baneo"
             right = false
         }

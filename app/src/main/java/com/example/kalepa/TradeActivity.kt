@@ -221,6 +221,7 @@ class TradeActivity : AppCompatActivity() {
         if (productIds.size == 0) {
             if (offeredMoney < price) {
                 n_trade_offer.error = "Si no se ofrecen productos, se debe ofrecer una cantidad de dinero igual o mayor que el precio del producto"
+                right = false
             }
         }
 
