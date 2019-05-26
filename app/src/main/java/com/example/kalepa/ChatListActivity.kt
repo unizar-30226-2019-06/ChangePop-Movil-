@@ -30,6 +30,16 @@ class ChatListActivity : AppCompatActivity() {
 
         n_recyclerView_cl.layoutManager = GridLayoutManager(this, 1)
 
+        n_swipeRefreshView_cl.setOnRefreshListener {
+            trades.clear()
+            loadTrades()
+            n_swipeRefreshView_cl.isRefreshing = false
+        }
+
+        loadTrades()
+    }
+
+    private fun loadTrades() {
         val builder = AlertDialog.Builder(this)
         val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
         val message = dialogView.findViewById<TextView>(R.id.message)

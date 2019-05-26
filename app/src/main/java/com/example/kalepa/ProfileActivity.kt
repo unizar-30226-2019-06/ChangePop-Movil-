@@ -283,14 +283,14 @@ class ProfileActivity : AppCompatActivity() {
         var right = true
 
         if (reason.text.toString().equals("")) {
-            reason.error = "Debe especificarse un motivo de baneo"
+            toast("Debe especificarse un motivo de baneo")
             right = false
-        }
-
-        val regex = """[1-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]""".toRegex()
-        if (!regex.matches(date.text.toString())) {
-            date.error = "El formato debe ser aaaa-mm-dd"
-            right = false
+        } else {
+            val regex = """[1-2][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]""".toRegex()
+            if (!regex.matches(date.text.toString())) {
+                toast("El formato debe ser aaaa-mm-dd")
+                right = false
+            }
         }
 
         return right

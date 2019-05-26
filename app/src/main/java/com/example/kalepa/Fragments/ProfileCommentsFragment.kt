@@ -42,9 +42,19 @@ class ProfileCommentsFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val user_id = arguments!!.getInt("user_id",0)
-
         n_recyclerView_comments.layoutManager = GridLayoutManager(context!!, 1)
+
+        n_swipeRefreshView_comments.setOnRefreshListener {
+            comments.clear()
+            loadComments()
+            n_swipeRefreshView_comments.isRefreshing = false
+        }
+
+        loadComments()
+    }
+
+    private fun loadComments() {
+        val user_id = arguments!!.getInt("user_id",0)
 
         val builder = AlertDialog.Builder(context)
         val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)

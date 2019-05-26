@@ -45,6 +45,16 @@ class ProfileNotificationsFragment: Fragment() {
 
         n_recyclerView_notifications.layoutManager = GridLayoutManager(context!!, 1)
 
+        n_swipeRefreshView_notifications.setOnRefreshListener {
+            notifications.clear()
+            loadNotifications()
+            n_swipeRefreshView_notifications.isRefreshing = false
+        }
+
+        loadNotifications()
+    }
+
+    private fun loadNotifications() {
         val builder = AlertDialog.Builder(context)
         val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
         val message = dialogView.findViewById<TextView>(R.id.message)

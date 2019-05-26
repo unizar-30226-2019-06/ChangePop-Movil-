@@ -44,9 +44,20 @@ class ProfileSelledFragment: Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val user_id = arguments!!.getInt("user_id",0)
-
         n_recyclerView_selled.layoutManager = GridLayoutManager(context!!, 2)
+
+        n_swipeRefreshView_selled.setOnRefreshListener {
+            products.clear()
+            loadProducts()
+            n_swipeRefreshView_selled.isRefreshing = false
+        }
+
+        loadProducts()
+    }
+
+    private fun loadProducts() {
+
+        val user_id = arguments!!.getInt("user_id",0)
 
         val builder = AlertDialog.Builder(context)
         val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)

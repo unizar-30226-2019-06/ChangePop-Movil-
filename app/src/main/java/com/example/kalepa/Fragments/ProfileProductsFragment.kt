@@ -41,6 +41,16 @@ class ProfileProductsFragment: Fragment() {
 
         n_recyclerView_fpp.layoutManager = GridLayoutManager(context!!, 2)
 
+        n_swipeRefreshView_fpp.setOnRefreshListener {
+            products.clear()
+            loadProducts()
+            n_swipeRefreshView_fpp.isRefreshing = false
+        }
+
+        loadProducts()
+    }
+
+    private fun loadProducts() {
         val builder = AlertDialog.Builder(context)
         val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
         val message = dialogView.findViewById<TextView>(R.id.message)

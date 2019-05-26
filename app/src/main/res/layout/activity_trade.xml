@@ -3,6 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/greyBack"
         android:layout_width="match_parent"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -12,11 +13,13 @@
     <android.support.v4.widget.SwipeRefreshLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/n_swipeRefreshView_trade_products"
+            android:layout_marginBottom="150dp"
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" android:layout_width="match_parent">
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/n_recyclerView_trade_products"
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
                 android:scrollbars="vertical" />
     </android.support.v4.widget.SwipeRefreshLayout>

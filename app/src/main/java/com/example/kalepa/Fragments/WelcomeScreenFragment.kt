@@ -43,6 +43,16 @@ class WelcomeScreenFragment: Fragment() {
 
         n_recyclerView_ws.layoutManager = GridLayoutManager(context!!, 2)
 
+        n_swipeRefreshView_ws.setOnRefreshListener {
+            products.clear()
+            loadProducts()
+            n_swipeRefreshView_ws.isRefreshing = false
+        }
+
+        loadProducts()
+    }
+
+    private fun loadProducts() {
         val builder = AlertDialog.Builder(context)
         val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
         val message = dialogView.findViewById<TextView>(R.id.message)

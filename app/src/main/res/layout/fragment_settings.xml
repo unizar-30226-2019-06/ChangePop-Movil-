@@ -75,4 +75,19 @@
                 android:id="@+id/button2"
                 android:layout_margin="@dimen/activity_vertical_margin"/>
     </LinearLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <Button
+                android:text="ELIMINAR CUENTA"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#ff0000"
+                android:textColor="@color/colorWhite"
+                android:id="@+id/n_settings_delete_user"
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:layout_marginRight="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+    </LinearLayout>
 </LinearLayout>

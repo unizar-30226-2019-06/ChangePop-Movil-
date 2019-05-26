@@ -46,34 +46,5 @@ class Trade (
         closed = jsonObject.get("closed").toString().toBoolean()
         price = jsonObject.get("price").toString().toDouble()
         last_edit = jsonObject.get("last_edit").toString()
-
-        /*var url = ""
-        if(seller_id.equals(SharedApp.prefs.userId.toString())) {
-            url = MainActivity().projectURL + "/profile/" + buyer_id
-        } else {
-            url = MainActivity().projectURL + "/profile/" + seller_id
-        }
-        val req = url.httpGet().header(Pair("Cookie", SharedApp.prefs.cookie))
-        req.responseJson { request, response, result ->
-            when (result) {
-                is Result.Success -> {
-                    val jsonUser = result.value
-                    other_avatar = jsonUser.get("avatar").toString()
-                    other_nick = jsonUser.get("nick").toString()
-                }
-            }
-        }
-
-
-        val url2 = MainActivity().projectURL + "/product/" + product_id
-        val req2 = url2.httpGet().header(Pair("Cookie", SharedApp.prefs.cookie))
-        req2.responseJson { request, response, result ->
-            when (result) {
-                is Result.Success -> {
-                    val jsonProduct = result.value
-                    product_img = jsonProduct.get("main_img").toString()
-                }
-            }
-        }*/
     }
 }

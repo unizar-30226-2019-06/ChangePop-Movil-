@@ -33,6 +33,16 @@ class TradeActivity : AppCompatActivity() {
 
         n_recyclerView_trade_products.layoutManager = GridLayoutManager(this, 1)
 
+        n_swipeRefreshView_trade_products.setOnRefreshListener {
+            products.clear()
+            loadProducts()
+            n_swipeRefreshView_trade_products.isRefreshing = false
+        }
+
+        loadProducts()
+    }
+
+    private fun loadProducts()  {
         val builder = AlertDialog.Builder(this)
         val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
         val message = dialogView.findViewById<TextView>(R.id.message)
