@@ -19,7 +19,7 @@ class TradeAdapter (
 ) : ItemAdapter<TradeAdapter.ViewHolder>(R.layout.item_person_chat) {
     override fun onCreateViewHolder(itemView: View) = ViewHolder(itemView)
     override fun ViewHolder.onBindViewHolder() { // 2
-        if(trade.seller_id.equals(SharedApp.prefs.userId.toString())) {
+        if(trade.seller_id.toString().equals(SharedApp.prefs.userId.toString())) {
             textView1.text = "Venta"
             textView1.setTextColor(Color.parseColor("#0066ff"))
         } else {

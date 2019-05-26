@@ -20,6 +20,8 @@ import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.coroutines.delay
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import org.json.JSONArray
 import org.json.JSONObject
@@ -45,10 +47,15 @@ class ChatActivity : AppCompatActivity() {
         m_recyclerView_chat.layoutManager = GridLayoutManager(this, 1)
 
         loadMessages()
+
+        m_swipeRefreshView_chat.setOnRefreshListener {
+            loadMessages()
+        }
     }
 
     private fun loadMessages () {
 
+        val oldMessages = messages.size
         val url = MainActivity().projectURL + "/msgs/" + trade.id
 
         val req = url.httpGet().header(Pair("Cookie", SharedApp.prefs.cookie))
@@ -62,7 +69,6 @@ class ChatActivity : AppCompatActivity() {
                 }
             }
         }
-        show(messages)
     }
 
     private fun show(items: List<Message>) {
@@ -76,6 +82,7 @@ class ChatActivity : AppCompatActivity() {
 
 
     private fun Initialize (jsonProducts: JSONObject) {
+        val oldMessages = messages.size
         val length = jsonProducts.get("length").toString().toInt()
         val list = jsonProducts.get("list")
         if (list is JSONArray) {
@@ -86,7 +93,10 @@ class ChatActivity : AppCompatActivity() {
                 messages.add(message)
             }
         }
-        show(messages)
+        if (messages.size != oldMessages) {
+            show(messages)
+        }
+        m_swipeRefreshView_chat.isRefreshing = false
     }
 
     private fun sendMessage() {
@@ -113,10 +123,12 @@ class ChatActivity : AppCompatActivity() {
                 when (result) {
                     is Result.Failure -> {
                         dialog.dismiss()
+                        m_Chat_editText_message.setText("")
                         toast("No se ha podido enviar el mensaje, inténtelo más tarde")
                     }
                     is Result.Success -> {
                         dialog.dismiss()
+                        m_Chat_editText_message.setText("")
                         loadMessages()
                     }
                 }
