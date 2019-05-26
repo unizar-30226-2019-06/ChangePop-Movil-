@@ -22,9 +22,11 @@ class TradeAdapter (
         if(trade.seller_id.toString().equals(SharedApp.prefs.userId.toString())) {
             textView1.text = "Venta"
             textView1.setTextColor(Color.parseColor("#0066ff"))
+            textView4.text = "Interesado en:"
         } else {
             textView1.text = "Compra"
             textView1.setTextColor(Color.parseColor("#ff0000"))
+            textView4.text = "Propietario de:"
         }
         textView2.text = trade.other_nick
         textView3.text = trade.product_title
@@ -39,6 +41,7 @@ class TradeAdapter (
         val textView1 by bindView<TextView>(R.id.n_ipc_selbuy)
         val textView2 by bindView<TextView>(R.id.creatorNameTextView)
         val textView3 by bindView<TextView>(R.id.m_PersonChat_product_name)
+        val textView4 by bindView<TextView>(R.id.m_PersonChat_intORprop)
         val imageView1 by bindView<ImageView>(R.id.coverCircleImageView)
         val imageView2 by bindView<ImageView>(R.id.m_PersonChat_product_image)
 

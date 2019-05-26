@@ -8,11 +8,21 @@
         android:id="@+id/n_chat_container"
         android:layout_height="match_parent"
         tools:context=".ChatActivity">
+
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
+        <TextView
+                android:id="@+id/m_Chat_cerradoOabierto"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="#ff0000"
+                android:background="@color/greyBack"
+                android:text="Cerrado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         <LinearLayout
                 android:id="@+id/n_chat_header"
                 android:orientation="horizontal"
@@ -20,54 +30,86 @@
                 android:background="@drawable/rounded_grey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
             <LinearLayout
-                    android:layout_gravity="center"
-                    android:orientation="vertical"
                     android:layout_width="wrap_content"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content">
-                <TextView
-                        android:id="@+id/m_Chat_product_name"
-                        android:text="Nombre del producto"
-                        android:layout_width="wrap_content"
+                <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/m_Chat_person_image"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginBottom="3dp"
                         android:layout_gravity="center"
-                        android:textStyle="bold"
-                        android:layout_height="wrap_content"/>
-
+                        android:src="@drawable/add_picture_image"
+                        android:focusable="false"/>
                 <LinearLayout
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                     <TextView
+                            android:id="@+id/m_Chat_person_name"
+                            android:text="Username"
                             android:layout_width="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_height="wrap_content"
-                            android:text="Oferta actual: "/>
-                    <TextView
-                            android:id="@+id/m_Chat_price"
-                            android:text="100"
-                            android:layout_width="wrap_content"
-                            android:layout_gravity="center"
+                            android:textStyle="bold"
                             android:layout_height="wrap_content"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_height="wrap_content"
-                            android:text=" €"/>
                 </LinearLayout>
             </LinearLayout>
-            <ImageView
-                    android:id="@+id/m_Chat_product_image"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginEnd="3dp"
-                    android:layout_marginRight="3dp"
-                    android:layout_marginBottom="3dp"
-                    android:background="@drawable/layout_bg"
-                    app:srcCompat="@drawable/ic_image_black_24dp"
-                    android:contentDescription="Product image"/>
-        </LinearLayout>
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                <LinearLayout
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    <TextView
+                            android:id="@+id/m_Chat_product_name"
+                            android:text="Nombre del producto"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="center"
+                            android:textStyle="bold"
+                            android:layout_height="wrap_content"/>
 
+                    <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_height="wrap_content"
+                                android:text="Oferta actual: "/>
+                        <TextView
+                                android:id="@+id/m_Chat_price"
+                                android:text="100"
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_height="wrap_content"/>
+                        <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_height="wrap_content"
+                                android:text=" €"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ImageView
+                        android:id="@+id/m_Chat_product_image"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:background="@drawable/layout_bg"
+                        app:srcCompat="@drawable/ic_image_black_24dp"
+                        android:contentDescription="Product image"/>
+            </LinearLayout>
+        </LinearLayout>
         <android.support.v4.widget.SwipeRefreshLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/m_swipeRefreshView_chat"

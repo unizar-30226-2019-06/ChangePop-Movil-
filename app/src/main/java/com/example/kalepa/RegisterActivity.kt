@@ -68,6 +68,7 @@ class RegisterActivity : AppCompatActivity() {
                     is Result.Success -> {
                         dialog.dismiss()
                         LoginActivity.start(this)
+                        toast("Cuenta creada. Deberá confirmarla en la dirección de e-mail introducida")
                     }
                 }
             }
