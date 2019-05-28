@@ -14,16 +14,16 @@ import com.example.kalepa.models.Notification
 
 class CommentAdapter (
     val comment: Comment
-) : ItemAdapter<CommentAdapter.ViewHolder>(R.layout.item_user_notifications) {
+) : ItemAdapter<CommentAdapter.ViewHolder>(R.layout.item_profile_comment) {
     override fun onCreateViewHolder(itemView: View) = ViewHolder(itemView)
     override fun ViewHolder.onBindViewHolder() { // 2
-        rating.rating = comment.points.toFloat()
+        usernametv.text = comment.user
         textView.text = comment.body
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     {
-        val rating by bindView<RatingBar>(R.id.m_comment_points)
+        val usernametv by bindView<TextView>(R.id.m_comment_user)
         val textView by bindView<TextView>(R.id.m_comment_body)
     }
 }

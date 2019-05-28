@@ -201,7 +201,6 @@
                             android:numStars="5"
                             android:stepSize="0.1"
                             android:rating="0.0" style="@style/Widget.AppCompat.RatingBar.Indicator"/>
-                    />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

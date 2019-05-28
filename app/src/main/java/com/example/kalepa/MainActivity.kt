@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import org.jetbrains.anko.toast
 import org.json.JSONObject
+import java.util.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -133,9 +134,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun initialize (jsonUser: JSONObject) {
 
-        if (!jsonUser.get("ban_reason").toString().equals("None")) {
-            logOut()
-        }
+
+        /*val ban_date = jsonUser.get("ban_until").toString()
+
+        if (!ban_date.equals("None")) {
+            val now = Calendar.getInstance()
+            val bidDate = now.get(Calendar.YEAR).toString() +
+                    String.format("%02d", now.get(Calendar.MONTH)) +
+                    String.format("%02d", now.get(Calendar.DAY_OF_MONTH))
+            val actual = bidDate.toInt()
+
+            var prodBidDate = ban_date.replace("-", "")
+
+            val banOne = prodBidDate.substring(0, 8).toInt()
+
+            if (banOne > actual) {
+                logOut()
+            }
+        }*/
 
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)

@@ -273,7 +273,7 @@ class ChatActivity : AppCompatActivity() {
 
         edit.setOnClickListener {
             if(trade.seller_id.toString().equals(SharedApp.prefs.userId.toString())) {
-                eliminarTrade()
+                deleteTrade()
             } else {
                 EditTradeActivity.start(this,trade)
             }
@@ -321,7 +321,7 @@ class ChatActivity : AppCompatActivity() {
         price.setText(trade.price.toString())
 
         delete.setOnClickListener {
-            eliminarTrade()
+            deleteTrade()
         }
 
         window.setOnDismissListener {
@@ -332,7 +332,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun showOfferClosedBuyer() {
-        val view = layoutInflater.inflate(R.layout.dialog_trade_info0, null)
+        val view = layoutInflater.inflate(R.layout.dialog_trade_info1, null)
 
         val window = PopupWindow(
             view, // Custom view to show in popup window
@@ -353,9 +353,12 @@ class ChatActivity : AppCompatActivity() {
             0 // Y offset
         )
 
-        val rv = view.findViewById<RecyclerView>(R.id.n_recyclerView_chat_trade0)
-        val srv = view.findViewById<SwipeRefreshLayout>(R.id.n_swipeRefreshView_chat_trade0)
-        val price = view.findViewById<EditText>(R.id.m_trade_popup_money0)
+        val comment = view.findViewById<Button>(R.id.m_trade_popup_edit_button1)
+        val rv = view.findViewById<RecyclerView>(R.id.n_recyclerView_chat_trade1)
+        val srv = view.findViewById<SwipeRefreshLayout>(R.id.n_swipeRefreshView_chat_trade1)
+        val price = view.findViewById<EditText>(R.id.m_trade_popup_money1)
+
+        comment.setText("Valorar usuario")
 
         rv.layoutManager = GridLayoutManager(this, 1)
         val categoryItemAdapters = offeredProducs.map(this::createCategoryItemAdapter)
@@ -364,6 +367,11 @@ class ChatActivity : AppCompatActivity() {
 
         price.setText(trade.price.toString())
 
+        comment.setOnClickListener {
+            window.dismiss()
+            commentUser()
+        }
+
         window.setOnDismissListener {
             n_chat_container.foreground = fcolorNone
         }
@@ -371,7 +379,7 @@ class ChatActivity : AppCompatActivity() {
         true
     }
 
-    private fun eliminarTrade() {
+    private fun deleteTrade() {
         val builder = AlertDialog.Builder(this)
         val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
         val message = dialogView.findViewById<TextView>(R.id.message)
@@ -435,6 +443,84 @@ class ChatActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun commentUser() {
+        val view = layoutInflater.inflate(R.layout.dialog_comment_user, null)
+
+        val window = PopupWindow(
+            view, // Custom view to show in popup window
+            LinearLayout.LayoutParams.WRAP_CONTENT, // Width of popup window
+            LinearLayout.LayoutParams.WRAP_CONTENT // Window height
+        )
+        window.isFocusable = true
+
+        //Blur the background
+        val fcolorNone = ColorDrawable(resources.getColor(R.color.transparent))
+        val fcolorBlur = ColorDrawable(resources.getColor(R.color.transparentDark))
+        n_chat_container.foreground = fcolorBlur
+
+        window.showAtLocation(
+            n_chat_header, // Location to display popup window
+            Gravity.CENTER, // Exact position of layout to display popup
+            0, // X offset
+            0 // Y offset
+        )
+
+        val cancel = view.findViewById<Button>(R.id.n_dcu_cancelar)
+        val valorar = view.findViewById<Button>(R.id.n_dcu_valorar)
+        val reason = view.findViewById<EditText>(R.id.n_dcu_reason)
+        val ratingBar= view.findViewById<RatingBar>(R.id.n_dcu_rating)
+
+        valorar.setOnClickListener {
+
+            if (!reason.text.toString().equals("")) {
+
+                val builder = AlertDialog.Builder(this)
+                val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+                val message = dialogView.findViewById<TextView>(R.id.message)
+                message.text = "Enviando valoración..."
+                builder.setView(dialogView)
+                builder.setCancelable(false)
+                val dialog = builder.create()
+                dialog.show()
+
+                val jsonObject = JSONObject()
+                jsonObject.accumulate("points", ratingBar.rating.toDouble())
+                jsonObject.accumulate("body", reason.text.toString())
+
+                val url = MainActivity().projectURL + "/comment/" + trade.seller_id
+
+                val req = url.httpPost().body(jsonObject.toString()).header(Pair("Cookie", SharedApp.prefs.cookie))
+                req.httpHeaders["Content-Type"] = "application/json"
+
+                req.response { request, response, result ->
+                    when (result) {
+                        is Result.Failure -> {
+                            dialog.dismiss()
+                            toast("Error enviando valoración")
+                        }
+                        is Result.Success -> {
+                            dialog.dismiss()
+                            toast("Valoración enviada")
+                        }
+                    }
+                }
+                window.dismiss()
+            } else{
+                toast("Se debe introducir una valoración")
+            }
+        }
+
+        cancel.setOnClickListener {
+            window.dismiss()
+        }
+
+        window.setOnDismissListener {
+            n_chat_container.foreground = fcolorNone
+        }
+
+        true
     }
 
     private fun createCategoryItemAdapter(product: RawProduct)
