@@ -3,6 +3,7 @@ package com.example.kalepa
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.example.kalepa.common.extra
@@ -15,7 +16,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.view.*
-import android.widget.TextView
+import android.widget.*
 import com.example.kalepa.Preferences.SharedApp
 import com.example.kalepa.models.User
 import com.github.kittinunf.fuel.android.extension.responseJson
@@ -249,8 +250,90 @@ class ProductBuyActivity : AppCompatActivity() {
             }
             true
         }
+        R.id.n_upm_report -> {
+            reportProduct()
+            true
+        }
         else -> {
             super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun reportProduct() {
+        val view = layoutInflater.inflate(R.layout.dialog_report_product, null)
+
+        val window = PopupWindow(
+            view, // Custom view to show in popup window
+            LinearLayout.LayoutParams.WRAP_CONTENT, // Width of popup window
+            LinearLayout.LayoutParams.WRAP_CONTENT // Window height
+        )
+        window.isFocusable = true
+
+        //Blur the background
+        val fcolorNone = ColorDrawable(resources.getColor(R.color.transparent))
+        val fcolorBlur = ColorDrawable(resources.getColor(R.color.transparentDark))
+        n_productBuy_container.foreground = fcolorBlur
+
+        window.showAtLocation(
+            n_productBuy_header, // Location to display popup window
+            Gravity.CENTER, // Exact position of layout to display popup
+            0, // X offset
+            0 // Y offset
+        )
+
+        val cancel = view.findViewById<Button>(R.id.n_drp_cancelar)
+        val report = view.findViewById<Button>(R.id.n_drp_reportar)
+        val reason = view.findViewById<EditText>(R.id.n_drp_reason)
+
+        report.setOnClickListener {
+
+            if (!reason.text.toString().equals("")) {
+
+                val builder = AlertDialog.Builder(this)
+                val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+                val message = dialogView.findViewById<TextView>(R.id.message)
+                message.text = "Enviando report..."
+                builder.setView(dialogView)
+                builder.setCancelable(false)
+                val dialog = builder.create()
+                dialog.show()
+
+                val jsonObject = JSONObject()
+                jsonObject.accumulate("user_id", user.id)
+                jsonObject.accumulate("product_id", product.id)
+                jsonObject.accumulate("reason", reason.text.toString())
+
+                val url = MainActivity().projectURL + "/report"
+
+                val req = url.httpPost().body(jsonObject.toString()).header(Pair("Cookie", SharedApp.prefs.cookie))
+                req.httpHeaders["Content-Type"] = "application/json"
+
+                req.response { request, response, result ->
+                    when (result) {
+                        is Result.Failure -> {
+                            dialog.dismiss()
+                            toast("Error enviando report")
+                        }
+                        is Result.Success -> {
+                            dialog.dismiss()
+                            toast("Report enviado")
+                        }
+                    }
+                }
+                window.dismiss()
+            } else{
+                toast("Se debe introducir un motivo")
+            }
+        }
+
+        cancel.setOnClickListener {
+            window.dismiss()
+        }
+
+        window.setOnDismissListener {
+            n_productBuy_container.foreground = fcolorNone
+        }
+
+        true
     }
 }
