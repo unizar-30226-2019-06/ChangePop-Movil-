@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.example.kalepa.common.extra
@@ -25,6 +26,7 @@ import com.example.kalepa.models.User
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpPost
+import com.github.kittinunf.fuel.httpPut
 import com.github.kittinunf.result.Result
 import kotlinx.android.synthetic.main.fragment_product_image.view.*
 import org.jetbrains.anko.toast
@@ -120,6 +122,17 @@ class ProductBuyActivity : AppCompatActivity() {
             TradeActivity.start(this, product.id.toString(), user.id.toString())
         }
 
+        m_product_share_facebook.setOnClickListener {
+            val url = MainActivity().webURL + "/anuncio.html?idAnuncio=" + product.id.toString()
+            val shareIntent = Intent()
+            shareIntent.action = Intent.ACTION_SEND
+            shareIntent.type="text/plain"
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Mira que producto mas chulo de KALEPA, mi pagina de compra y venta favorita:")
+            shareIntent.putExtra(Intent.EXTRA_TEXT, url)
+            startActivity(Intent.createChooser(shareIntent, "Compartir con:"))
+        }
+
+
         num_images = product.photo_urls.size
 
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
@@ -210,7 +223,11 @@ class ProductBuyActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
-        inflater.inflate(R.menu.user_product_menu, menu)
+        if (SharedApp.prefs.isMod) {
+            inflater.inflate(R.menu.mod_product_menu, menu)
+        } else {
+            inflater.inflate(R.menu.user_product_menu, menu)
+        }
         return true
     }
 
@@ -271,6 +288,10 @@ class ProductBuyActivity : AppCompatActivity() {
         }
         R.id.n_upm_report -> {
             reportProduct()
+            true
+        }
+        R.id.n_mpm_ban -> {
+            banProduct()
             true
         }
         else -> {
@@ -336,6 +357,83 @@ class ProductBuyActivity : AppCompatActivity() {
                         is Result.Success -> {
                             dialog.dismiss()
                             toast("Report enviado")
+                        }
+                    }
+                }
+                window.dismiss()
+            } else{
+                toast("Se debe introducir un motivo")
+            }
+        }
+
+        cancel.setOnClickListener {
+            window.dismiss()
+        }
+
+        window.setOnDismissListener {
+            n_productBuy_container.foreground = fcolorNone
+        }
+
+        true
+    }
+
+    private fun banProduct() {
+        val view = layoutInflater.inflate(R.layout.dialog_ban_product, null)
+
+        val window = PopupWindow(
+            view, // Custom view to show in popup window
+            LinearLayout.LayoutParams.WRAP_CONTENT, // Width of popup window
+            LinearLayout.LayoutParams.WRAP_CONTENT // Window height
+        )
+        window.isFocusable = true
+
+        //Blur the background
+        val fcolorNone = ColorDrawable(resources.getColor(R.color.transparent))
+        val fcolorBlur = ColorDrawable(resources.getColor(R.color.transparentDark))
+        n_productBuy_container.foreground = fcolorBlur
+
+        window.showAtLocation(
+            n_productBuy_header, // Location to display popup window
+            Gravity.CENTER, // Exact position of layout to display popup
+            0, // X offset
+            0 // Y offset
+        )
+
+        val cancel = view.findViewById<Button>(R.id.n_dbp_cancelar)
+        val ban = view.findViewById<Button>(R.id.n_dbp_ban)
+        val reason = view.findViewById<EditText>(R.id.n_dbp_reason)
+
+        ban.setOnClickListener {
+
+            if (!reason.text.toString().equals("")) {
+
+                val builder = AlertDialog.Builder(this)
+                val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+                val message = dialogView.findViewById<TextView>(R.id.message)
+                message.text = "Baneando producto..."
+                builder.setView(dialogView)
+                builder.setCancelable(false)
+                val dialog = builder.create()
+                dialog.show()
+
+                val jsonObject = JSONObject()
+                jsonObject.accumulate("ban_reason", reason.text.toString())
+
+                val url = MainActivity().projectURL + "/product/" + product.id.toString() + "/ban"
+
+                val req = url.httpPut().body(jsonObject.toString()).header(Pair("Cookie", SharedApp.prefs.cookie))
+                req.httpHeaders["Content-Type"] = "application/json"
+
+                req.response { request, response, result ->
+                    when (result) {
+                        is Result.Failure -> {
+                            dialog.dismiss()
+                            toast("Error baneando producto")
+                        }
+                        is Result.Success -> {
+                            dialog.dismiss()
+                            MainActivity.start(this)
+                            toast("Producto baneado")
                         }
                     }
                 }

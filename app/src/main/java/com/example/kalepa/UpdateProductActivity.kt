@@ -47,6 +47,7 @@ import kotlinx.android.synthetic.main.activity_update_product.*
 import org.jetbrains.anko.toast
 import org.json.JSONObject
 import java.io.File
+import java.util.*
 
 import kotlin.collections.ArrayList
 
@@ -133,6 +134,7 @@ class UpdateProductActivity : AppCompatActivity() {
     private fun Initialize(jsonObject: JSONObject) {
         product.fromJSON(jsonObject)
 
+        m_Update_followers.text = product.followers.toString()
         m_Update_titulo.setText(product.title)
         m_Update_descripcion.setText(product.descript)
         m_Update_precio.setText(product.price.toString())
@@ -163,6 +165,10 @@ class UpdateProductActivity : AppCompatActivity() {
 
         m_button_quitar_subasta.setOnClickListener {
             quitarSubasta()
+        }
+
+        m_button_ventaRapida.setOnClickListener {
+            boostearProducto()
         }
 
         m_radioButton_Subasta.setOnClickListener {
@@ -210,6 +216,108 @@ class UpdateProductActivity : AppCompatActivity() {
         popup.show()
 
         return true
+    }
+
+    private fun boostearProducto() {
+        val view = layoutInflater.inflate(R.layout.dialog_fast_sell, null)
+
+        val window = PopupWindow(
+            view, // Custom view to show in popup window
+            LinearLayout.LayoutParams.WRAP_CONTENT, // Width of popup window
+            LinearLayout.LayoutParams.WRAP_CONTENT // Window height
+        )
+        window.isFocusable = true
+
+        //Blur the background
+        val fcolorNone = ColorDrawable(resources.getColor(R.color.transparent))
+        val fcolorBlur = ColorDrawable(resources.getColor(R.color.transparentDark))
+        n_update_container.foreground = fcolorBlur
+
+        window.showAtLocation(
+            n_update_header, // Location to display popup window
+            Gravity.CENTER, // Exact position of layout to display popup
+            0, // X offset
+            0 // Y offset
+        )
+
+        val cancel = view.findViewById<Button>(R.id.n_dfs_cancelar)
+        val pay = view.findViewById<Button>(R.id.n_dfs_pay)
+        val concept = view.findViewById<Spinner>(R.id.n_dfs_payment)
+
+        pay.setOnClickListener {
+            if (concept.selectedItem.toString().equals("3  dias - 2€")) {
+                payProduct(3,2.0)
+            }
+            else if (concept.selectedItem.toString().equals("7  dias - 4€")) {
+                payProduct(7,4.0)
+            }
+            else if (concept.selectedItem.toString().equals("14 dias - 7€")) {
+                payProduct(14,7.0)
+            }
+            else {
+                payProduct(30,12.0)
+            }
+        }
+
+        cancel.setOnClickListener {
+            window.dismiss()
+        }
+
+        window.setOnDismissListener {
+            n_update_container.foreground = fcolorNone
+        }
+
+        true
+    }
+
+    private fun payProduct(days: Int, price: Double) {
+        val builder = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+        val message = dialogView.findViewById<TextView>(R.id.message)
+        message.text = "Comprobando datos..."
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        val dialog = builder.create()
+        dialog.show()
+
+        val now = Calendar.getInstance()
+        var anyo = now.get(Calendar.YEAR)
+        var mes = now.get(Calendar.MONTH)
+        var dia = now.get(Calendar.DAY_OF_MONTH) + days
+        if (dia > 30) {
+            dia = dia - 30
+            mes = mes + 1
+            if (mes > 12) {
+                mes = mes - 12
+                anyo = anyo + 1
+            }
+        }
+
+        val boostDate = anyo.toString() + "-" + mes.toString() + "-" + dia.toString()
+
+        val jsonObject = JSONObject()
+        jsonObject.accumulate("amount", price)
+        jsonObject.accumulate("iban", "<ES66 0000 0000 0000 0000 0000>")
+        jsonObject.accumulate("product_id", product.id)
+        jsonObject.accumulate("boost_date", boostDate)
+
+        val url = MainActivity().projectURL + "/payment"
+
+        val req = url.httpPost().body(jsonObject.toString()).header(Pair("Cookie", SharedApp.prefs.cookie))
+        req.httpHeaders["Content-Type"] = "application/json"
+
+        req.response { request, response, result ->
+            when (result) {
+                is Result.Failure -> {
+                    dialog.dismiss()
+                    toast("Error en el pago")
+                }
+                is Result.Success -> {
+                    dialog.dismiss()
+                    toast("Producto en venta rápida")
+                }
+            }
+        }
     }
 
     private fun updateProduct () {
@@ -329,19 +437,6 @@ class UpdateProductActivity : AppCompatActivity() {
         val delete = view.findViewById<Button>(R.id.n_dspd_delete)
         val reason = view.findViewById<Spinner>(R.id.n_dspd_reasons)
         val extra_reason = view.findViewById<EditText>(R.id.n_dspd_extra_reason)
-
-        /*val reason_list = arrayOf("Producto vendido", "Mucho tiempo sin encontrar comprador", "Subido por error", "Otros")
-
-        reason.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, reason_list)
-        reason.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-
-            }
-
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-
-            }
-        }*/
 
         delete.setOnClickListener {
             deleteProduct()

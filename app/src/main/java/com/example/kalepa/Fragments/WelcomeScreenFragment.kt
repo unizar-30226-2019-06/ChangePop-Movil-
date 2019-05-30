@@ -17,7 +17,6 @@ import com.example.kalepa.models.Product
 import com.example.kalepa.models.RawProduct
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
-import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import kotlinx.android.synthetic.main.content_main.*
 import org.jetbrains.anko.support.v4.toast
@@ -63,23 +62,18 @@ class WelcomeScreenFragment: Fragment() {
         val dialog = builder.create()
         dialog.show()
 
-        val jsonObject = JSONObject()
-        jsonObject.accumulate("place", SharedApp.prefs.userPlace)
+        val url = MainActivity().projectURL + "/products"
 
-        val url = MainActivity().projectURL + "/search/products/adv"
-
-        val req = url.httpPost().body(jsonObject.toString()).header(Pair("Cookie", SharedApp.prefs.cookie))
-        req.httpHeaders["Content-Type"] = "application/json"
-
+        val req = url.httpGet().header(Pair("Cookie", SharedApp.prefs.cookie))
         req.responseJson { request, response, result ->
             when (result) {
                 is Result.Failure -> {
                     dialog.dismiss()
-                    toast("Error en la búsqueda")
+                    toast("Error cargando productos, intentelo de nuevo más tarde")
                 }
                 is Result.Success -> {
-                    dialog.dismiss()
                     Initialize(result.value)
+                    dialog.dismiss()
                 }
             }
         }

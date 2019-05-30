@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/n_upm_follow"
+          android:title="Seguir"
+          android:orderInCategory="100"
+          app:showAsAction="never"/>
+    <item android:id="@+id/n_upm_unfollow"
+          android:title="Dejar de seguir"
+          android:orderInCategory="100"
+          app:showAsAction="never"/>
+    <item android:id="@+id/n_mpm_ban"
+          android:title="Banear Producto"
+          android:orderInCategory="100"
+          app:showAsAction="never"/>
+</menu>

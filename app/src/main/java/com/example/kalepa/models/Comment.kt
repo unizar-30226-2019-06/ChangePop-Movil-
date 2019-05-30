@@ -9,12 +9,14 @@ import java.util.*
 @SuppressLint("ParcelCreator")
 @Parcelize
 class Comment (
+    var id: Int,
     var user: String,
     var body: String
 ) : Parcelable {
-    constructor(): this("","")
+    constructor(): this(0,"","")
 
     public fun fromJSON (jsonObject: JSONObject){
+        id = jsonObject.get("id").toString().toInt()
         user = jsonObject.get("nick").toString()
         body = jsonObject.get("body").toString()
     }

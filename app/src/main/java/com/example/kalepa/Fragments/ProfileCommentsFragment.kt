@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.TextView
 import com.example.charactermanager.MainListAdapter
 import com.example.kalepa.Adapters.CommentAdapter
@@ -15,6 +17,7 @@ import com.example.kalepa.Preferences.SharedApp
 import com.example.kalepa.R
 import com.example.kalepa.models.Comment
 import com.github.kittinunf.fuel.android.extension.responseJson
+import com.github.kittinunf.fuel.httpDelete
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
 import kotlinx.android.synthetic.main.fragment_profile_comments.*
@@ -88,7 +91,53 @@ class ProfileCommentsFragment: Fragment() {
     }
 
     private fun createCategoryItemAdapter(comment: Comment)
-            = CommentAdapter(comment)
+            = CommentAdapter(comment,
+            {showCommentMenu(comment)})
+
+    private fun showCommentMenu(comment: Comment): Boolean {
+        var popup = PopupMenu(context, view!!.findViewById(R.id.n_swipeRefreshView_comments))
+        popup.inflate(R.menu.delete_menu)
+        popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
+            when (item!!.itemId) {
+                R.id.delete_staff_menu -> {
+                    deleteComment(comment)
+                    toast("Comentario Eliminado")
+                }
+            }
+            true
+        })
+        popup.show()
+        return true
+    }
+
+    private fun deleteComment(comment: Comment) {
+        val builder = AlertDialog.Builder(context)
+        val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+        val message = dialogView.findViewById<TextView>(R.id.message)
+        message.text = "Cargando comentarios..."
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        val dialog = builder.create()
+        dialog.show()
+
+        val url = MainActivity().projectURL + "/comment/" + comment.id + "/del"
+
+        val req = url.httpDelete().header(Pair("Cookie", SharedApp.prefs.cookie))
+        req.response { request, response, result ->
+            when (result) {
+                is Result.Failure -> {
+                    dialog.dismiss()
+                    toast("Error eliminando comentario")
+                }
+                is Result.Success -> {
+                    dialog.dismiss()
+                    comments.remove(comment)
+                    show(comments)
+                    toast("Comentario eliminado")
+                }
+            }
+        }
+    }
 
     private fun Initialize (jsonProducts: JSONObject) {
         val length = jsonProducts.get("length").toString().toInt()

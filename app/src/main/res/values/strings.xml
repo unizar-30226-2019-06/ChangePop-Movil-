@@ -61,6 +61,13 @@
         <item>Otros</item>
     </string-array>
 
+    <string-array name="payments">
+        <item>3  dias - 2€</item>
+        <item>7  dias - 4€</item>
+        <item>14 dias - 7€</item>
+        <item>30 dias - 12€</item>
+    </string-array>
+
     <string-array name="ordenar_por">
         <item>Defecto</item>
         <item>Menos kms de distancia</item>

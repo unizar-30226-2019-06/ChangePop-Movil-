@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     //val projectURL = "https://kelpa-api.herokuapp.com"
     val projectURL = "https://kalepa.azurewebsites.net"
+    val webURL = "https://changepop-fw.herokuapp.com"
 
     companion object {
 

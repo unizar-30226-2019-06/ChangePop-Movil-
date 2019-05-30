@@ -11,10 +11,75 @@
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+            <LinearLayout
+                    android:id="@+id/n_chat_header"
+                    android:orientation="horizontal"
+                    android:gravity="right"
+                    android:layout_margin="10dp"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:gravity=""
+                        android:layout_height="wrap_content">
+
+                    <LinearLayout
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+                        <TextView
+                                android:text="Seguidores: "
+                                android:layout_marginStart="50dp" android:layout_marginLeft="50dp"
+                                android:gravity="center"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="18sp"/>
+                        <TextView
+                                android:id="@+id/m_Update_followers"
+                                android:text="0"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="18sp"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                    <LinearLayout
+                            android:layout_gravity="center"
+                            android:orientation="vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                        <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <Button
+                            android:id="@+id/m_button_ventaRapida"
+                            android:text="  VENTA RÁPIDA  "
+                            android:layout_width="wrap_content"
+                            android:layout_marginEnd="58dp" android:layout_marginRight="58dp"
+                            android:layout_weight="1"
+                            android:height="20dp"
+                            android:background="@drawable/rounded_blue"
+                            android:textColor="@color/colorWhite"
+                            android:layout_height="30dp"/>
+                </LinearLayout>
+            </LinearLayout>
             <EditText
                     android:id="@+id/m_Update_titulo"
                     android:layout_width="300dp" android:layout_height="40dp"
@@ -166,6 +231,7 @@
             <LinearLayout android:layout_width="match_parent"
                           android:layout_gravity="center"
                           android:gravity="center"
+                          android:paddingTop="15dp"
                           android:layout_height="wrap_content"
                           android:paddingBottom="10dp">
                 <Button
