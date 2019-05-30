@@ -31,7 +31,8 @@ import java.util.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    val projectURL = "https://kelpa-api.herokuapp.com"
+    //val projectURL = "https://kelpa-api.herokuapp.com"
+    val projectURL = "https://kalepa.azurewebsites.net"
 
     companion object {
 

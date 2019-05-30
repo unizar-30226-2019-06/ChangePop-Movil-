@@ -207,6 +207,42 @@
                     android:inputType="number" android:textSize="14sp"
                     android:paddingEnd="10dp" android:paddingStart="10dp"/>
         </LinearLayout>
+        <TextView
+                android:text="Mis categorías favoritas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+                android:textColor="@color/colorPrimary"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent" android:layout_marginTop="16dp"
+                android:layout_height="wrap_content">
+            <ImageView
+                    android:id="@+id/m_ProfileData_button_addCategory" android:contentDescription="add"
+                    android:layout_width="40dp" android:background="@drawable/layout_bg"
+                    android:layout_height="40dp" app:srcCompat="@drawable/ic_add_black_24dp"
+                    android:layout_marginStart="16dp" android:layout_marginLeft="16dp"
+                    android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+                    android:clickable="true"/>
+            <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                                  android:id="@+id/m_profile_menu_reference"
+                                  android:layout_width="match_parent"
+                                  android:layout_height="match_parent"
+                                  android:layout_marginRight="16dp"
+                                  android:fillViewport="true">
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                              android:orientation="horizontal" android:layout_width="match_parent"
+                              android:layout_height="match_parent">
+                    <android.support.v7.widget.RecyclerView android:layout_width="wrap_content"
+                                                            android:layout_height="wrap_content"
+                                                            android:id="@+id/m_upload_categories"
+                                                            android:orientation="horizontal">
+
+                    </android.support.v7.widget.RecyclerView>
+                </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
         <Button
                 android:id="@+id/m_ProfileData_editarCampos"
                 android:layout_width="149dp"

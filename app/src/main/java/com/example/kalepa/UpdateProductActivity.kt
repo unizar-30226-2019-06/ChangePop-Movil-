@@ -8,6 +8,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.ColorDrawable
 
 import android.net.Uri
 import android.os.Build
@@ -20,10 +21,11 @@ import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.GridLayoutManager
+import android.view.Gravity
 import android.view.MenuItem
+import android.view.View
+import android.widget.*
 
-import android.widget.PopupMenu
-import android.widget.TextView
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
@@ -156,7 +158,7 @@ class UpdateProductActivity : AppCompatActivity() {
         }
 
         m_button_delete.setOnClickListener {
-            deleteProduct()
+            safeDeleteProduct()
         }
 
         m_button_quitar_subasta.setOnClickListener {
@@ -299,6 +301,61 @@ class UpdateProductActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun safeDeleteProduct() {
+        val view = layoutInflater.inflate(R.layout.dialog_safe_product_delete, null)
+
+        val window = PopupWindow(
+            view, // Custom view to show in popup window
+            LinearLayout.LayoutParams.WRAP_CONTENT, // Width of popup window
+            LinearLayout.LayoutParams.WRAP_CONTENT // Window height
+        )
+        window.isFocusable = true
+
+        //Blur the background
+        val fcolorNone = ColorDrawable(resources.getColor(R.color.transparent))
+        val fcolorBlur = ColorDrawable(resources.getColor(R.color.transparentDark))
+        n_update_container.foreground = fcolorBlur
+
+        window.showAtLocation(
+            n_update_header, // Location to display popup window
+            Gravity.CENTER, // Exact position of layout to display popup
+            0, // X offset
+            0 // Y offset
+        )
+
+        val cancel = view.findViewById<Button>(R.id.n_dspd_cancelar)
+        val delete = view.findViewById<Button>(R.id.n_dspd_delete)
+        val reason = view.findViewById<Spinner>(R.id.n_dspd_reasons)
+        val extra_reason = view.findViewById<EditText>(R.id.n_dspd_extra_reason)
+
+        /*val reason_list = arrayOf("Producto vendido", "Mucho tiempo sin encontrar comprador", "Subido por error", "Otros")
+
+        reason.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, reason_list)
+        reason.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+
+            }
+        }*/
+
+        delete.setOnClickListener {
+            deleteProduct()
+        }
+
+        cancel.setOnClickListener {
+            window.dismiss()
+        }
+
+        window.setOnDismissListener {
+            n_update_container.foreground = fcolorNone
+        }
+
+        true
     }
 
     private fun deleteProduct() {

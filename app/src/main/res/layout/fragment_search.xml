@@ -6,11 +6,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/greyBack"
+        android:layout_marginTop="50dp"
         tools:context=".MainActivity">
     <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
                   android:orientation="vertical">
         <EditText
-                android:id="@+id/m_search_nombre"
+                android:id="@+id/m_search_title"
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="16dp"
@@ -31,48 +32,111 @@
                 android:text="Filtros"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/textView3"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2" app:fontFamily="cursive"
-                android:textSize="24sp" android:textColor="@color/colorPrimary"/>
-        <RelativeLayout
-                android:layout_gravity="center"
-                android:layout_marginRight="3dp" android:layout_marginEnd="3dp"
+                android:textColor="@color/colorPrimary"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center" android:layout_marginTop="16dp"
+                android:layout_height="wrap_content">
+            <EditText
+                    android:id="@+id/m_search_category"
+                    android:layout_width="229dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:hint="Categorias"
+                    android:paddingEnd="15dp"
+                    android:paddingStart="15dp"
+                    android:textSize="14sp"
+                    android:background="@drawable/rounded_white"
+                    android:layout_weight="1"/>
+            <Button
+                    android:id="@+id/m_search_category_button"
+                    android:layout_width="70dp"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:text="Elegir"
+                    android:gravity="center"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginStart="1dp"
+                    android:background="@drawable/rounded_white"/>
+        </LinearLayout>
+        <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content">
+            <EditText
+                    android:id="@+id/m_search_priece_min"
+                    android:layout_width="130dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/trans_rounded_white"
+                    android:drawablePadding="5dp"
+                    android:drawableStart="@drawable/ic_euro_symbol_black_24dp"
+                    android:drawableLeft="@drawable/ic_euro_symbol_black_24dp"
+                    android:drawableTint="#ff0000"
+                    android:ems="10"
+                    android:layout_gravity="center"
+                    android:hint="Precio min"
+                    android:inputType="number"
+                    android:paddingEnd="10dp"
+                    android:paddingStart="10dp"
+                    android:textSize="14sp"/>
+            <EditText
+                    android:id="@+id/m_search_priece_max"
+                    android:layout_width="130dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/trans_rounded_white"
+                    android:drawablePadding="5dp"
+                    android:drawableStart="@drawable/ic_euro_symbol_black_24dp"
+                    android:drawableLeft="@drawable/ic_euro_symbol_black_24dp"
+                    android:drawableTint="@color/colorPrimary"
+                    android:ems="10"
+                    android:layout_gravity="center"
+                    android:hint="Precio max"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:inputType="number"
+                    android:paddingEnd="10dp"
+                    android:paddingStart="10dp"
+                    android:textSize="14sp"/>
+        </LinearLayout>
+
+        <EditText
+                android:id="@+id/m_search_descript"
                 android:layout_width="300dp"
                 android:layout_height="40dp"
-                android:background="@drawable/rounded_white"
-                android:orientation="horizontal">
-            <Spinner
-                    android:id="@+id/m_spinner_categorias"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_marginLeft="5dp" android:layout_marginStart="5dp"
-                    android:spinnerMode="dropdown"
-                    android:entries="@array/categorias"/>
-        </RelativeLayout>
-        <TextView
-                android:layout_marginLeft="16dp" android:layout_marginStart="16dp" android:layout_marginTop="16dp"
-                android:text="Rango de precio" android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/textView4"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2" app:fontFamily="cursive"
-                android:textSize="18sp" android:textColor="@color/colorPrimary"/>
-        <com.jaygoo.widget.RangeSeekBar
-                android:id="@+id/seekbar1"
-                android:layout_width="300dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/trans_rounded_white"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_description_black_24dp"
+                android:drawableLeft="@drawable/ic_description_black_24dp"
+                android:drawableTint="@color/colorPrimary"
+                android:ems="10"
                 android:layout_gravity="center"
-                android:layout_height="wrap_content"
-                app:rsb_markTextArray="@array/markArray"
-                app:rsb_lineColorSelected="@color/colorPrimary"
-                app:rsb_lineColorEdge="@color/colorPrimary"
-                app:rsb_thumbPrimaryColor="@color/colorPrimary"
-                app:rsb_thumbSecondaryColor="@color/colorWhite"
-                app:rsb_thumbSize="15dp"
-                app:rsb_cellMode="number"  app:rsb_progressHintMode="alwaysShow"
-                app:rsb_seekBarMode="range" app:rsb_max="100"
-                tools:ignore="MissingConstraints"/>
+                android:hint="¿Algo descriptivo?"
+                android:inputType="textPersonName"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:textSize="14sp"/>
+        <EditText
+                android:id="@+id/m_search_place"
+                android:layout_width="300dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/trans_rounded_white"
+                android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_place_black_24dp"
+                android:drawableLeft="@drawable/ic_place_black_24dp"
+                android:drawableTint="@color/colorPrimary"
+                android:ems="10"
+                android:layout_gravity="center"
+                android:hint="¿Dónde?"
+                android:inputType="textPersonName"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp"
+                android:textSize="14sp"/>
         <Button
                 android:id="@+id/m_button_search"
                 android:text="Aplicar Búsqueda"

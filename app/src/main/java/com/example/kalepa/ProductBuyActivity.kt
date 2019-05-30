@@ -15,8 +15,11 @@ import kotlinx.android.synthetic.main.activity_product_buy.*
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v7.widget.GridLayoutManager
 import android.view.*
 import android.widget.*
+import com.example.charactermanager.MainListAdapter
+import com.example.kalepa.Adapters.CategoryAdapter
 import com.example.kalepa.Preferences.SharedApp
 import com.example.kalepa.models.User
 import com.github.kittinunf.fuel.android.extension.responseJson
@@ -121,6 +124,22 @@ class ProductBuyActivity : AppCompatActivity() {
 
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
         b_product_images_container.adapter = mSectionsPagerAdapter
+
+        showImages(product.categories)
+    }
+
+    private fun showImages(items: ArrayList<String>) {
+        b_categories_container_buy.layoutManager = GridLayoutManager(this, items.size)
+        val imageItemAdapters = items.map(this::createCategoryItemAdapter)
+        b_categories_container_buy.adapter = MainListAdapter(imageItemAdapters)
+    }
+
+    private fun createCategoryItemAdapter(category: String)
+            = CategoryAdapter(category,
+        { rtrue(category) })
+
+    private fun rtrue (category: String): Boolean {
+        return true
     }
 
     inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {

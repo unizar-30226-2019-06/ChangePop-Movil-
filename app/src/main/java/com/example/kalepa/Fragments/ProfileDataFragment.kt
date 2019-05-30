@@ -16,26 +16,35 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.FileProvider
+import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.PopupMenu
 import android.widget.TextView
 import com.androidnetworking.AndroidNetworking
 import com.androidnetworking.error.ANError
 import com.androidnetworking.interfaces.JSONObjectRequestListener
+import com.example.charactermanager.MainListAdapter
+import com.example.kalepa.Adapters.CategoryAdapter
 import com.example.kalepa.MainActivity
 import com.example.kalepa.Preferences.SharedApp
 import com.example.kalepa.R
 import com.example.kalepa.common.loadImage
+import com.example.kalepa.models.RawProduct
 import com.example.kalepa.models.User
 import com.github.kittinunf.fuel.android.extension.responseJson
+import com.github.kittinunf.fuel.httpDelete
 import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.fuel.httpPut
 import com.github.kittinunf.result.Result
 import kotlinx.android.synthetic.main.fragment_profile_data.*
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.toast
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 
@@ -48,6 +57,10 @@ class ProfileDataFragment: Fragment() {
     private val FINAL_CHOOSE_PHOTO = 2
     private var imageUri: Uri? = null
     private var imagePath: String? = null
+
+    private var oldCategories = ArrayList<String>()
+    private var newCategories = ArrayList<String>()
+    private var serverCategories = ArrayList<String>()
 
     companion object {
         fun newInstance(): ProfileDataFragment {
@@ -109,6 +122,146 @@ class ProfileDataFragment: Fragment() {
         m_ProfileData_phone.setText(user.phone)
         m_ProfileData_IdentifiedCard.setText(user.dni)
 
+        loadCategories()
+    }
+
+    private fun loadCategories() {
+        val builder = AlertDialog.Builder(context)
+        val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+        val message = dialogView.findViewById<TextView>(R.id.message)
+        message.text = "Cargando datos..."
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        val dialog = builder.create()
+        dialog.show()
+
+        val url = MainActivity().projectURL + "/categories/interest"
+
+        val req = url.httpGet().header(Pair("Cookie", SharedApp.prefs.cookie))
+        req.responseJson { request, response, result ->
+            when (result) {
+                is Result.Failure -> {
+                    toast("Error cargando las categorias")
+                }
+                is Result.Success -> {
+                    setCategories(result.value)
+                    dialog.dismiss()
+                }
+            }
+        }
+    }
+
+    private fun setCategories(jsonObject: JSONObject) {
+        //val length = jsonObject.get("length").toString().toInt()
+        val list = jsonObject.get("list").toString()
+        val separate = list.split("""(\",\")|(\[\")|(\"\])""".toRegex())
+        if (separate.size >= 2) {
+            oldCategories = ArrayList(separate.slice(IntRange(1, separate.size - 2)))
+        } else {
+            oldCategories.clear()
+        }
+        newCategories.addAll(oldCategories)
+
+        loadServerCategories()
+
+        if (newCategories.size > 0) {
+            show(newCategories)
+        }
+    }
+
+    private fun loadServerCategories() {
+        val builder = android.support.v7.app.AlertDialog.Builder(context!!)
+        val dialogView = layoutInflater.inflate(R.layout.progress_dialog,null)
+        val message = dialogView.findViewById<TextView>(R.id.message)
+        message.text = "Cargando datos..."
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        val dialog = builder.create()
+        dialog.show()
+
+        val url = MainActivity().projectURL + "/categories"
+
+        val req = url.httpGet().header(Pair("Cookie", SharedApp.prefs.cookie))
+        req.responseJson { request, response, result ->
+            when (result) {
+                is Result.Failure -> {
+                    toast("Error cargando categorías")
+                    dialog.dismiss()
+                    MainActivity.start(context!!)
+                }
+                is Result.Success -> {
+                    val jsonObject = result.value
+                    val aux = jsonObject.get("list").toString()
+                    val separate = aux.split("""(\",\")|(\[\")|(\"\])""".toRegex())
+                    serverCategories = ArrayList(separate.slice(IntRange(1,separate.size-2)))
+                    endInitialization()
+                    dialog.dismiss()
+                }
+            }
+        }
+    }
+
+    private fun endInitialization() {
+        m_ProfileData_button_addCategory.setOnClickListener {
+            showCategoryDialog()
+        }
+    }
+
+    private fun show(items: ArrayList<String>) {
+        if (items.size > 0) {
+            m_upload_categories.layoutManager = GridLayoutManager(context, items.size)
+        } else {
+            m_upload_categories.layoutManager = GridLayoutManager(context, 1)
+        }
+        val imageItemAdapters = items.map(this::createCategoryItemAdapter)
+        m_upload_categories.adapter = MainListAdapter(imageItemAdapters)
+    }
+
+    private fun createCategoryItemAdapter(category: String)
+            = CategoryAdapter(category,
+        { rTrue(category) })
+
+    private fun rTrue (category: String): Boolean {
+        return true
+    }
+
+    private fun showCategoryDialog(){
+        lateinit var dialog: android.support.v7.app.AlertDialog
+
+        val arrayCategories = arrayOfNulls<String>(serverCategories.size)
+        val arrayChecked = BooleanArray(serverCategories.size)
+        for (i in 0 until serverCategories.size) {
+            arrayCategories.set(i,serverCategories[i])
+            val checked = newCategories.indexOf(serverCategories[i]) != -1
+            if (checked) {
+                arrayChecked.set(i,true)
+            } else {
+                arrayChecked.set(i,false)
+            }
+        }
+        val builder = android.support.v7.app.AlertDialog.Builder(context!!)
+        builder.setTitle("Elija categorías")
+
+        builder.setMultiChoiceItems(arrayCategories, arrayChecked, {dialog,which,isChecked->
+            arrayChecked[which] = isChecked
+            val Category = arrayCategories[which]
+        })
+
+
+        // Set the positive/yes button click listener
+        builder.setPositiveButton("OK") { _, _ ->
+            newCategories.clear()
+            for (i in 0 until arrayCategories.size) {
+                val checked = arrayChecked[i]
+                if (checked) {
+                    newCategories.add(arrayCategories[i]!!)
+                }
+            }
+            show(newCategories)
+        }
+
+        dialog = builder.create()
+        dialog.show()
     }
 
     private fun updateUser() {
@@ -139,6 +292,7 @@ class ProfileDataFragment: Fragment() {
                     }
                     is Result.Success -> {
                         dialog.dismiss()
+                        updateCategories()
                         toast("Perfil actualizado")
                     }
                 }
@@ -257,6 +411,101 @@ class ProfileDataFragment: Fragment() {
 
         dialog = builder.create()
         dialog.show()
+    }
+
+    private fun updateCategories() {
+        val deletes = ArrayList<String>()
+        val adds = ArrayList<String>()
+        for (i in 0 until newCategories.size) {
+            if (oldCategories.indexOf(newCategories[i]) == -1) {
+                adds.add(newCategories[i])
+            }
+        }
+        for (i in 0 until oldCategories.size) {
+            if (newCategories.indexOf(oldCategories[i]) == -1) {
+                deletes.add(oldCategories[i])
+            }
+        }
+        if (deletes.size > 0) {
+            updateCategoriesDelete(deletes)
+        }
+        if (adds.size > 0) {
+            updateCategoriesAdd(adds)
+        }
+    }
+
+    private fun updateCategoriesDelete(deletes: ArrayList<String>) {
+        val builder = AlertDialog.Builder(context)
+        val dialogView = layoutInflater.inflate(R.layout.progress_dialog, null)
+        val message = dialogView.findViewById<TextView>(R.id.message)
+        message.text = "Actualizando datos..."
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        val dialog = builder.create()
+        dialog.show()
+
+        val jsonArray = JSONArray()
+        for (c in deletes) {
+            jsonArray.put(c)
+        }
+        val jsonObject = JSONObject()
+        jsonObject.accumulate("list", jsonArray)
+
+        val url = MainActivity().projectURL + "/categories/interest"
+
+        val req = url.httpDelete().body(jsonObject.toString()).header(Pair("Cookie", SharedApp.prefs.cookie))
+        req.httpHeaders["Content-Type"] = "application/json"
+        req.response { request, response, result ->
+            when (result) {
+                is Result.Failure -> {
+                    dialog.dismiss()
+                    toast("Error al actualizar categorias")
+                }
+                is Result.Success -> {
+                    dialog.dismiss()
+                    oldCategories.clear()
+                    oldCategories.addAll(newCategories)
+                    toast("Categorías actualizadas")
+                }
+            }
+        }
+    }
+
+    private fun updateCategoriesAdd(adds: ArrayList<String>) {
+        val builder = AlertDialog.Builder(context)
+        val dialogView = layoutInflater.inflate(R.layout.progress_dialog, null)
+        val message = dialogView.findViewById<TextView>(R.id.message)
+        message.text = "Actualizando datos..."
+        builder.setView(dialogView)
+        builder.setCancelable(false)
+        val dialog = builder.create()
+        dialog.show()
+
+        val jsonArray = JSONArray()
+        for (c in adds) {
+            jsonArray.put(c)
+        }
+        val jsonObject = JSONObject()
+        jsonObject.accumulate("list", jsonArray)
+
+        val url = MainActivity().projectURL + "/categories/interest"
+
+        val req = url.httpPost().body(jsonObject.toString()).header(Pair("Cookie", SharedApp.prefs.cookie))
+        req.httpHeaders["Content-Type"] = "application/json"
+        req.response { request, response, result ->
+            when (result) {
+                is Result.Failure -> {
+                    dialog.dismiss()
+                    toast("Error al actualizar categorias")
+                }
+                is Result.Success -> {
+                    dialog.dismiss()
+                    oldCategories.clear()
+                    oldCategories.addAll(newCategories)
+                    toast("Categorías actualizadas")
+                }
+            }
+        }
     }
 
     private fun openCamera() {

@@ -54,11 +54,11 @@
     <string name="dinero_extra">¿Dinero extra?</string>
 
 
-    <string-array name="categorias">
-        <item>Todas</item>
-        <item>Futbol</item>
-        <item>Universidad</item>
-        <item>Idiomas</item>
+    <string-array name="reasons">
+        <item>Producto vendido</item>
+        <item>Mucho tiempo sin encontrar comprador</item>
+        <item>Subido por error</item>
+        <item>Otros</item>
     </string-array>
 
     <string-array name="ordenar_por">
