@@ -17,7 +17,10 @@ class NotificationAdapter (
 ) : ItemAdapter<NotificationAdapter.ViewHolder>(R.layout.item_user_notifications) {
     override fun onCreateViewHolder(itemView: View) = ViewHolder(itemView)
     override fun ViewHolder.onBindViewHolder() { // 2
-        textView1.text = notification.category
+        val title = notification.product_name.toUpperCase() + " subido por el usuario " +
+                notification.user_nick.toUpperCase() +
+                " a la categoria " + notification.category.toUpperCase()
+        textView1.text = title
         textView2.text = notification.text
         layout.setOnClickListener { clickedBody(notification) }
         button.setOnClickListener { clickedDelete(notification) }

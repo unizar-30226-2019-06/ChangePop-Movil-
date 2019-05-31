@@ -35,6 +35,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginStart="8dp"
                     android:text="Esto es un texto relativo a la notificacion"/>
+
         </LinearLayout>
         <Button
                 android:id="@+id/m_notification_delete"
